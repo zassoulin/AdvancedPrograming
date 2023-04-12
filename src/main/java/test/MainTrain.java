@@ -123,10 +123,20 @@ public class MainTrain {
 			System.out.println("problem for Dictionary Manager challenge (-5)");
 		if(dm.challenge("t2.txt","t3.txt","t1.txt","3"+t2[5]))
 			System.out.println("problem for Dictionary Manager challenge (-5)");
-		
 		if(dm.getSize()!=3)
 			System.out.println("wrong size for the Dictionary Manager (-10)");
-		
+		if(dm.query("t2.txt","t3.txt","no")){
+			System.out.println("NO");
+		}
+		if(dm.query("t3.txt","no")){
+			System.out.println("NO1");
+		}
+		if(!dm.query("t3.txt",t3[1])){
+			System.out.println("NO3");
+		}
+		if(!dm.query("t3.txt",t3[2])){
+			System.out.println("NO3");
+		}
 	}
 	
 	public static void runClient(int port,String query,boolean result) {
