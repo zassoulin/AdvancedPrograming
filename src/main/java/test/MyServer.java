@@ -40,11 +40,8 @@ public class MyServer {
             }
             server.close();
             executor.shutdown();
-            executor.awaitTermination(100000, TimeUnit.SECONDS);
         }catch(IOException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 

@@ -143,7 +143,7 @@ public class MainTrain {
 			out.close();
 			server.close();
 		} catch (IOException e) {
-			System.out.println(e);
+			e.printStackTrace();
 			System.out.println("your code ran into an IOException (-10)");
 		}
 	}
