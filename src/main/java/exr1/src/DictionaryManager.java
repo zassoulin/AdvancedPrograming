@@ -9,6 +9,7 @@ import java.util.Map;
 public class DictionaryManager {
 
     Map<String , Dictionary> dictionaryMap;
+    private static DictionaryManager dictionaryManager = null;
 
     public DictionaryManager() {
         this.dictionaryMap = new HashMap<>();
@@ -16,7 +17,10 @@ public class DictionaryManager {
 
 
     public static DictionaryManager get() {
-        return new DictionaryManager();
+        if(dictionaryManager == null){
+            dictionaryManager = new DictionaryManager();
+        }
+        return dictionaryManager;
     }
 
     public boolean query(String ... strings) {
