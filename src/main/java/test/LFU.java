@@ -1,7 +1,9 @@
+package test;
+
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-public class LFU implements CacheReplacementPolicy{
+public class LFU implements CacheReplacementPolicy {
 
 
 	HashMap<String, Integer> map=new HashMap<String, Integer>();

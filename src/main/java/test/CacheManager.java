@@ -1,3 +1,5 @@
+package test;
+
 import java.util.HashSet;
 
 public class CacheManager {

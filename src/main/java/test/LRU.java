@@ -1,7 +1,9 @@
+package test;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public class LRU implements CacheReplacementPolicy{
+public class LRU implements CacheReplacementPolicy {
 
 	List<String> list=new LinkedList<>();
 
