@@ -1,7 +1,5 @@
-package exr1.src;
+package test;
 
-
-import Game.src.Dictionary;
 
 import java.util.HashMap;
 import java.util.Map;

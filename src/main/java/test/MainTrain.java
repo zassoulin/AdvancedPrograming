@@ -1,4 +1,4 @@
-package exr1.src;
+package test;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -143,6 +143,7 @@ public class MainTrain {
 			out.close();
 			server.close();
 		} catch (IOException e) {
+			System.out.println(e);
 			System.out.println("your code ran into an IOException (-10)");
 		}
 	}
@@ -167,7 +168,7 @@ public class MainTrain {
 	public static void main(String[] args) {
 		if(testServer()) {
 			testDM();
-			testBSCH();			
+			testBSCH();
 		}
 		System.out.println("done");
 	}

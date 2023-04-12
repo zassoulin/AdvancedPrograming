@@ -1,5 +1,7 @@
 package Game.src;
 
+import test.*;
+
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
@@ -67,7 +69,7 @@ public class MainTrain {
 			bf.add(w);
 
 		if (!bf.toString().equals("0010010000000000000000000000000000000000000100000000001000000000000000000000010000000001000000000000000100000010100000000010000000000000000000000000000000110000100000000000000000000000000010000000001000000000000000000000000000000000000000000000000000001")) {
-			System.out.println(bf.bs.toString());
+//			System.out.println(bf.bs.toString());
 			System.out.println("problem in the bit vector of the bloom filter (-5)");
 		}
 		boolean found=true;

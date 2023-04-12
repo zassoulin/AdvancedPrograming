@@ -1,9 +1,9 @@
-package Game.src;
+package test;
 
 import java.io.File;
 import java.util.Scanner;
 
-public class IOSearcher implements FileSearcher{
+public class IOSearcher implements FileSearcher {
 
 	boolean stopMe;
 	

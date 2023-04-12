@@ -1,4 +1,4 @@
-package exr1.src;
+package test;
 
 import java.io.InputStream;
 import java.io.OutputStream;

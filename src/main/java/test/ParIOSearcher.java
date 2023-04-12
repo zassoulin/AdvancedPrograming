@@ -1,4 +1,4 @@
-package Game.src;
+package test;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;

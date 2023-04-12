@@ -1,4 +1,4 @@
-package Game.src;
+package test;
 
 import java.io.File;
 import java.util.Scanner;

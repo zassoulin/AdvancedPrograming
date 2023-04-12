@@ -1,4 +1,4 @@
-package Game.src;
+package test;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

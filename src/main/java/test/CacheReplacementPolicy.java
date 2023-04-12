@@ -1,4 +1,4 @@
-package Game.src;
+package test;
 
 public interface CacheReplacementPolicy{
 	void add(String word);
