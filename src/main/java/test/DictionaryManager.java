@@ -22,31 +22,35 @@ public class DictionaryManager {
     }
 
     public boolean query(String ... strings) {
+        if (strings.length < 2)
+            return false;
         String word = strings[strings.length - 1];
         String book;
-        Boolean Found = false;
+        boolean found = false;
         for (int i = 0; i < strings.length -1 ; i++){
             book = strings[i];
             Dictionary dictionary = GetAndAddDict(book);
             if(dictionary.query(word)){
-                Found = true;
+                found = true;
             }
         }
-        return Found;
+        return found;
     }
 
     public boolean challenge(String ... strings) {
+        if (strings.length < 2)
+            return false;
         String word = strings[strings.length - 1];
         String book;
-        Boolean Found = false;
+        boolean found = false;
         for (int i = 0; i < strings.length -1 ; i++){
             book = strings[i];
             Dictionary dictionary = GetAndAddDict(book);
             if(dictionary.challenge(word)){
-                Found = true;
+                found = true;
             }
         }
-        return Found;
+        return found;
     }
 
     public int getSize() {
