@@ -1,3 +1,5 @@
+package Game.src;
+
 import java.util.HashMap;
 import java.util.PriorityQueue;
 

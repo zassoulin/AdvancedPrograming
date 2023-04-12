@@ -1,3 +1,5 @@
+package Game.src;
+
 import java.util.Objects;
 import java.util.Random;
 

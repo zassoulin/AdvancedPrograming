@@ -1,3 +1,5 @@
+package Game.src;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
