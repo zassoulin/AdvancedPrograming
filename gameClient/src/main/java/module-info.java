@@ -1,10 +1,10 @@
-module ap.scrabble.game_client {
+module ap.scrabble.gameclient {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens ap.scrabble.game_client to javafx.fxml;
-    exports ap.scrabble.game_client;
-    exports ap.scrabble.game_client.view;
-    opens ap.scrabble.game_client.view to javafx.fxml;
+    opens ap.scrabble.gameclient to javafx.fxml;
+    exports ap.scrabble.gameclient;
+    exports ap.scrabble.gameclient.view;
+    opens ap.scrabble.gameclient.view to javafx.fxml;
 }
