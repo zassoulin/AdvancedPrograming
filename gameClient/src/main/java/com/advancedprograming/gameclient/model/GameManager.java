@@ -15,7 +15,7 @@ public class GameManager extends Observable {
     HostServer hostServer;
     private GameManager(){
         playerList = new ArrayList<>();
-        hostServer = new SocketHostServer();
+//        hostServer = new SocketHostServer(port,ClientHandler);
 
     }
 
