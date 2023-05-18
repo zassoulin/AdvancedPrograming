@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.advancedprograming.gameclient/com.advancedprograming.gameclient.GameClientApplication
+                                com.advancedprograming.gameclient/ap.scrabble.game_client.GameClientApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

@@ -1,8 +1,8 @@
-package com.advancedprograming.gameclient.model;
+package ap.scrabble.game_client.model;
 
-import com.advancedprograming.gameclient.model.board.GameData;
-import com.advancedprograming.gameclient.model.board.Tile;
-import com.advancedprograming.gameclient.model.board.Word;
+import ap.scrabble.game_client.model.board.GameData;
+import ap.scrabble.game_client.model.board.Tile;
+import ap.scrabble.game_client.model.board.Word;
 
 import java.util.List;
 

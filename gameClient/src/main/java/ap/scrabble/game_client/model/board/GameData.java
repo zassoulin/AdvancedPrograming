@@ -1,4 +1,4 @@
-package com.advancedprograming.gameclient.model.board;
+package ap.scrabble.game_client.model.board;
 
 import java.io.Serializable;
 import java.util.Map;

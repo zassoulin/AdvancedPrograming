@@ -1,4 +1,4 @@
-package com.advancedprograming.gameclient;
+package ap.scrabble.game_client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

@@ -1,4 +1,4 @@
-package com.advancedprograming.gameclient.model;
+package ap.scrabble.game_client.model;
 
 public interface DictionaryServerCommunicator {
     String runClientQueryRequest(String word,String ... books);

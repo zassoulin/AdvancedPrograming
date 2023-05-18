@@ -1,4 +1,4 @@
-package com.advancedprograming.gameclient.view;
+package ap.scrabble.game_client.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

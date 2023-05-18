@@ -1,4 +1,4 @@
-package com.advancedprograming.gameclient.model;
+package ap.scrabble.game_client.model;
 
 import java.io.IOException;
 import java.net.ServerSocket;

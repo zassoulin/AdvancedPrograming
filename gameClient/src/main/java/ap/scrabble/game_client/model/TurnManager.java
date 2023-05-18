@@ -1,6 +1,5 @@
-package com.advancedprograming.gameclient.model;
+package ap.scrabble.game_client.model;
 
-import java.util.Currency;
 import java.util.List;
 
 public abstract class TurnManager {

@@ -3,8 +3,8 @@ module com.advancedprograming.gameclient {
     requires javafx.fxml;
 
 
-    opens com.advancedprograming.gameclient to javafx.fxml;
-    exports com.advancedprograming.gameclient;
-    exports com.advancedprograming.gameclient.view;
-    opens com.advancedprograming.gameclient.view to javafx.fxml;
+    opens ap.scrabble.game_client to javafx.fxml;
+    exports ap.scrabble.game_client;
+    exports ap.scrabble.game_client.view;
+    opens ap.scrabble.game_client.view to javafx.fxml;
 }

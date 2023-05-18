@@ -1,9 +1,8 @@
-package com.advancedprograming.gameclient.model;
+package ap.scrabble.game_client.model;
 
-import com.advancedprograming.gameclient.model.board.Tile;
+import ap.scrabble.game_client.model.board.Tile;
 
 import java.util.List;
-import java.util.Map;
 
 public abstract class Player {
     List<Tile> playersTiles;
