@@ -1,4 +1,4 @@
-module com.advancedprograming.gameclient {
+module ap.scrabble.game_client {
     requires javafx.controls;
     requires javafx.fxml;
 

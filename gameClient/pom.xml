@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.advancedprograming</groupId>
+    <groupId>ap.scrabble</groupId>
     <artifactId>gameClient</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>gameClient</name>
 
     <properties>
@@ -60,9 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>
-                                com.advancedprograming.gameclient/ap.scrabble.game_client.GameClientApplication
-                            </mainClass>
+                            <mainClass>ap.scrabble.game_client/ap.scrabble.game_client.App</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
