@@ -1,15 +1,15 @@
-package ap.scrabble.gameclient.properties;
+package ap.scrabble.gameclient.model.properties;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ServerProperties {
+public class DictionaryServerConfig {
 	private String iniFilename;
 	private String ip;
 	private int port;
 
-	public ServerProperties(String iniFilename) {
+	public DictionaryServerConfig(String iniFilename) {
 		this.iniFilename = iniFilename;
 	}
 
