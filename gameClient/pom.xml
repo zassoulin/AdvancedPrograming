@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.advancedprograming.gameclient/com.advancedprograming.gameclient.HelloApplication
+                                com.advancedprograming.gameclient/com.advancedprograming.gameclient.GameClientApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
