@@ -2,10 +2,21 @@ package ap.scrabble.gameclient.model;
 
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
+import ap.scrabble.gameclient.model.recipient.GameRecipient;
 
 import java.util.List;
 
 public abstract class Player {
+    public static class ScoreMessageArg {
+        public String name;
+        public Integer score;
+
+        public ScoreMessageArg(String name, Integer score) {
+            this.name = name;
+            this.score = score;
+        }
+    }
+
     List<Tile> playersTiles;
     String PlayerName;
 
@@ -35,7 +46,9 @@ public abstract class Player {
         return  new Word(new Tile[4],1,2,true);//TODO: GetPlayerWordFromGIu
     }
 
-    public abstract Integer PlayNextTurn();
+    public abstract void PlayNextTurn();
+    public abstract void PlaceWord(GameRecipient requester, Word word);
     public abstract List<Tile> GetMissingTiles();
+    public abstract Integer getScore();
 
 }

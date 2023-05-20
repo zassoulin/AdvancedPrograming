@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.model.recipient.AllRecipient;
@@ -22,7 +23,10 @@ public class GameManager extends Observable {
         PLAYER_ALREADY_EXISTS,
         PLAYER_ADDED,
         CURRENT_PLAYER,
+        LOCAL_TURN,
         REMOTE_TURN,
+        ILLEGAL_WORD,
+        PLAYER_SCORE,
         GAME_OVER,
     }
 
@@ -97,6 +101,11 @@ public class GameManager extends Observable {
     }
     public void StartGame(){
         
+    }
+    public void addWord(GameRecipient requester, Word word) {
+        turnManager.getCurrentPlayer().PlaceWord(requester, word);
+        // assuming the word was actually placed... not sure how to handle it otherwise...
+        turnManager.PlayNextTurn(); // This needs to be called after the player successfully placed a word
     }
 
     @Override

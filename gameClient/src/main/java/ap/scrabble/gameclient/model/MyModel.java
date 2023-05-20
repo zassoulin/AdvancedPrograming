@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.util.Message;
@@ -20,14 +21,15 @@ public class MyModel extends Model implements Observer{
 	private MessageHandler forwardMessage = (msg)-> sendMessage(msg.type.name(), msg.arg);
 
 	private Map<GameManager.MessageType, MessageHandler> messageHandlers;
+	private boolean forwardByDefault = true;
 
 	public MyModel(DictionaryServerConfig dictionaryServerConfig, HostServerConfig hostServerConfig) {
-		messageHandlers = Map.ofEntries(
-			entry(GameManager.MessageType.PLAYER_ALREADY_EXISTS, forwardMessage),
-			entry(GameManager.MessageType.PLAYER_ADDED, forwardMessage),
-			entry(GameManager.MessageType.CURRENT_PLAYER, forwardMessage),
-			entry(GameManager.MessageType.REMOTE_TURN, forwardMessage)
-		);
+		// messageHandlers = Map.ofEntries(
+		// 	entry(GameManager.MessageType.PLAYER_ALREADY_EXISTS, forwardMessage),
+		// 	entry(GameManager.MessageType.PLAYER_ADDED, forwardMessage),
+		// 	entry(GameManager.MessageType.CURRENT_PLAYER, forwardMessage),
+		// 	entry(GameManager.MessageType.REMOTE_TURN, forwardMessage)
+		// );
 
 		GameManager.getInstance().addObserver(this);
 		GameManager.getInstance().setConfig(dictionaryServerConfig, hostServerConfig);
@@ -45,10 +47,20 @@ public class MyModel extends Model implements Observer{
 	}
 
 	@Override
+	public void addWord(Word word) {
+		GameManager.getInstance().addWord(GameManager.getInstance().getLocal(), word);
+	}
+
+	@Override
 	public void update(Observable o, Object arg) {
 		assertCond(arg != null, "MyModel: Notify observer from `GameManager` missing argument");
 		var msg = (GameManager.Message)arg;
-		messageHandlers.get(msg.type.ordinal()).handle(msg);
+		if (!messageHandlers.containsKey(msg.type)) {
+			messageHandlers.get(msg.type).handle(msg);
+		}
+		else if (forwardByDefault) {
+			forwardMessage.handle(msg);
+		}
 	}
 
 	private void sendMessage(String type, Object arg) {
