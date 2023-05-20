@@ -12,8 +12,8 @@ public abstract class TurnManager {
         CurrentPlayerIndex = 0;
     }
 
-    public abstract void PlayNextTurn();
+    public Player getCurrentPlayer() { return playerList.get(CurrentPlayerIndex); }
 
-    public abstract void RunGame();
+    public abstract void PlayNextTurn();
 
 }

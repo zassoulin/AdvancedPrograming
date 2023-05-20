@@ -13,7 +13,7 @@ import ap.scrabble.gameclient.util.Message;
 
 public class MyModel extends Model implements Observer{
 	// Handle messages from `GameManager`
-	private interface MessageHandler {
+	private static interface MessageHandler {
 		void handle(GameManager.Message msg);
 	}
 	// Generic message handler that forwards the message to `ViewModel`
@@ -24,7 +24,9 @@ public class MyModel extends Model implements Observer{
 	public MyModel(DictionaryServerConfig dictionaryServerConfig, HostServerConfig hostServerConfig) {
 		messageHandlers = Map.ofEntries(
 			entry(GameManager.MessageType.PLAYER_ALREADY_EXISTS, forwardMessage),
-			entry(GameManager.MessageType.PLAYER_ADDED, forwardMessage)
+			entry(GameManager.MessageType.PLAYER_ADDED, forwardMessage),
+			entry(GameManager.MessageType.CURRENT_PLAYER, forwardMessage),
+			entry(GameManager.MessageType.REMOTE_TURN, forwardMessage)
 		);
 
 		GameManager.getInstance().addObserver(this);
@@ -39,7 +41,7 @@ public class MyModel extends Model implements Observer{
 
 	@Override
 	public void addLocalPlayer(String name) {
-		GameManager.getInstance().AddPlayer(name, true);
+		GameManager.getInstance().AddPlayer(GameManager.getInstance().getLocal(), name);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package ap.scrabble.gameclient.util;
 
 public interface Recipient<MessageType> {
-    public enum Type {
+    public static enum Type {
         LOCAL,
         REMOTE,
         HOST,

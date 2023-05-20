@@ -18,6 +18,8 @@ public abstract class Player {
         GetMissingTiles();
     }
 
+    public String getName() { return PlayerName; }
+
     public void addTilesToPlayer(List<Tile> tilesToAdd){
         playersTiles.addAll(tilesToAdd);
     }

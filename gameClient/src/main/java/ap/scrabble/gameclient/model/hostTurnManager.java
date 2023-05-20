@@ -2,6 +2,8 @@ package ap.scrabble.gameclient.model;
 
 import java.util.List;
 
+import ap.scrabble.gameclient.model.GameManager.GameState;
+
 public class hostTurnManager extends TurnManager{
 
 
@@ -11,23 +13,25 @@ public class hostTurnManager extends TurnManager{
 
     @Override
     public void PlayNextTurn() {
+        GameManager.getInstance().sendLocalMessage(GameManager.MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());
         if(playerList.get(CurrentPlayerIndex).isLocal == true){
             playerList.get(CurrentPlayerIndex).PlayNextTurn();
         }
         else {
-            //wait for remote player
+            GameManager.getInstance().sendLocalMessage(GameManager.MessageType.REMOTE_TURN, null);
         }
-        CurrentPlayerIndex = GetNextTurnIndex();
+        if (EndConditionReached()) {
+            GameManager.getInstance().sendAllMessage(GameManager.MessageType.GAME_OVER, null);
+        }
+        else {
+            CurrentPlayerIndex = GetNextTurnIndex();
+        }
     }
     public Integer GetNextTurnIndex(){
         return (CurrentPlayerIndex + 1 )% playerList.size();
     }
-    @Override
-    public void RunGame() {
-        while (GameManager.getInstance().game.bag.size() != 0){//Play the game until bag is empty
-            PlayNextTurn();
-            //update all players on new Game-data etc...
-        }
-        //Update all on game end
+
+    public boolean EndConditionReached() {
+        return GameManager.getInstance().getGame().bag.size() == 0;
     }
 }

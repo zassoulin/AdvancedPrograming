@@ -21,6 +21,9 @@ public class GameManager extends Observable {
     public static enum MessageType {
         PLAYER_ALREADY_EXISTS,
         PLAYER_ADDED,
+        CURRENT_PLAYER,
+        REMOTE_TURN,
+        GAME_OVER,
     }
 
     public static class Message extends ap.scrabble.gameclient.util.Message<MessageType> {
@@ -61,6 +64,14 @@ public class GameManager extends Observable {
         return gameState;
     }
 
+    public Game getGame() {
+        return game;
+    }
+
+    public LocalRecipient getLocal() {
+        return local;
+    }
+
     public void CreateGame(String HostName){
         //Start server
         //add Host player
@@ -85,11 +96,19 @@ public class GameManager extends Observable {
         }
     }
     public void StartGame(){
-        turnManager.RunGame();
+        
     }
 
     @Override
     public synchronized void setChanged() {
         super.setChanged();
+    }
+
+    public void sendLocalMessage(MessageType type, Object arg) {
+        local.sendMessage(type, arg);
+    }
+
+    public void sendAllMessage(MessageType type, Object arg) {
+        all.sendMessage(type, arg);
     }
 }
