@@ -13,6 +13,8 @@ public class GameManager extends Observable {
     List<Player> playerList;
 
     HostServer hostServer;
+
+    Game game;
     private GameManager(){
         playerList = new ArrayList<>();
 //        hostServer = new SocketHostServer(port,ClientHandler);
@@ -42,7 +44,7 @@ public class GameManager extends Observable {
 
     }
     public void StartGame(){
-
+        this.game = new Game(playerList);
     }
 
 

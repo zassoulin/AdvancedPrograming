@@ -23,14 +23,14 @@ public class SocketDictionaryServerCommunicator implements DictionaryServerCommu
     @Override
     public String runClientQueryRequest(String word,String ... books) {
         String res;
-        String query = "Q," + formatBooksAndWord(word,books);
+        String query = "Q" + formatBooksAndWord(word,books);
         return SendRequest(query);
     }
 
     @Override
     public String runClientChallengeRequest(String word,String ... books) {
         String res;
-        String query = "C," + formatBooksAndWord(word,books);
+        String query = "C" + formatBooksAndWord(word,books);
         return SendRequest(query);
     }
 
@@ -56,6 +56,6 @@ public class SocketDictionaryServerCommunicator implements DictionaryServerCommu
         for(String book : books ){
             msg = msg +"," + book;
         }
-        return msg+word;
+        return msg+","+word;
     }
 }
