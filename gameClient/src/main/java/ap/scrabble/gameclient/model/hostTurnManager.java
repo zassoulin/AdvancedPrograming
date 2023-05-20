@@ -17,8 +17,11 @@ public class hostTurnManager extends TurnManager{
         else {
             //wait for remote player
         }
+        CurrentPlayerIndex = GetNextTurnIndex();
     }
-
+    public Integer GetNextTurnIndex(){
+        return (CurrentPlayerIndex + 1 )% playerList.size();
+    }
     @Override
     public void RunGame() {
         while (GameManager.getInstance().game.bag.size() != 0){//Play the game until bag is empty

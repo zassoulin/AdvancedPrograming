@@ -14,14 +14,20 @@ public class LocalPlayer extends Player{
     @Override
     public Integer PlayNextTurn() {
         Integer score = 0;
+        Word word = null;
         while (score == 0){
-            Word word = GetPlayerWord();
+            word = GetPlayerWord();
             score = GameManager.getInstance().game.placePlayerTurn(word,this.PlayerName);
             //if failed create output message
         }
+        RemoveWordTiles(word);
+        GetMissingTiles();
         return score;
     }
 
+    public void RemoveWordTiles(Word word){
+        //remove the tiles from the player stash
+    }
     @Override
     public List<Tile> GetMissingTiles() {
         Integer neededTiles = MAXIMUM_TILES_PER_PLAYER - this.playersTiles.size();

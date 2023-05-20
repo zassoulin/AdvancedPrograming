@@ -1,5 +1,7 @@
 package ap.scrabble.gameclient.model.board;
 
+import ap.scrabble.gameclient.model.DictionaryServerCommunicator;
+
 import java.util.ArrayList;
 
 public class Board {
@@ -120,7 +122,7 @@ public class Board {
 	}
 	
 	public boolean dictionaryLegal(Word w) {
-		return  true;
+		return true;//DictionaryServerCommunicator
 	}
 	
 	
