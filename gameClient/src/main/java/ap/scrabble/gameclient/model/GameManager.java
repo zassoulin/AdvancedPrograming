@@ -3,24 +3,27 @@ package ap.scrabble.gameclient.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.TreeMap;
 
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
+import ap.scrabble.gameclient.model.recipient.AllRecipient;
+import ap.scrabble.gameclient.model.recipient.GameRecipient;
+import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 
 public class GameManager extends Observable {
-    public enum GameState {
+    public static enum GameState {
         MAIN_MENU,
         CREATE_GAME,
         JOIN_GAME,
         PLAY
     }
 
-    public enum MessageType {
-        ADD_PLAYER,
+    public static enum MessageType {
+        PLAYER_ALREADY_EXISTS,
+        PLAYER_ADDED,
     }
 
-    public class Message extends ap.scrabble.gameclient.util.Message<MessageType> {
+    public static class Message extends ap.scrabble.gameclient.util.Message<MessageType> {
         public Message(MessageType type, Object arg) {
             super(type, arg);
         }
@@ -35,6 +38,8 @@ public class GameManager extends Observable {
     private HostServerConfig hostServerConfig;
     private TurnManager turnManager;
     private Game game;
+    private LocalRecipient local;
+    private AllRecipient all;
 
     public static GameManager getInstance() {
         if (GameManagerInstance == null) {
@@ -62,35 +67,29 @@ public class GameManager extends Observable {
         Player HostPlayer;//Init
         turnManager = new hostTurnManager(playerList);
         this.game = new Game(playerList);
-        AddPlayer(HostName,true);
+        AddPlayer(local, HostName);
 
     }
     public void JoinGame(String ClientName){
 
     }
-    public void AddPlayer(String PlayerName,Boolean IsLocal){
-        if(IsLocal){
-            playerList.add(new LocalPlayer(PlayerName, true));
-        }
-        else {
-            //Add RemotePlayer
-        }
+    public void AddPlayer(GameRecipient requester, String PlayerName){
         synchronized (playerList) {
             if (playerList.contains(PlayerName)) {
-                return
+                requester.sendMessage(MessageType.PLAYER_ALREADY_EXISTS, PlayerName);
+                return;
             }
+            Player player = PlayerFactory.GetInstance().CreatePlayer(requester, PlayerName);
+            playerList.add(player);
+            all.sendMessage(MessageType.PLAYER_ADDED, PlayerName);
         }
-
-        sendMessage(MessageType.ADD_PLAYER, PlayerName);
     }
     public void StartGame(){
         turnManager.RunGame();
     }
 
-    private void sendMessage(MessageType type, Object arg) {
-        setChanged();
-        notifyObservers(new Message(MessageType.ADD_PLAYER, arg));
+    @Override
+    public synchronized void setChanged() {
+        super.setChanged();
     }
-
-
 }

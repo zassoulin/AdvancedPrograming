@@ -1,6 +1,8 @@
 package ap.scrabble.gameclient.util;
 
-public class Message<MessageType> {
+import java.io.Serializable;
+
+public class Message<MessageType> implements Serializable {
     public MessageType type;
     public Object arg;
 

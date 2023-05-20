@@ -23,7 +23,8 @@ public class MyModel extends Model implements Observer{
 
 	public MyModel(DictionaryServerConfig dictionaryServerConfig, HostServerConfig hostServerConfig) {
 		messageHandlers = Map.ofEntries(
-			entry(GameManager.MessageType.ADD_PLAYER, forwardMessage)
+			entry(GameManager.MessageType.PLAYER_ALREADY_EXISTS, forwardMessage),
+			entry(GameManager.MessageType.PLAYER_ADDED, forwardMessage)
 		);
 
 		GameManager.getInstance().addObserver(this);
