@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,10 +16,13 @@ public class SocketHostServer implements  HostServer{
     Thread serverThread;
     final ClientHandler ch; // to seperate a generic client and server, we give the responsibility of handeling the client to the clientHandler thus seperating the server and client and making it more modular
 
+    List<Socket> clientList;
+
     public SocketHostServer(int port, ClientHandler ch, int maxNumOfThreads) {
         this.port=port;
         this.ch=ch;
         this.maxNumOfThreads = maxNumOfThreads;
+        clientList = new ArrayList<>();
     }
 
 
@@ -37,6 +42,7 @@ public class SocketHostServer implements  HostServer{
             while (!stop) {
                 try {
                     Socket client = server.accept();
+                    clientList.add(client);
                     executor.execute(() ->run(client));
                 } catch (SocketTimeoutException e) {}
             }
@@ -51,6 +57,7 @@ public class SocketHostServer implements  HostServer{
             synchronized (ch) {
 //                ch.handleClient(client.getInputStream(), client.getOutputStream()); TODO:clientHandler
 //                ch.close();
+                clientList.remove(client);//when closing remove client from list
                 client.close();
             }
         } catch (IOException e) {
@@ -67,5 +74,10 @@ public class SocketHostServer implements  HostServer{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void SendMessageToAll(String message) {
+
     }
 }

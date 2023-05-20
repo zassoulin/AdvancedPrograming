@@ -18,7 +18,6 @@ public class LocalPlayer extends Player{
             Word word = GetPlayerWord();
             score = GameManager.getInstance().game.placePlayerTurn(word,this.PlayerName);
             //if failed create output message
-
         }
         return score;
     }
