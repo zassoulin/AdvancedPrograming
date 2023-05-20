@@ -64,7 +64,11 @@ public class GameManager extends Observable {
 
     }
     public void AddPlayer(String PlayerName,Boolean IsLocal){
-
+        synchronized (playerList) {
+            if (playerList.contains(PlayerName)) {
+                return
+            }
+        }
 
         sendMessage(MessageType.ADD_PLAYER, PlayerName);
     }
