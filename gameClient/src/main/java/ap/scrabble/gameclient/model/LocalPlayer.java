@@ -1,8 +1,15 @@
 package ap.scrabble.gameclient.model;
 
+import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 
+import java.util.List;
+
 public class LocalPlayer extends Player{
+
+    public LocalPlayer(String playerName, boolean isLocal) {
+        super(playerName, isLocal);
+    }
 
     @Override
     public Integer PlayNextTurn() {
@@ -14,5 +21,13 @@ public class LocalPlayer extends Player{
 
         }
         return score;
+    }
+
+    @Override
+    public List<Tile> GetMissingTiles() {
+        Integer neededTiles = MAXIMUM_TILES_PER_PLAYER - this.playersTiles.size();
+        List<Tile> newTiles = GameManager.getInstance().game.GetTiles(neededTiles);
+        return newTiles;
+
     }
 }

@@ -3,6 +3,7 @@ package ap.scrabble.gameclient.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.TreeMap;
 
 public class GameManager extends Observable {
     private static GameManager GameManagerInstance;
@@ -13,6 +14,7 @@ public class GameManager extends Observable {
     List<Player> playerList;
 
     HostServer hostServer;
+    TurnManager turnManager;
 
     Game game;
     private GameManager(){
@@ -32,19 +34,26 @@ public class GameManager extends Observable {
         //Start server
         //add Host player
         Player HostPlayer;//Init
-        TurnManager turnManager = new hostTurnManager(playerList);
+        turnManager = new hostTurnManager(playerList);
+        this.game = new Game(playerList);
 
     }
     public void JoinGame(String ClientName){
 
     }
     public void AddPlayer(String PlayerName,Boolean IsLocal){
+        if(IsLocal){
+            playerList.add(new LocalPlayer(PlayerName, true));
+        }
+        else {
+            //Add LocalPlayer
+        }
         //add player to list
         //notify observers
 
     }
     public void StartGame(){
-        this.game = new Game(playerList);
+        turnManager.RunGame();
     }
 
 

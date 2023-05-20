@@ -18,4 +18,9 @@ public class hostTurnManager extends TurnManager{
             //wait for remote player
         }
     }
+
+    @Override
+    public void RunGame() {
+
+    }
 }

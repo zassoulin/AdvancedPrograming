@@ -9,7 +9,15 @@ public abstract class Player {
     List<Tile> playersTiles;
     String PlayerName;
 
+    Integer MAXIMUM_TILES_PER_PLAYER = 7;
     boolean isLocal;
+
+    public Player(String playerName, boolean isLocal) {
+        PlayerName = playerName;
+        this.isLocal = isLocal;
+        GetMissingTiles();
+    }
+
     public void addTilesToPlayer(List<Tile> tilesToAdd){
         playersTiles.addAll(tilesToAdd);
     }
@@ -26,5 +34,6 @@ public abstract class Player {
     }
 
     public abstract Integer PlayNextTurn();
+    public abstract List<Tile> GetMissingTiles();
 
 }

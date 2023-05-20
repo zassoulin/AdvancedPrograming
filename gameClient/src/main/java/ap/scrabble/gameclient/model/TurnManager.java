@@ -14,4 +14,6 @@ public abstract class TurnManager {
 
     public abstract void PlayNextTurn();
 
+    public abstract void RunGame();
+
 }
