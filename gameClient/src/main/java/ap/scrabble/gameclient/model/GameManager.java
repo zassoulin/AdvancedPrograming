@@ -36,6 +36,7 @@ public class GameManager extends Observable {
         Player HostPlayer;//Init
         turnManager = new hostTurnManager(playerList);
         this.game = new Game(playerList);
+        AddPlayer(HostName,true);
 
     }
     public void JoinGame(String ClientName){
@@ -46,7 +47,7 @@ public class GameManager extends Observable {
             playerList.add(new LocalPlayer(PlayerName, true));
         }
         else {
-            //Add LocalPlayer
+            //Add RemotePlayer
         }
         //add player to list
         //notify observers
@@ -55,7 +56,7 @@ public class GameManager extends Observable {
     public void StartGame(){
         turnManager.RunGame();
     }
-    
+
 
 
 

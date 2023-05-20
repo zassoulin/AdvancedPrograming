@@ -25,5 +25,6 @@ public class hostTurnManager extends TurnManager{
             PlayNextTurn();
             //update all players on new Game-data etc...
         }
+        //Update all on game end
     }
 }
