@@ -25,7 +25,13 @@ public class Game {
     public List<Tile> GetTiles(Integer TilesCount){
         List<Tile> tiles = new ArrayList<>();
         for(int i = 0 ;i<TilesCount;i++){
-            tiles.add(bag.getRand());
+            Tile newTile = bag.getRand();
+            if(newTile != null){
+                tiles.add(newTile);
+            }
+            else {
+                break;
+            }
         }
         return tiles;
     }

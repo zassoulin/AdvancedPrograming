@@ -27,4 +27,9 @@ public class ClientTurnManager extends TurnManager {
         }
     }
 
+    @Override
+    public void RunGame() {
+
+    }
+
 }
