@@ -1,12 +1,12 @@
 package ap.scrabble.gameclient.model;
 
+import static ap.scrabble.gameclient.util.Assert.assertCond;
 import static java.util.Map.entry;
 
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import ap.scrabble.gameclient.model.GameManager.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.util.Message;
@@ -44,9 +44,7 @@ public class MyModel extends Model implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg == null) {
-			throw new RuntimeException("MyModel: Notify observer from `GameManager` missing argument");
-		}
+		assertCond(arg != null, "MyModel: Notify observer from `GameManager` missing argument");
 		var msg = (GameManager.Message)arg;
 		messageHandlers.get(msg.type.ordinal()).handle(msg);
 	}
