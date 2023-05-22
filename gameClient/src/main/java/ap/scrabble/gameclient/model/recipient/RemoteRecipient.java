@@ -1,7 +1,9 @@
 package ap.scrabble.gameclient.model.recipient;
 
 import ap.scrabble.gameclient.model.ClientHandler;
+import ap.scrabble.gameclient.model.GameManager;
 import ap.scrabble.gameclient.model.GameManager.MessageType;
+import ap.scrabble.gameclient.util.Message;
 
 public class RemoteRecipient extends GameRecipient {
     ClientHandler clientHandler;
@@ -17,6 +19,6 @@ public class RemoteRecipient extends GameRecipient {
 
     @Override
     public void sendMessage(MessageType type, Object arg) {
-        // TODO: Send message (should be serializable) to remote client through `ClientHandler`
+        clientHandler.WriteMessage(new Message(type,arg));
     }
 }

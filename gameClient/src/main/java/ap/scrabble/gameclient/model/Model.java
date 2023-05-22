@@ -12,5 +12,9 @@ public abstract class Model extends Observable {
 	// Add a local player with a name
 	public abstract void addLocalPlayer(String name);
 
+	public abstract void CreateGame(String name);
+
+	public abstract void StartGame();
+
 	public abstract void addWord(Word word);
 }

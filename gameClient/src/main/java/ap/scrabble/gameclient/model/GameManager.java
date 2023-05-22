@@ -20,6 +20,8 @@ public class GameManager extends Observable {
     private HostServerConfig hostServerConfig;
     private TurnManager turnManager;
     private Game game;
+
+    SocketHostServer socketHostServer;
     public static enum GameState {
         MAIN_MENU,
         CREATE_GAME,
@@ -76,9 +78,10 @@ public class GameManager extends Observable {
     public void CreateGame(String HostName){
         //Start server
         //add Host player
-        Player HostPlayer;//Init
         turnManager = new hostTurnManager(playerList);
         this.game = new Game(playerList);
+        this.socketHostServer = new SocketHostServer(hostServerConfig.getPort(),new RemoteClientHandler(),6);
+        socketHostServer.start();
         AddPlayer(LocalRecipient.get(), HostName,true);
 
     }

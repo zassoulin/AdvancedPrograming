@@ -1,5 +1,8 @@
 package ap.scrabble.gameclient.model;
 
+import ap.scrabble.gameclient.model.recipient.AllRecipient;
+import ap.scrabble.gameclient.model.recipient.RemoteRecipient;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -55,8 +58,9 @@ public class SocketHostServer implements  HostServer{
     public void run(Socket client) {
         try {
             synchronized (ch) {
-//                ch.handleClient(client.getInputStream(), client.getOutputStream()); TODO:clientHandler
-//                ch.close();
+                AllRecipient.get().addRemoteRecipient(new RemoteRecipient(ch));
+                ch.handleClient(client.getInputStream(), client.getOutputStream());
+                ch.close();
                 clientList.remove(client);//when closing remove client from list
                 client.close();
             }
