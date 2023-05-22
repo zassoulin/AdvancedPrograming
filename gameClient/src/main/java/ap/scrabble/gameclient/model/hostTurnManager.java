@@ -13,7 +13,7 @@ public class hostTurnManager extends TurnManager{
 
     @Override
     public void PlayNextTurn() {
-        GameManager.getInstance().sendLocalMessage(GameManager.MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());
+        GameManager.getInstance().sendLocalMessage(GameManager.MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());//TODO: change to allRecipients
         if(playerList.get(CurrentPlayerIndex).isLocal == true){
             playerList.get(CurrentPlayerIndex).PlayNextTurn();
         }

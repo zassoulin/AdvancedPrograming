@@ -1,5 +1,7 @@
 package ap.scrabble.gameclient.model;
 
+import ap.scrabble.gameclient.model.board.Word;
+
 import java.util.Observable;
 
 // The Model's facade - only expose necessary functionality.
@@ -9,4 +11,6 @@ public abstract class Model extends Observable {
 	public abstract String getGameState();
 	// Add a local player with a name
 	public abstract void addLocalPlayer(String name);
+
+	public abstract void addWord(Word word);
 }

@@ -26,7 +26,8 @@ public class GameManager extends Observable {
         LOCAL_TURN,
         REMOTE_TURN,
         ILLEGAL_WORD,
-        PLAYER_SCORE,
+        PLAY_NEXT_TURN,
+        UPDATE_GAME_DATA,
         GAME_OVER,
     }
 

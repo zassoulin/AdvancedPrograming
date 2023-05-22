@@ -16,5 +16,6 @@ public class PlayerFactory {
 
     public Player CreatePlayer(GameRecipient requester, String playerName) {
         // TODO: Return player type based on local/remote requester
+        return null;
     }
 }

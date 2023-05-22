@@ -7,15 +7,7 @@ import ap.scrabble.gameclient.model.recipient.GameRecipient;
 import java.util.List;
 
 public abstract class Player {
-    public static class ScoreMessageArg {
-        public String name;
-        public Integer score;
 
-        public ScoreMessageArg(String name, Integer score) {
-            this.name = name;
-            this.score = score;
-        }
-    }
 
     List<Tile> playersTiles;
     String PlayerName;
@@ -48,6 +40,9 @@ public abstract class Player {
 
     public abstract void PlayNextTurn();
     public abstract void PlaceWord(GameRecipient requester, Word word);
+
+    public abstract void EndTurn();
+
     public abstract List<Tile> GetMissingTiles();
     public abstract Integer getScore();
 

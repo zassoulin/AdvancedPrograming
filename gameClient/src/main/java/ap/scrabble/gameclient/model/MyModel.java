@@ -1,7 +1,6 @@
 package ap.scrabble.gameclient.model;
 
 import static ap.scrabble.gameclient.util.Assert.assertCond;
-import static java.util.Map.entry;
 
 import java.util.Map;
 import java.util.Observable;
