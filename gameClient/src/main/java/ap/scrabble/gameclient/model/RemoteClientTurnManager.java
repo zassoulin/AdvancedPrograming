@@ -12,7 +12,7 @@ public class RemoteClientTurnManager extends TurnManager {
     public RemoteClientTurnManager(Player clientPlayer, List<Player> playerList) {
         super(playerList);
         ClientPlayer = clientPlayer;
-        hostServerCommunicator = new SocketHostServerCommunicator();
+        hostServerCommunicator = SocketHostServerCommunicator.get();
 
     }
 

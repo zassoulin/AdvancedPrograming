@@ -31,8 +31,4 @@ public class RemotePlayer extends Player{
         return null;
     }
 
-    @Override
-    public Integer getScore() {
-        return null;
-    }
 }
