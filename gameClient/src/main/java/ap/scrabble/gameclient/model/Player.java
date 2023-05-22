@@ -39,7 +39,7 @@ public abstract class Player {
     }
 
     public abstract void PlayNextTurn();
-    public abstract void PlaceWord(GameRecipient requester, Word word);
+    public abstract void PlaceWord(GameRecipient requester,Word word);
 
     public abstract void EndTurn();
 

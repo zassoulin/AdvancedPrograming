@@ -42,7 +42,7 @@ public class MyModel extends Model implements Observer{
 
 	@Override
 	public void addLocalPlayer(String name) {
-		GameManager.getInstance().AddPlayer(GameManager.getInstance().getLocal(), name);
+		GameManager.getInstance().AddPlayer(GameManager.getInstance().getLocal(), name,true);
 	}
 
 	@Override

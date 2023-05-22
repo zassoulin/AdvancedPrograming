@@ -1,11 +1,22 @@
 package ap.scrabble.gameclient.model.recipient;
 
 import ap.scrabble.gameclient.model.GameManager.MessageType;
+import ap.scrabble.gameclient.model.HostServerCommunicator;
+import ap.scrabble.gameclient.model.SocketHostServerCommunicator;
+
 
 public class HostRecipient extends GameRecipient {
-    HostHandler hostHandler;
 
-    public HostRecipient(HostHandler hostHandler) {
+    private static HostRecipient HostRecipientInstance;
+    public static HostRecipient get() {
+        if (HostRecipientInstance == null) {
+            HostRecipientInstance = new HostRecipient(SocketHostServerCommunicator.get());
+        }
+        return HostRecipientInstance;
+    }
+    HostServerCommunicator hostHandler;
+
+    public HostRecipient(HostServerCommunicator hostHandler) {
         this.hostHandler = hostHandler;
     }
 

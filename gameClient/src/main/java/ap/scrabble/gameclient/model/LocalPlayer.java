@@ -10,8 +10,8 @@ import ap.scrabble.gameclient.model.recipient.GameRecipient;
 public class LocalPlayer extends Player{
 
 
-    public LocalPlayer(String playerName, boolean isLocal) {
-        super(playerName, isLocal);
+    public LocalPlayer(String playerName) {
+        super(playerName, true);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class LocalPlayer extends Player{
     }
 
     @Override
-    public void PlaceWord( Word word) {
+    public void PlaceWord(GameRecipient requester, Word word) {
         GameManager inst = GameManager.getInstance();
 
         Integer curScore = inst.getGame().placePlayerTurn(word, PlayerName);
@@ -28,7 +28,7 @@ public class LocalPlayer extends Player{
             requester.sendMessage(MessageType.ILLEGAL_WORD, word.toString());
         }
         else {
-            inst.sendAllMessage(MessageType.PLAY_NEXT_TURN, new ScoreMessageArg(PlayerName, totalScore));
+//            inst.sendAllMessage(MessageType.PLAY_NEXT_TURN, new ScoreMessageArg(PlayerName, totalScore));
             EndTurn();
         }
     }

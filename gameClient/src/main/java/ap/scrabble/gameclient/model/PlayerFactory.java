@@ -14,8 +14,13 @@ public class PlayerFactory {
         return inst;
     }
 
-    public Player CreatePlayer(GameRecipient requester, String playerName) {
+    public Player CreatePlayer(String playerName,boolean isLocal) {
         // TODO: Return player type based on local/remote requester
-        return null;
+        if(isLocal){
+            return new LocalPlayer(playerName);
+        }
+        else {
+            return new RemotePlayer(playerName);
+        }
     }
 }

@@ -6,6 +6,14 @@ import java.util.List;
 import ap.scrabble.gameclient.model.GameManager.MessageType;
 
 public class AllRecipient extends GameRecipient {
+
+    private static AllRecipient AllRecipientInstance;
+    public static AllRecipient get() {
+        if (AllRecipientInstance == null) {
+            AllRecipientInstance = new AllRecipient();
+        }
+        return AllRecipientInstance;
+    }
     List<RemoteRecipient> remoteRecipients = new ArrayList<>();
     LocalRecipient localRecipient = new LocalRecipient();
 
