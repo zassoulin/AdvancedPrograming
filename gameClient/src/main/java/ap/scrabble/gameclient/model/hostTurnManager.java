@@ -2,6 +2,7 @@ package ap.scrabble.gameclient.model;
 
 import ap.scrabble.gameclient.model.recipient.AllRecipient;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
+import ap.scrabble.gameclient.model.recipient.RemoteRecipient;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class hostTurnManager extends TurnManager{
 
     @Override
     public void PlayNextTurn() {
-        LocalRecipient.get().sendMessage(GameManager.MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());//TODO: change to allRecipients
+        AllRecipient.get().sendMessage(GameManager.MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());//TODO: change to allRecipients
         if(playerList.get(CurrentPlayerIndex).isLocal == true){
             playerList.get(CurrentPlayerIndex).PlayNextTurn();
         }

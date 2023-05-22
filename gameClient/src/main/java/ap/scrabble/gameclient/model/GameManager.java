@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
@@ -39,6 +40,7 @@ public class GameManager extends Observable {
         PLAY_NEXT_TURN,
         UPDATE_GAME_DATA,
         GAME_OVER,
+        GAME_STARTED,
     }
 
     public static class Message extends ap.scrabble.gameclient.util.Message<MessageType> {
@@ -56,6 +58,7 @@ public class GameManager extends Observable {
         }
         return GameManagerInstance;
     }
+    private GameManager(){}
 
     public void setConfig(DictionaryServerConfig dictionaryServerConfig, HostServerConfig hostServerConfig) {
         this.dictionaryServerConfig = dictionaryServerConfig;
@@ -78,6 +81,7 @@ public class GameManager extends Observable {
     public void CreateGame(String HostName){
         //Start server
         //add Host player
+        this.gameState = GameState.CREATE_GAME;
         turnManager = new hostTurnManager(playerList);
         this.game = new Game(playerList);
         this.socketHostServer = new SocketHostServer(hostServerConfig.getPort(),new RemoteClientHandler(),6);
@@ -100,7 +104,9 @@ public class GameManager extends Observable {
         }
     }
     public void StartGame(){
-        
+        this.gameState = GameState.PLAY;
+        AllRecipient.get().sendMessage(MessageType.GAME_STARTED, game.gameData);
+        turnManager.PlayNextTurn();
     }
     public void addWord(GameRecipient requester, Word word) {
         turnManager.getCurrentPlayer().PlaceWord(requester, word);

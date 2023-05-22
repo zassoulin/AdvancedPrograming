@@ -49,7 +49,6 @@ public class MyModel extends Model implements Observer{
 	public void CreateGame(String name){
 		GameManager.get().CreateGame(name);
 	}
-
 	@Override
 	public void StartGame(){
 		GameManager.get().StartGame();

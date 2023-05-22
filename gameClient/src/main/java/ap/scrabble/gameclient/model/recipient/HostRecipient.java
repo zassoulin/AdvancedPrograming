@@ -16,7 +16,7 @@ public class HostRecipient extends GameRecipient {
     }
     HostServerCommunicator hostHandler;
 
-    public HostRecipient(HostServerCommunicator hostHandler) {
+    private HostRecipient(HostServerCommunicator hostHandler) {
         this.hostHandler = hostHandler;
     }
 

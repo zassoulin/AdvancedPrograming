@@ -2,14 +2,14 @@ package ap.scrabble.gameclient.model;
 
 import java.util.List;
 
-public class ClientTurnManager extends TurnManager {
+public class RemoteClientTurnManager extends TurnManager {
     Player ClientPlayer;
     List<Player> playerList;
     Integer currentPlayer;
 
     SocketHostServerCommunicator hostServerCommunicator;
 
-    public ClientTurnManager(Player clientPlayer, List<Player> playerList) {
+    public RemoteClientTurnManager(Player clientPlayer, List<Player> playerList) {
         super(playerList);
         ClientPlayer = clientPlayer;
         hostServerCommunicator = new SocketHostServerCommunicator();

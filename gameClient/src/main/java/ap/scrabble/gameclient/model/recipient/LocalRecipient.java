@@ -13,6 +13,7 @@ public class LocalRecipient extends GameRecipient  {
         }
         return LocalRecipientInstance;
     }
+    private LocalRecipient(){}
 
     @Override
     public Type getType() {
