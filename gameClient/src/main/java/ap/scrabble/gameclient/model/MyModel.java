@@ -9,6 +9,8 @@ import java.util.Observer;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
+import ap.scrabble.gameclient.model.recipient.LocalRecipient;
+import ap.scrabble.gameclient.model.recipient.RemoteRecipient;
 import ap.scrabble.gameclient.util.Message;
 
 public class MyModel extends Model implements Observer{
@@ -30,24 +32,24 @@ public class MyModel extends Model implements Observer{
 		// 	entry(GameManager.MessageType.REMOTE_TURN, forwardMessage)
 		// );
 
-		GameManager.getInstance().addObserver(this);
-		GameManager.getInstance().setConfig(dictionaryServerConfig, hostServerConfig);
-		GameManager.getInstance().init();
+		GameManager.get().addObserver(this);
+		GameManager.get().setConfig(dictionaryServerConfig, hostServerConfig);
+		GameManager.get().init();
 	}
 
 	@Override
 	public String getGameState() {
-		return GameManager.getInstance().getGameState().name();
+		return GameManager.get().getGameState().name();
 	}
 
 	@Override
 	public void addLocalPlayer(String name) {
-		GameManager.getInstance().AddPlayer(GameManager.getInstance().getLocal(), name,true);
+		GameManager.get().AddPlayer(LocalRecipient.get(), name,true);
 	}
 
 	@Override
 	public void addWord(Word word) {
-		GameManager.getInstance().addWord(GameManager.getInstance().getLocal(), word);
+		GameManager.get().addWord(LocalRecipient.get(), word);
 	}
 
 	@Override

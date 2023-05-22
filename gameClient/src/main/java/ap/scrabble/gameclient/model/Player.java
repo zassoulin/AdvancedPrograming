@@ -44,6 +44,5 @@ public abstract class Player {
     public abstract void EndTurn();
 
     public abstract List<Tile> GetMissingTiles();
-    public abstract Integer getScore();
 
 }

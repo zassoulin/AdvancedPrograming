@@ -6,6 +6,7 @@ import ap.scrabble.gameclient.model.GameManager.MessageType;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.recipient.GameRecipient;
+import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 
 public class LocalPlayer extends Player{
 
@@ -16,12 +17,12 @@ public class LocalPlayer extends Player{
 
     @Override
     public void PlayNextTurn() {
-        GameManager.getInstance().sendLocalMessage(GameManager.MessageType.LOCAL_TURN, null);
+        LocalRecipient.get().sendMessage(GameManager.MessageType.LOCAL_TURN, null);
     }
 
     @Override
     public void PlaceWord(GameRecipient requester, Word word) {
-        GameManager inst = GameManager.getInstance();
+        GameManager inst = GameManager.get();
 
         Integer curScore = inst.getGame().placePlayerTurn(word, PlayerName);
         if (curScore == 0) {
@@ -44,7 +45,7 @@ public class LocalPlayer extends Player{
     @Override
     public List<Tile> GetMissingTiles() {
         Integer neededTiles = MAXIMUM_TILES_PER_PLAYER - this.playersTiles.size();
-        List<Tile> newTiles = GameManager.getInstance().getGame().GetTiles(neededTiles);
+        List<Tile> newTiles = GameManager.get().getGame().GetTiles(neededTiles);
         return newTiles;
     }
 

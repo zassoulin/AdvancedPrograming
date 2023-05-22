@@ -21,7 +21,7 @@ public class LocalRecipient extends GameRecipient  {
 
     @Override
     public void sendMessage(MessageType type, Object arg) {
-        GameManager inst = GameManager.getInstance();
+        GameManager inst = GameManager.get();
 
         inst.setChanged();
         inst.notifyObservers(new Message(type, arg));

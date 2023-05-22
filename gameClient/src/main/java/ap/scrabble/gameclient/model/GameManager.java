@@ -48,7 +48,7 @@ public class GameManager extends Observable {
 
 
 
-    public static GameManager getInstance() {
+    public static GameManager get() {
         if (GameManagerInstance == null) {
             GameManagerInstance = new GameManager();
         }
