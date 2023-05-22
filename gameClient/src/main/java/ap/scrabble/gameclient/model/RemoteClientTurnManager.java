@@ -1,5 +1,7 @@
 package ap.scrabble.gameclient.model;
 
+import ap.scrabble.gameclient.model.board.Word;
+
 import java.util.List;
 
 public class RemoteClientTurnManager extends TurnManager {
@@ -18,13 +20,23 @@ public class RemoteClientTurnManager extends TurnManager {
 
 
     @Override
-    public void PlayNextTurn() {
+    public void StartTurn() {
         if(playerList.get(currentPlayer).getPlayerName() == ClientPlayer.getPlayerName()){
             //play Turn normally
         }
         else {
             //wait for next turn
         }
+    }
+
+    @Override
+    public void EndTurn() {
+
+    }
+
+    @Override
+    public void PlayTurn(Word word) {
+
     }
 
 }

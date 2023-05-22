@@ -1,8 +1,8 @@
 package ap.scrabble.gameclient.model;
 
+import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.recipient.AllRecipient;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
-import ap.scrabble.gameclient.model.recipient.RemoteRecipient;
 
 import java.util.List;
 
@@ -14,14 +14,19 @@ public class hostTurnManager extends TurnManager{
     }
 
     @Override
-    public void PlayNextTurn() {
+    public void StartTurn() {
         AllRecipient.get().sendMessage(GameManager.MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());//TODO: change to allRecipients
         if(playerList.get(CurrentPlayerIndex).isLocal == true){
-            playerList.get(CurrentPlayerIndex).PlayNextTurn();
+            LocalRecipient.get().sendMessage(GameManager.MessageType.MY_TURN,null);
         }
         else {
-            LocalRecipient.get().sendMessage(GameManager.MessageType.REMOTE_TURN, null);
+            LocalRecipient.get().sendMessage(GameManager.MessageType.OTHER_PLAYER_TURN, null);
         }
+
+    }
+
+    @Override
+    public void EndTurn() {
         if (EndConditionReached()) {
             AllRecipient.get().sendMessage(GameManager.MessageType.GAME_OVER, null);
         }
@@ -29,6 +34,12 @@ public class hostTurnManager extends TurnManager{
             CurrentPlayerIndex = GetNextTurnIndex();
         }
     }
+
+    @Override
+    public void PlayTurn(Word word) {
+        playerList.get(CurrentPlayerIndex).PlayTurn(word);
+    }
+
     public Integer GetNextTurnIndex(){
         return (CurrentPlayerIndex + 1 )% playerList.size();
     }

@@ -1,5 +1,7 @@
 package ap.scrabble.gameclient.model;
 
+import ap.scrabble.gameclient.model.board.Word;
+
 import java.util.List;
 
 public abstract class TurnManager {
@@ -14,6 +16,9 @@ public abstract class TurnManager {
 
     public Player getCurrentPlayer() { return playerList.get(CurrentPlayerIndex); }
 
-    public abstract void PlayNextTurn();
+    public abstract void StartTurn();
+    public abstract void EndTurn();
+
+    public abstract void PlayTurn(Word word);
 
 }

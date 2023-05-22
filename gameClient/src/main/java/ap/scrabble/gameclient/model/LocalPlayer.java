@@ -6,7 +6,6 @@ import ap.scrabble.gameclient.model.GameManager.MessageType;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.recipient.GameRecipient;
-import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 
 public class LocalPlayer extends Player{
 
@@ -16,8 +15,8 @@ public class LocalPlayer extends Player{
     }
 
     @Override
-    public void PlayNextTurn() {
-        LocalRecipient.get().sendMessage(GameManager.MessageType.LOCAL_TURN, null);
+    public void PlayTurn(Word word) {
+
     }
 
     @Override

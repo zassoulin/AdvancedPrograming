@@ -38,7 +38,7 @@ public abstract class Player {
         return  new Word(new Tile[4],1,2,true);//TODO: GetPlayerWordFromGIu
     }
 
-    public abstract void PlayNextTurn();
+    public abstract void PlayTurn(Word word);
     public abstract void PlaceWord(GameRecipient requester,Word word);
 
     public abstract void EndTurn();
