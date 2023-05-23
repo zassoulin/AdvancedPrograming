@@ -26,12 +26,14 @@ public class hostTurnManager extends TurnManager{
     }
 
     @Override
-    public void EndTurn() {
+    public boolean EndTurn() {
         if (EndConditionReached()) {
             AllRecipient.get().sendMessage(GameManager.MessageType.GAME_OVER, null);
+            return true;
         }
         else {
             CurrentPlayerIndex = GetNextTurnIndex();
+            return false;
         }
     }
 

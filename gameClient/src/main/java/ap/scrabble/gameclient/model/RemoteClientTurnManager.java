@@ -30,13 +30,14 @@ public class RemoteClientTurnManager extends TurnManager {
     }
 
     @Override
-    public void EndTurn() {
-
+    public boolean EndTurn() {
+        //TODO:implement
+        return false;
     }
 
     @Override
     public Integer PlayTurn(Word word) {
-
+        return 0;//TODO implement
     }
 
 }

@@ -17,7 +17,7 @@ public abstract class TurnManager {
     public Player getCurrentPlayer() { return playerList.get(CurrentPlayerIndex); }
 
     public abstract void StartTurn();
-    public abstract void EndTurn();
+    public abstract boolean EndTurn();
 
     public abstract Integer PlayTurn(Word word);
 

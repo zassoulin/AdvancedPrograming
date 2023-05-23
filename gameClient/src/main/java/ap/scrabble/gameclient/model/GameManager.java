@@ -130,8 +130,8 @@ public class GameManager extends Observable {
             return;
         }
         AllRecipient.get().sendMessage(MessageType.UPDATE_GAME_DATA, game.getGameData());
-        turnManager.EndTurn();
-        turnManager.StartTurn();
+        if(!turnManager.EndTurn())//When EndTUrn returns true game is over.
+            turnManager.StartTurn();//o.w continue to next turn
 //        turnManager.getCurrentPlayer().PlaceWord(requester, word);
         // assuming the word was actually placed... not sure how to handle it otherwise...
 //        turnManager.StartTurn(); // This needs to be called after the player successfully placed a word
