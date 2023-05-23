@@ -24,7 +24,7 @@ public class DictionaryServerConfig {
 		}
 
 		ip = iniProperties.getProperty("ip");
-		if (ip == null) {
+		if (ip == null || ip.isBlank()) {
 			System.err.println("ServerProperties: Missing property \"ip\"");
 			return false;
 		}
@@ -33,26 +33,42 @@ public class DictionaryServerConfig {
 			System.err.println("ServerProperties: Missing property \"port\"");
 			return false;
 		}
-		// TODO: add support for books
+
+		if (!readBooks(iniProperties)) {
+			System.err.println("ServerProperties: Missing property \"books\"");
+			return false;
+		}
 
 		return true;
 	}
 
 	public String getIP() { return ip; }
 	public int getPort() { return port; }
+	public String[] getBooks(){ return books; }
 
-	public String[] getBooks(){
-		return books;
-	}
 	private boolean readPort(Properties iniProperties) {
 		String portString = iniProperties.getProperty("port");
-		if (portString == null) {
+		if (portString == null || portString.isBlank()) {
 			return false;
 		}
 		try {
 			port = Integer.parseInt(portString);
 		} catch (NumberFormatException e) {
 			return false;
+		}
+		return true;
+	}
+
+	private boolean readBooks(Properties iniProperties) {
+		String booksString = iniProperties.getProperty("books");
+		if (booksString == null || booksString.isBlank()) {
+			return false;
+		}
+		books = booksString.split(",");
+		for (String book : books) {
+			if (book.isBlank()) {
+				return false;
+			}
 		}
 		return true;
 	}
