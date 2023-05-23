@@ -17,6 +17,7 @@ public class Game {
     }
 
     public Integer placePlayerTurn(Word word, String playerName){
+        Integer score = gameData.getBoard().tryPlaceWord(word);
         //try placing word
         //update Player score accordingly if succeeded
         //return 0 if failed

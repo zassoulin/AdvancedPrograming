@@ -15,8 +15,9 @@ public class LocalPlayer extends Player{
     }
 
     @Override
-    public void PlayTurn(Word word) {
-
+    public Integer PlayTurn(Word word) {
+        GameManager.get().getGame().placePlayerTurn(word,PlayerName);
+        return 0;
     }
 
     @Override

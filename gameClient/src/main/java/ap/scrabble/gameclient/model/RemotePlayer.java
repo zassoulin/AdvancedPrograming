@@ -12,7 +12,7 @@ public class RemotePlayer extends Player{
     }
 
     @Override
-    public void PlayTurn(Word word) {
+    public Integer PlayTurn(Word word) {
 
     }
 

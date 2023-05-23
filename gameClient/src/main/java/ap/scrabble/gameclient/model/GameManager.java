@@ -20,6 +20,7 @@ public class GameManager extends Observable {
     private HostServerConfig hostServerConfig;
     private TurnManager turnManager;
     private Game game;
+    private DictionaryServerCommunicator dictionaryServerCommunicator;
 
     SocketHostServer socketHostServer;
     public static enum GameState {
@@ -40,6 +41,8 @@ public class GameManager extends Observable {
         UPDATE_GAME_DATA,
         GAME_OVER,
         GAME_STARTED,
+        QUERY,
+        CHALLENGE,
     }
 
     public static class Message extends ap.scrabble.gameclient.util.Message<MessageType> {
@@ -85,10 +88,12 @@ public class GameManager extends Observable {
         this.game = new Game(playerList);
         this.socketHostServer = new SocketHostServer(hostServerConfig.getPort(),new RemoteClientHandler(),6);
         socketHostServer.start();
+        this.dictionaryServerCommunicator = new SocketDictionaryServerCommunicator(dictionaryServerConfig.getIP(),dictionaryServerConfig.getPort());
         AddPlayer(LocalRecipient.get(), HostName,true);
 
     }
     public void JoinGame(String ClientName){
+        this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator();
 
     }
     public void AddPlayer(GameRecipient requester, String PlayerName,boolean IsLocal){
@@ -108,7 +113,6 @@ public class GameManager extends Observable {
         turnManager.StartTurn();
     }
     public void addWord(GameRecipient requester, Word word) {
-
         turnManager.PlayTurn(word);
 //        turnManager.getCurrentPlayer().PlaceWord(requester, word);
         // assuming the word was actually placed... not sure how to handle it otherwise...

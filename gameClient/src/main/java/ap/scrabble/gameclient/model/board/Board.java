@@ -1,10 +1,14 @@
 package ap.scrabble.gameclient.model.board;
 
 import ap.scrabble.gameclient.model.DictionaryServerCommunicator;
+import ap.scrabble.gameclient.model.GameManager;
+import ap.scrabble.gameclient.model.SocketDictionaryServerCommunicator;
+import ap.scrabble.gameclient.model.recipient.HostRecipient;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board {
+public class Board implements Serializable {
 
 	
 	// indexes
@@ -34,7 +38,7 @@ public class Board {
 	Tile[][] tiles;
 	
 	boolean isEmpty;
-	
+
 	public Board() {
 		tiles=new Tile[15][15];
 		isEmpty=true;

@@ -1,6 +1,6 @@
 package ap.scrabble.gameclient.model;
 
-public interface HostServerCommunicator  extends DictionaryServerCommunicator{
+public interface HostServerCommunicator {
 //Query,Challenge
 //tryPlaceWord,getNewTiles
 //

@@ -11,13 +11,5 @@ public class SocketHostServerCommunicator implements HostServerCommunicator{
         return SocketHostServerCommunicatorInstance;
     }
     private SocketHostServerCommunicator(){}
-    @Override
-    public String runClientQueryRequest(String word, String... books) {
-        return null;
-    }
 
-    @Override
-    public String runClientChallengeRequest(String word, String... books) {
-        return null;
-    }
 }
