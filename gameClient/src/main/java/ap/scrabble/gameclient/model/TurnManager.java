@@ -19,6 +19,6 @@ public abstract class TurnManager {
     public abstract void StartTurn();
     public abstract void EndTurn();
 
-    public abstract void PlayTurn(Word word);
+    public abstract Integer PlayTurn(Word word);
 
 }

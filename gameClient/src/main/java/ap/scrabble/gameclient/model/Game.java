@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+    public GameData getGameData() {
+        return gameData;
+    }
+
     GameData gameData;
     Tile.Bag bag;
 
@@ -18,10 +22,10 @@ public class Game {
 
     public Integer placePlayerTurn(Word word, String playerName){
         Integer score = gameData.getBoard().tryPlaceWord(word);
-        //try placing word
-        //update Player score accordingly if succeeded
-        //return 0 if failed
-        return 0;
+        if(score != 0){
+            gameData.addScoreToPlayer(playerName,score);
+        }
+        return score;
     }
     public List<Tile> GetTiles(Integer TilesCount){
         List<Tile> tiles = new ArrayList<>();

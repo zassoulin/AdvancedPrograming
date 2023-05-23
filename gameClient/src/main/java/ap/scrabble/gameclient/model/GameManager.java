@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
@@ -16,10 +17,20 @@ public class GameManager extends Observable {
     private static GameManager GameManagerInstance;
     private List<Player> playerList = new ArrayList<>();
     private GameState gameState = GameState.MAIN_MENU;
+
+    public DictionaryServerConfig getDictionaryServerConfig() {
+        return dictionaryServerConfig;
+    }
+
     private DictionaryServerConfig dictionaryServerConfig;
     private HostServerConfig hostServerConfig;
     private TurnManager turnManager;
     private Game game;
+
+    public DictionaryServerCommunicator getDictionaryServerCommunicator() {
+        return dictionaryServerCommunicator;
+    }
+
     private DictionaryServerCommunicator dictionaryServerCommunicator;
 
     SocketHostServer socketHostServer;
@@ -113,7 +124,14 @@ public class GameManager extends Observable {
         turnManager.StartTurn();
     }
     public void addWord(GameRecipient requester, Word word) {
-        turnManager.PlayTurn(word);
+        Integer score = turnManager.PlayTurn(word);
+        if(score == 0){
+            requester.sendMessage(MessageType.ILLEGAL_WORD,null);
+            return;
+        }
+        AllRecipient.get().sendMessage(MessageType.UPDATE_GAME_DATA, game.getGameData());
+        turnManager.EndTurn();
+        turnManager.StartTurn();
 //        turnManager.getCurrentPlayer().PlaceWord(requester, word);
         // assuming the word was actually placed... not sure how to handle it otherwise...
 //        turnManager.StartTurn(); // This needs to be called after the player successfully placed a word

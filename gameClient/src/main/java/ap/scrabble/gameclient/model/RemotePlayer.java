@@ -13,16 +13,11 @@ public class RemotePlayer extends Player{
 
     @Override
     public Integer PlayTurn(Word word) {
-
+        return 0;//TODO: implement
     }
 
     @Override
     public void PlaceWord(GameRecipient requester, Word word) {
-
-    }
-
-    @Override
-    public void EndTurn() {
 
     }
 

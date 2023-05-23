@@ -16,8 +16,12 @@ public class LocalPlayer extends Player{
 
     @Override
     public Integer PlayTurn(Word word) {
-        GameManager.get().getGame().placePlayerTurn(word,PlayerName);
-        return 0;
+        Integer score =  GameManager.get().getGame().placePlayerTurn(word,PlayerName);
+        if(score == 0)
+            return score;
+        RemoveWordFromPlayer(word);
+        GetMissingTiles();
+        return score;
     }
 
     @Override
@@ -30,13 +34,8 @@ public class LocalPlayer extends Player{
         }
         else {
 //            inst.sendAllMessage(MessageType.PLAY_NEXT_TURN, new ScoreMessageArg(PlayerName, totalScore));
-            EndTurn();
+//            EndTurn();
         }
-    }
-
-    @Override
-    public void EndTurn() {
-        GetMissingTiles();
     }
 
     public void RemoveWordTiles(Word word){

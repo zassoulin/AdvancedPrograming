@@ -38,10 +38,15 @@ public abstract class Player {
         return  new Word(new Tile[4],1,2,true);//TODO: GetPlayerWordFromGIu
     }
 
+    public void RemoveWordFromPlayer(Word word){
+        Tile [] tiles = word.getTiles();
+        for (Tile tile : tiles){
+            playersTiles.remove(tile);
+        }
+    }
+
     public abstract Integer PlayTurn(Word word);
     public abstract void PlaceWord(GameRecipient requester,Word word);
-
-    public abstract void EndTurn();
 
     public abstract List<Tile> GetMissingTiles();
 

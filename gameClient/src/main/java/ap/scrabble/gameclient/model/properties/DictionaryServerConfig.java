@@ -8,6 +8,7 @@ public class DictionaryServerConfig {
 	private String iniFilename;
 	private String ip;
 	private int port;
+	private String[] books;
 
 	public DictionaryServerConfig(String iniFilename) {
 		this.iniFilename = iniFilename;
@@ -32,6 +33,7 @@ public class DictionaryServerConfig {
 			System.err.println("ServerProperties: Missing property \"port\"");
 			return false;
 		}
+		// TODO: add support for books
 
 		return true;
 	}
@@ -39,6 +41,9 @@ public class DictionaryServerConfig {
 	public String getIP() { return ip; }
 	public int getPort() { return port; }
 
+	public String[] getBooks(){
+		return books;
+	}
 	private boolean readPort(Properties iniProperties) {
 		String portString = iniProperties.getProperty("port");
 		if (portString == null) {

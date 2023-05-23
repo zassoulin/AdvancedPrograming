@@ -35,7 +35,7 @@ public class RemoteClientTurnManager extends TurnManager {
     }
 
     @Override
-    public void PlayTurn(Word word) {
+    public Integer PlayTurn(Word word) {
 
     }
 

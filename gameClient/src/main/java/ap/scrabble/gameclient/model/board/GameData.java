@@ -28,6 +28,10 @@ public class GameData implements Serializable {
         return playersScores;
     }
 
+    public void addScoreToPlayer(String playerName,Integer score){
+        playersScores.put(playerName, playersScores.get(playerName) + score);
+    }
+
 
 
 }

@@ -126,7 +126,14 @@ public class Board implements Serializable {
 	}
 	
 	public boolean dictionaryLegal(Word w) {
-		return true;//DictionaryServerCommunicator
+		String res = GameManager.get().getDictionaryServerCommunicator().runClientQueryRequest(w.GetWordName(),GameManager.get().getDictionaryServerConfig().getBooks());
+		if(res.equals("true")){
+			return true;
+		}else if(res.equals("false")){
+			return false;
+		}
+		System.err.println("error checking if word " + w.GetWordName() + " is legal full error " + res);
+		return false;
 	}
 	
 	

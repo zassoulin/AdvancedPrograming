@@ -17,10 +17,10 @@ public class hostTurnManager extends TurnManager{
     public void StartTurn() {
         AllRecipient.get().sendMessage(GameManager.MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());//TODO: change to allRecipients
         if(playerList.get(CurrentPlayerIndex).isLocal == true){
-            LocalRecipient.get().sendMessage(GameManager.MessageType.MY_TURN,null);
+            LocalRecipient.get().sendMessage(GameManager.MessageType.MY_TURN,null);//TODO :when it is my turn View need to unlock view and request Players Tiles
         }
         else {
-            LocalRecipient.get().sendMessage(GameManager.MessageType.OTHER_PLAYER_TURN, null);
+            LocalRecipient.get().sendMessage(GameManager.MessageType.OTHER_PLAYER_TURN, null);//TODo: when not my turn lock view and hide player tiles
         }
 
     }
@@ -36,8 +36,8 @@ public class hostTurnManager extends TurnManager{
     }
 
     @Override
-    public void PlayTurn(Word word) {
-        playerList.get(CurrentPlayerIndex).PlayTurn(word);
+    public Integer PlayTurn(Word word) {
+        return playerList.get(CurrentPlayerIndex).PlayTurn(word);
     }
 
     public Integer GetNextTurnIndex(){
