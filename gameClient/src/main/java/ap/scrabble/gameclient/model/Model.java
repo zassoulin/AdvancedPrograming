@@ -14,6 +14,8 @@ public abstract class Model extends Observable {
 
 	public abstract void CreateGame(String name);
 
+	public abstract void JoinGame(String PlayerName);
+
 	public abstract void StartGame();
 
 	public abstract void addWord(Word word);

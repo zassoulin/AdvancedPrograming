@@ -3,7 +3,7 @@ package ap.scrabble.gameclient.model.board;
 import ap.scrabble.gameclient.model.DictionaryServerCommunicator;
 import ap.scrabble.gameclient.model.GameManager;
 import ap.scrabble.gameclient.model.SocketDictionaryServerCommunicator;
-import ap.scrabble.gameclient.model.recipient.HostRecipient;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -2,7 +2,6 @@ package ap.scrabble.gameclient.model;
 
 import static ap.scrabble.gameclient.util.Assert.assertCond;
 
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -36,10 +35,13 @@ public class MyModel extends Model implements Observer{
 		GameManager.get().CreateGame(name);
 	}
 	@Override
+	public void JoinGame(String PlayerName){
+		GameManager.get().JoinGame(PlayerName);
+	}
+	@Override
 	public void StartGame(){
 		GameManager.get().StartGame();
 	}
-
 
 	@Override
 	public void addWord(Word word) {

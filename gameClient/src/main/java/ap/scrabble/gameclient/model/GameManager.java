@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
@@ -23,6 +22,11 @@ public class GameManager extends Observable {
     }
 
     private DictionaryServerConfig dictionaryServerConfig;
+
+    public HostServerConfig getHostServerConfig() {
+        return hostServerConfig;
+    }
+
     private HostServerConfig hostServerConfig;
     private TurnManager turnManager;
     private Game game;
@@ -43,7 +47,9 @@ public class GameManager extends Observable {
 
     public static enum MessageType {
         PLAYER_ALREADY_EXISTS,
+        CANT_JOIN_HOST,
         PLAYER_ADDED,
+        JOIN_GAME,
         CURRENT_PLAYER,
         MY_TURN,
         OTHER_PLAYER_TURN,
@@ -105,6 +111,7 @@ public class GameManager extends Observable {
     }
     public void JoinGame(String ClientName){
         this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator();
+
 
     }
     public void AddPlayer(GameRecipient requester, String PlayerName,boolean IsLocal){
