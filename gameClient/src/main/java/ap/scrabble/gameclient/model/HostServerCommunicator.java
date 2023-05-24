@@ -1,8 +1,6 @@
 package ap.scrabble.gameclient.model;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,8 +11,8 @@ public class HostServerCommunicator {
 
     Socket serverSocket;
 
-    InputStream inputStream;
-    OutputStream outputStream;
+    ObjectInputStream inputStream;
+    ObjectOutputStream outputStream;
 
     ExecutorService executor;
 
@@ -31,8 +29,8 @@ public class HostServerCommunicator {
         this.host = host;
         try {
             serverSocket = new Socket(host,port);
-            inputStream = serverSocket.getInputStream();
-            outputStream = serverSocket.getOutputStream();
+            inputStream = new ObjectInputStream(serverSocket.getInputStream());
+            outputStream =  new ObjectOutputStream(serverSocket.getOutputStream());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -47,11 +45,15 @@ public class HostServerCommunicator {
             try {
                 if(inputStream.available() == 0){
                     Thread.sleep(100);
-                }else {//TODO : read message
+                }else {
+                    GameManager.Message message = (GameManager.Message) inputStream.readObject();
+                    HostHandler.get().HandleMessage(message);
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
