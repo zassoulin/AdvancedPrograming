@@ -13,23 +13,9 @@ import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 import ap.scrabble.gameclient.util.Message;
 
 public class MyModel extends Model implements Observer{
-	// Handle messages from `GameManager`
-	private static interface MessageHandler {
-		void handle(GameManager.Message msg);
-	}
-	// Generic message handler that forwards the message to `ViewModel`
-	private MessageHandler forwardMessage = (msg)-> sendMessage(msg.type.name(), msg.arg);
 
-	private Map<GameManager.MessageType, MessageHandler> messageHandlers;
-	private boolean forwardByDefault = true;
 
 	public MyModel(DictionaryServerConfig dictionaryServerConfig, HostServerConfig hostServerConfig) {
-		// messageHandlers = Map.ofEntries(
-		// 	entry(GameManager.MessageType.PLAYER_ALREADY_EXISTS, forwardMessage),
-		// 	entry(GameManager.MessageType.PLAYER_ADDED, forwardMessage),
-		// 	entry(GameManager.MessageType.CURRENT_PLAYER, forwardMessage),
-		// 	entry(GameManager.MessageType.REMOTE_TURN, forwardMessage)
-		// );
 
 		GameManager.get().addObserver(this);
 		GameManager.get().setConfig(dictionaryServerConfig, hostServerConfig);
@@ -62,16 +48,9 @@ public class MyModel extends Model implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(true)
-			return;//TODO remove return
 		assertCond(arg != null, "MyModel: Notify observer from `GameManager` missing argument");
 		var msg = (GameManager.Message)arg;
-		if (!messageHandlers.containsKey(msg.type)) {
-			messageHandlers.get(msg.type).handle(msg);
-		}
-		else if (forwardByDefault) {
-			forwardMessage.handle(msg);
-		}
+		sendMessage(msg.type.name(), msg.arg);
 	}
 
 	private void sendMessage(String type, Object arg) {

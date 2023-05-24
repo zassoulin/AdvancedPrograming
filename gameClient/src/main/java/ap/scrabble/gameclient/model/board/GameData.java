@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//Domain Obj class
 public class GameData implements Serializable {
 
     Board board;

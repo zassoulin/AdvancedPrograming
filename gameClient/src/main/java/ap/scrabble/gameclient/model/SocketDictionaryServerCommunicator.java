@@ -9,7 +9,6 @@ public class SocketDictionaryServerCommunicator implements DictionaryServerCommu
 
     String host;
     Integer port;
-    Socket serverSocket;
     public SocketDictionaryServerCommunicator(String host, Integer port) {
         this.port = port;
         this.host = host;
@@ -18,12 +17,8 @@ public class SocketDictionaryServerCommunicator implements DictionaryServerCommu
         } else if (host == null) {
             throw new IllegalArgumentException("Dictionary server host cant be null!");
         }
-        try {
-            serverSocket = new Socket(host,port);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
+
 
     @Override
     public String runClientQueryRequest(String word,String ... books) {
@@ -42,6 +37,7 @@ public class SocketDictionaryServerCommunicator implements DictionaryServerCommu
     private String SendRequest(String query) {
         String res;
         try {
+            Socket serverSocket = new Socket(host,port);
             PrintWriter out = new PrintWriter(serverSocket.getOutputStream());
             Scanner in=new Scanner(serverSocket.getInputStream());
             out.println(query);
@@ -49,6 +45,7 @@ public class SocketDictionaryServerCommunicator implements DictionaryServerCommu
             res=in.next();
             in.close();
             out.close();
+            serverSocket.close();
         } catch (IOException e) {
             System.err.println("Error connecting to DictionaryServer!" + e.getMessage());
             throw new RuntimeException(e);

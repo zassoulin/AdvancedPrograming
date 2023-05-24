@@ -5,8 +5,6 @@ import java.io.OutputStream;
 import java.io.Serializable;
 
 public class RemoteClientHandler implements ClientHandler{
-
-
     @Override
     public void handleClient(InputStream inFromclient, OutputStream outToClient) {
 
