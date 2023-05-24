@@ -115,6 +115,7 @@ public class GameManager extends Observable {
             }
             Player player = PlayerFactory.GetInstance().CreatePlayer(PlayerName,IsLocal);
             playerList.add(player);
+            game.getGameData().addScoreToPlayer(PlayerName,0);//Adding player to leaderboard
             AllRecipient.get().sendMessage(MessageType.PLAYER_ADDED, PlayerName);
         }
     }
@@ -132,6 +133,9 @@ public class GameManager extends Observable {
         AllRecipient.get().sendMessage(MessageType.UPDATE_GAME_DATA, game.getGameData());
         if(!turnManager.EndTurn())//When EndTUrn returns true game is over.
             turnManager.StartTurn();//o.w continue to next turn
+        else {
+            close();
+        }
 //        turnManager.getCurrentPlayer().PlaceWord(requester, word);
         // assuming the word was actually placed... not sure how to handle it otherwise...
 //        turnManager.StartTurn(); // This needs to be called after the player successfully placed a word
@@ -139,6 +143,11 @@ public class GameManager extends Observable {
     @Override
     public synchronized void setChanged() {
         super.setChanged();
+    }
+    public void close(){
+        if(socketHostServer != null){
+            socketHostServer.close();
+        }
     }
 
 }

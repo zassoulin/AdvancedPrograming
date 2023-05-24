@@ -12,6 +12,7 @@ public class DictionaryServerConfig {
 
 	public DictionaryServerConfig(String iniFilename) {
 		this.iniFilename = iniFilename;
+		init();
 	}
 
 	public boolean init() {

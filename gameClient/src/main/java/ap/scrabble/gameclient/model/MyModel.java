@@ -62,6 +62,8 @@ public class MyModel extends Model implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if(true)
+			return;//TODO remove return
 		assertCond(arg != null, "MyModel: Notify observer from `GameManager` missing argument");
 		var msg = (GameManager.Message)arg;
 		if (!messageHandlers.containsKey(msg.type)) {

@@ -13,6 +13,11 @@ public class SocketDictionaryServerCommunicator implements DictionaryServerCommu
     public SocketDictionaryServerCommunicator(String host, Integer port) {
         this.port = port;
         this.host = host;
+        if(port == null | port == 0){
+            throw new IllegalArgumentException("Dictionary server Port cant be null or 0!");
+        } else if (host == null) {
+            throw new IllegalArgumentException("Dictionary server host cant be null!");
+        }
         try {
             serverSocket = new Socket(host,port);
         } catch (IOException e) {

@@ -11,6 +11,7 @@ public class HostServerConfig {
 
 	public HostServerConfig(String iniFilename) {
 		this.iniFilename = iniFilename;
+		init();
 	}
 
 	public boolean init() {

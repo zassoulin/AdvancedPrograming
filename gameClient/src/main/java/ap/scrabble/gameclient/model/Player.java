@@ -4,6 +4,7 @@ import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.recipient.GameRecipient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Player {
@@ -18,7 +19,8 @@ public abstract class Player {
     public Player(String playerName, boolean isLocal) {
         PlayerName = playerName;
         this.isLocal = isLocal;
-        GetMissingTiles();
+        this.playersTiles = new ArrayList<Tile>();
+        this.playersTiles = GetMissingTiles();
     }
 
     public String getName() { return PlayerName; }
