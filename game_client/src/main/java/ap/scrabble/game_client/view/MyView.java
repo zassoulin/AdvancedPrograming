@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ap.scrabble.game_client.view_model.ViewModel;
+import javafx.event.ActionEvent;
 
 public class MyView implements View, Observer {
 	// Implement the View interface
@@ -17,4 +18,12 @@ public class MyView implements View, Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {}
+
+    public void hostGame(ActionEvent actionEvent) {
+    }
+
+	public void joinGame(ActionEvent actionEvent) {
+	}
+
+
 }

@@ -1,6 +1,7 @@
 package ap.scrabble.game_client.view_model;
 
 import java.util.Observable;
+import java.util.Observer;
 
 import ap.scrabble.game_client.model.Model;
 

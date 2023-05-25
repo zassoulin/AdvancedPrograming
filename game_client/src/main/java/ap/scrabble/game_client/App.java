@@ -21,17 +21,18 @@ public class App extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
 		FXMLLoader fxl = new FXMLLoader();
-		Parent root = fxl.load(getClass().getResource("App.fxml").openStream());
+		Parent root = fxl.load(getClass().getResource("GameWindow.fxml").openStream());
 
-		MyModel model = new MyModel();
-		MyViewModel viewModel = new MyViewModel(model);
-		MyView view = (MyView)fxl.getController();
-		view.init(viewModel);
+//		MyModel model = new MyModel();
+//		MyViewModel viewModel = new MyViewModel(model);
+//		MyView view = (MyView)fxl.getController();
+//		view.init(viewModel);
 
-		scene = new Scene(root, 640, 480);
+		scene = new Scene(root);//, 640, 480);
 		stage.setScene(scene);
 		stage.show();
 	}
+
 
 	public static void main(String[] args) {
 		launch();
