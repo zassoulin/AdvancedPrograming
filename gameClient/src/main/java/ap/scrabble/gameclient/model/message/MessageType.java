@@ -65,4 +65,19 @@ public enum MessageType {
     CHALLENGE,
     ADD_PLAYER,
     // ============================
+
+    // =========== TEST ===========
+    // Description: Test message to host.
+    // Arg: "hello"
+    HELLO_HOST,
+    // Description: Response from host.
+    // Arg: "response"
+    RESPONSE_HOST,
+    // Description: Test message from host.
+    // Arg: "test"
+    THIS_IS_HOST,
+    // Description: Response back from client.
+    // Arg: "hi"
+    HI_HOST_THIS_IS_CLIENT,
+    // ============================
 }

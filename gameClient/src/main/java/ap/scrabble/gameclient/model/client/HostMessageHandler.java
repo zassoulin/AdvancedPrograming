@@ -1,5 +1,6 @@
 package ap.scrabble.gameclient.model.client;
 
+import static ap.scrabble.gameclient.util.Assert.assertCond;
 import static java.lang.System.currentTimeMillis;
 
 import ap.scrabble.gameclient.model.message.Message;
@@ -17,9 +18,22 @@ public class HostMessageHandler implements MessageHandler{
     }
 
     @Override
-    public void handleMessage(Message message) {
+    public void handleMessage(Message msg) {
         // TODO: Implement
         // MY_TURN, PLAYER_ADDED, etc.
+
+        switch (msg.type) {
+            // =========== TEST ===========
+        case RESPONSE_HOST:
+            notifyResponse(msg);
+        case THIS_IS_HOST:
+            notifyResponse(msg);
+            break;
+            // ============================
+        default:
+            assertCond(false, "HostMessageHandler: Unhandled message type");
+            break;
+        }
     }
 
     // Call from the main thread - blocks until a response is read in the listen thread
@@ -30,7 +44,7 @@ public class HostMessageHandler implements MessageHandler{
             // Wait for a response no more than 5 seconds
             while (!responseReady && waitTime < 5_000) {
                 try {
-                    synchObject.wait(waitTime);
+                    synchObject.wait(5_000 - waitTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 };

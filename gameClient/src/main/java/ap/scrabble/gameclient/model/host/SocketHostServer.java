@@ -22,6 +22,7 @@ public class SocketHostServer implements HostServer{
     private SocketCommunicatorFactory communicatorFactory;
     private MessageHandlerFactory clientMsgHndFactory;
     private List<Communicator> clients;
+    public Communicator getClient(int i) { return clients.get(i); }
 
     public SocketHostServer(int port, int maxNumOfThreads, SocketCommunicatorFactory communicatorFactory, MessageHandlerFactory clientMsgHndFactory) {
         this.port=port;

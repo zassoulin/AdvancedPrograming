@@ -9,7 +9,7 @@ import ap.scrabble.gameclient.model.recipient.RemoteRecipient;
 
 public class RemoteClientCommunicator extends SocketCommunicator {
     public RemoteClientCommunicator(Socket socket, MessageHandler messageHandler) {
-        super(socket, messageHandler);
+        super(socket, messageHandler, true);
     }
 
     public static SocketCommunicator create(Socket socket, MessageHandler messageHandler) {

@@ -18,12 +18,22 @@ public abstract class SocketCommunicator implements Communicator {
     protected Thread listenThread;
     protected boolean stop;
 
-    public SocketCommunicator(Socket socket, MessageHandler messageHandler) {
+    // The constructor of `ObjectInputStream` gets stuck when both client and server try to create it first.
+    // One of them needs to create `ObjectOutputStream` first (it writes a header or something for the other one to read).
+    // We'll arbitrarily choose the client to create `ObjectOutputStream` first.
+    public SocketCommunicator(Socket socket, MessageHandler messageHandler, boolean isClient) {
         this.socket = socket;
         this.messageHandler = messageHandler;
         try {
-            this.in = new ObjectInputStream(socket.getInputStream());
-            this.out = new ObjectOutputStream(socket.getOutputStream());
+            var inputStream = socket.getInputStream();
+            var outputStream = socket.getOutputStream();
+            if (isClient) {
+                this.out = new ObjectOutputStream(outputStream);
+                this.in = new ObjectInputStream(inputStream);
+            } else {
+                this.in = new ObjectInputStream(inputStream);
+                this.out = new ObjectOutputStream(outputStream);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,15 +42,9 @@ public abstract class SocketCommunicator implements Communicator {
     void listen(){
         while (!stop){
             try {
-                if(in.available() == 0){
-                    Thread.sleep(100);
-                }else {
-                    Message msg = (Message) in.readObject();
-                    messageHandler.handleMessage(msg);
-                }
+                Message msg = (Message) in.readObject();
+                messageHandler.handleMessage(msg);
             } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -60,7 +64,7 @@ public abstract class SocketCommunicator implements Communicator {
     public void close() {
         stop = true;
         try {
-            listenThread.join(1_000);
+            listenThread.join(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

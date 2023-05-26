@@ -9,8 +9,10 @@ import ap.scrabble.gameclient.model.message.MessageHandler;
 import ap.scrabble.gameclient.model.message.MessageType;
 
 public class SocketHostServerCommunicator extends SocketCommunicator implements HostServerCommunicator {
+    private boolean startedListen = false;
+
     public SocketHostServerCommunicator(Socket socket, MessageHandler messageHandler) {
-        super(socket, messageHandler);
+        super(socket, messageHandler, false);
     }
 
     public static SocketHostServerCommunicator create(String ip, int port, MessageHandler messageHandler) {
@@ -25,10 +27,17 @@ public class SocketHostServerCommunicator extends SocketCommunicator implements 
 
     @Override
     public Message writeAndReceiveMessage(Message msg) {
-        var hostMsgHnd = (HostMessageHandler)messageHandler;
         writeMessage(msg);
-        Message response = hostMsgHnd.waitForResponse();
+        Message response = waitForResponse();
         return response;
+    }
+
+    public Message waitForResponse() {
+        if (!startedListen) {
+            return null;
+        }
+        var hostMsgHnd = (HostMessageHandler)messageHandler;
+        return hostMsgHnd.waitForResponse();
     }
 
     @Override
@@ -38,6 +47,7 @@ public class SocketHostServerCommunicator extends SocketCommunicator implements 
 
     @Override
     protected void started() {
+        startedListen = true;
         // HostRecipient.get().setCommunicator(this);
     }
 }
