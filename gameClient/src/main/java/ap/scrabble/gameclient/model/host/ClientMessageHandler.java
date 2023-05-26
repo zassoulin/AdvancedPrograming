@@ -3,6 +3,7 @@ package ap.scrabble.gameclient.model.host;
 import static ap.scrabble.gameclient.util.Assert.assertCond;
 
 import ap.scrabble.gameclient.model.GameManager;
+import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageHandler;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
@@ -30,6 +31,10 @@ public class ClientMessageHandler implements MessageHandler {
             GameManager.get().AddPlayer(recipient, clientName, false);
             break;
             // ============================
+        case PLAY_REMOTE_PLAYER_TURN:
+            Word word = (Word) msg.arg;
+            GameManager.get().addWord(recipient,word);
+            break;
 
             // =========== TEST ===========
         case HELLO_HOST:

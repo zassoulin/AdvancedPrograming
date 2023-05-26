@@ -3,7 +3,6 @@ package ap.scrabble.gameclient.model.client;
 import ap.scrabble.gameclient.model.Player;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
-import ap.scrabble.gameclient.model.recipient.GameRecipient;
 
 import java.util.List;
 
@@ -15,11 +14,6 @@ public class RemotePlayer extends Player{
     @Override
     public Integer PlayTurn(Word word) {
         return 0;//TODO: implement
-    }
-
-    @Override
-    public void PlaceWord(GameRecipient requester, Word word) {
-
     }
 
     @Override

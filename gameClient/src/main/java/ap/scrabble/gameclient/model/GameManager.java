@@ -5,11 +5,7 @@ import java.util.List;
 import java.util.Observable;
 
 import ap.scrabble.gameclient.model.board.Word;
-import ap.scrabble.gameclient.model.client.HostMessageHandler;
-import ap.scrabble.gameclient.model.client.HostServerCommunicator;
-import ap.scrabble.gameclient.model.client.RemoteClientTurnManager;
-import ap.scrabble.gameclient.model.client.RemoteDictionaryServerCommunicator;
-import ap.scrabble.gameclient.model.client.SocketHostServerCommunicator;
+import ap.scrabble.gameclient.model.client.*;
 import ap.scrabble.gameclient.model.communicator.DictionaryServerCommunicator;
 import ap.scrabble.gameclient.model.host.ClientMessageHandler;
 import ap.scrabble.gameclient.model.host.HostTurnManager;
@@ -50,6 +46,7 @@ public class GameManager extends Observable {
 
     private DictionaryServerCommunicator dictionaryServerCommunicator;
     private HostServerCommunicator hostComm;
+
     public HostServerCommunicator getHostComm() { return hostComm; }
 
     private SocketHostServer socketHostServer;
@@ -152,7 +149,6 @@ public class GameManager extends Observable {
         else {
             close();
         }
-//        turnManager.getCurrentPlayer().PlaceWord(requester, word);
         // assuming the word was actually placed... not sure how to handle it otherwise...
 //        turnManager.StartTurn(); // This needs to be called after the player successfully placed a word
     }

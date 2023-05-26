@@ -3,6 +3,7 @@ package ap.scrabble.gameclient.model.client;
 import static ap.scrabble.gameclient.util.Assert.assertCond;
 import static java.lang.System.currentTimeMillis;
 
+import ap.scrabble.gameclient.model.GameManager;
 import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageHandler;
 
@@ -27,6 +28,19 @@ public class HostMessageHandler implements MessageHandler{
         case GAME_STARTED:
             // TODO: Implement
             break;
+        case UPDATE_GAME_DATA:
+            notifyResponse(msg);//TODO: VIEW ADDS PLAYER LIST TO WAITING LIST
+            break;
+        case CURRENT_PLAYER:
+            notifyResponse(msg); //TODO DISPLAY CURRENT
+            break;
+        case PLAYER_ADDED:
+            notifyResponse(msg);
+        case GAME_OVER:
+            GameManager.get().close();
+            notifyResponse(msg);
+            break;
+
             // ============================
 
             // =========== TEST ===========

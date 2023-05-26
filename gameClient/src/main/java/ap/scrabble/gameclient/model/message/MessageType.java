@@ -53,6 +53,9 @@ public enum MessageType {
     // ========== CLIENT ==========
     // Arg: String clientName
     ADD_PLAYER,
+
+    PLAY_REMOTE_PLAYER_TURN,
+
     // ============================
 
     // TODO: Decide what to do with the "Unused and/or To Be Decided later"

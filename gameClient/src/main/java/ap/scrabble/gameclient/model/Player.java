@@ -47,10 +47,19 @@ public abstract class Player {
         }
     }
 
-    public abstract Integer PlayTurn(Word word);
-    public abstract void PlaceWord(GameRecipient requester,Word word);
-
-    public abstract List<Tile> GetMissingTiles();
+    public Integer PlayTurn(Word word) {
+        Integer score = GameManager.get().getGame().placePlayerTurn(word,PlayerName);
+        if(score == 0)
+            return score;
+        RemoveWordFromPlayer(word);
+        GetMissingTiles();
+        return score;
+    }
+    public List<Tile> GetMissingTiles() {
+        Integer neededTiles = MAXIMUM_TILES_PER_PLAYER - this.playersTiles.size();
+        List<Tile> newTiles = GameManager.get().getGame().GetTiles(neededTiles);
+        return newTiles;
+    }
 
     // Compare names
     @Override
