@@ -33,6 +33,13 @@ public class Word {
 		return vertical;
 	}
 
+	public String GetWordName(){
+		StringBuilder sb=new StringBuilder();
+		for(Tile t : tiles)
+			sb.append(t.letter);
+		return sb.toString();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

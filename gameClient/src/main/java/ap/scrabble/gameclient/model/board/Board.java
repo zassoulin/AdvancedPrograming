@@ -1,8 +1,11 @@
 package ap.scrabble.gameclient.model.board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board {
+import ap.scrabble.gameclient.model.GameManager;
+
+public class Board implements Serializable {
 
 	
 	// indexes
@@ -32,7 +35,7 @@ public class Board {
 	Tile[][] tiles;
 	
 	boolean isEmpty;
-	
+
 	public Board() {
 		tiles=new Tile[15][15];
 		isEmpty=true;
@@ -120,7 +123,14 @@ public class Board {
 	}
 	
 	public boolean dictionaryLegal(Word w) {
-		return  true;
+		String res = GameManager.get().getDictionaryServerCommunicator().runClientQueryRequest(w.GetWordName(),GameManager.get().getDictionaryServerConfig().getBooks());
+		if(res.equals("true")){
+			return true;
+		}else if(res.equals("false")){
+			return false;
+		}
+		System.err.println("error checking if word " + w.GetWordName() + " is legal full error " + res);
+		return false;
 	}
 	
 	

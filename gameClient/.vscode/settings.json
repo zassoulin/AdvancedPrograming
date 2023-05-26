@@ -1,0 +1,6 @@
+{
+    "files.exclude": {
+        "**/.settings": false,
+    },
+    "git.openRepositoryInParentFolders": "never"
+}
