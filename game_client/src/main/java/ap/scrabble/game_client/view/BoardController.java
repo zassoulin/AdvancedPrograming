@@ -5,18 +5,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
 
     // ------------------------ Game grid ------------------------
+
+
     @FXML
     GameGrid gameGrid;
 
@@ -52,19 +54,28 @@ public class BoardController implements Initializable {
             if (selectedTile != null) {
                 temp = selectedTile;
                 // remove from rack
-                ((StackPane) selectedTile.getParent()).getChildren().clear();
+//                ((StackPane) selectedTile.getParent()).getChildren().clear();
+                this.TileRack.getChildren().remove(selectedTile.getParent());
+
                 selectedTile = null;
             }
 
             // add to grid
             if (temp != null) {
-                temp.setOnMouseClicked(null);
+                temp.setOnMouseClicked(this::handleTileOnBoardClick);
                 temp.setFitHeight(gameGrid.getSquareSize());
                 temp.setFitWidth(gameGrid.getSquareSize());
                 gameGrid.getClickedRect().getChildren().add(temp);
+                tempPlacedTiles.add(temp);
             }
         }
 
+    }
+
+    public void handleTileOnBoardClick(MouseEvent event) {
+        TileImage clickedTile = (TileImage) event.getSource();
+        ((StackPane) clickedTile.getParent()).getChildren().remove(clickedTile);
+        addTileToRack(clickedTile);
     }
 
 
@@ -79,27 +90,38 @@ public class BoardController implements Initializable {
 
     TileImage selectedTile;
 
+    ArrayList<TileImage> tempPlacedTiles = new ArrayList<>();
+
     private void drawTileStack(char[] tiles){
         try {
             TileImage tileView;
             StackPane sp;
             for (int i = 0; i < tiles.length; i++) {
-                // define tile highlight
-                Rectangle tileHighlight = new Rectangle(tileW + 10, tileH + 10, Color.TRANSPARENT);
-                tileHighlight.setArcWidth(20);
-                tileHighlight.setArcHeight(20);
-
-                // define tile image
-                tileView = new TileImage(new Image("./Tiles/" + tiles[i] + ".png"), tiles[i], tileW, tileH, tileHighlight);
-                tileView.setOnMouseClicked(this::handleTileClick);
-
-                // define stack and add stack to the tile rack
-                sp = new StackPane(tileHighlight, tileView);
-                TileRack.getChildren().add(sp);
+                addTileToRack(tiles[i]);
             }
         }catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    private void addTileToRack(TileImage t) {
+        addTileToRack(t.getLetter());
+    }
+    private void addTileToRack(char c){
+        TileImage tileView;
+        StackPane sp;
+        // define tile highlight
+        Rectangle tileHighlight = new Rectangle(tileW + 10, tileH + 10, Color.TRANSPARENT);
+        tileHighlight.setArcWidth(20);
+        tileHighlight.setArcHeight(20);
+
+        // define tile image
+        tileView = new TileImage(new Image("./Tiles/" + c + ".png"), c, tileW, tileH, tileHighlight);
+        tileView.setOnMouseClicked(this::handleTileClick);
+
+        // define stack and add stack to the tile rack
+        sp = new StackPane(tileHighlight, tileView);
+        TileRack.getChildren().add(sp);
     }
 
     public void handleTileClick(MouseEvent event) {
@@ -115,7 +137,7 @@ public class BoardController implements Initializable {
 //        ((StackPane) selectedTile.getParent()).getChildren().clear();
 
         // get letter
-        System.out.println("Card clicked: " + clickedTile.getLetter());
+//        System.out.println("Card clicked: " + clickedTile.getLetter());
     }
 
     // ------------------------ Button clicks ------------------------
@@ -137,6 +159,13 @@ public class BoardController implements Initializable {
     }
 
     public void skip(ActionEvent actionEvent) {
+        char randomChar = (char) ('A' + Math.random() * ('Z' - 'A' + 1));
+        if (Math.random() < 0.5) {
+            randomChar += ('a' - 'A');  // Convert to lowercase
+        }
+
+        addTileToRack(randomChar);
+        System.out.println(this.TileRack.getChildren());
     }
 
     // -------------------------------Init-----------------------------------
@@ -148,6 +177,9 @@ public class BoardController implements Initializable {
             handleBoardClick(mouseEvent);
         });
         drawTileStack(this.tiles);
+        this.TileRack.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.DOTTED, CornerRadii.EMPTY, BorderStroke.MEDIUM)));
+
     }
 
     // -------------------------------Init-----------------------------------

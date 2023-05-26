@@ -13,15 +13,9 @@ import java.io.IOException;
 
 public class GameGrid extends GridPane {
 
+
     private byte[][] boardLayout;
-
-//    BoardController board;
-
     private StackPane clickedRect;
-
-    public int getSquareSize() {
-        return squareSize;
-    }
 
     private final int squareSize =  48;
 
@@ -36,6 +30,9 @@ public class GameGrid extends GridPane {
 //            this.getChildren().add(b);
 //        } catch (IOException e) {}
         //drawBoard();
+    }
+    public int getSquareSize() {
+        return squareSize;
     }
 
     public void setBoardLayout(byte[][] board){
@@ -76,7 +73,7 @@ public class GameGrid extends GridPane {
                 int finalJ = j;
                 StackPane finalStackPane = stackPane;
                 rectangle.setOnMouseClicked(mouseEvent -> {
-                    System.out.println(finalI + ", " + finalJ);
+//                    System.out.println(finalI + ", " + finalJ);
                     this.clickedRect = finalStackPane;
                 });
             }
