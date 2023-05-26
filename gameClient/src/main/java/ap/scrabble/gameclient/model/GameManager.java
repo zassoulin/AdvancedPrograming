@@ -102,6 +102,7 @@ public class GameManager extends Observable {
         this.gameState = GameState.JOIN_GAME;
         this.hostComm = SocketHostServerCommunicator.create(
             hostServerConfig.getIP(), hostServerConfig.getPort(), HostMessageHandler.create());
+        this.hostComm.start();
         this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator(this.hostComm);
         this.turnManager = new RemoteClientTurnManager(null, playerList, this.hostComm);
         // TODO: Fix player added logic in host+remote
