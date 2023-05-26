@@ -39,7 +39,7 @@ public abstract class SocketCommunicator implements Communicator {
         }
     }
 
-    void listen(){
+    private void listen(){
         while (!stop){
             try {
                 Message msg = (Message) in.readObject();
