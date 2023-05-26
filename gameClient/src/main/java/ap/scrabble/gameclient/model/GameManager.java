@@ -133,7 +133,7 @@ public class GameManager extends Observable {
     public void addWord(GameRecipient requester, Word word) {
         Integer score = turnManager.PlayTurn(word);
         if(score == 0){
-            requester.sendMessage(MessageType.ILLEGAL_WORD,null);
+            requester.sendMessage(MessageType.ILLEGAL_WORD, word.GetWordName());
             return;
         }
         AllRecipient.get().sendMessage(MessageType.UPDATE_GAME_DATA, game.getGameData());

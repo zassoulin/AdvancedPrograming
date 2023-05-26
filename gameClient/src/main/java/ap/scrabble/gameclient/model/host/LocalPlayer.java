@@ -32,7 +32,7 @@ public class LocalPlayer extends Player{
 
         Integer curScore = inst.getGame().placePlayerTurn(word, PlayerName);
         if (curScore == 0) {
-            requester.sendMessage(MessageType.ILLEGAL_WORD, word.toString());
+            requester.sendMessage(MessageType.ILLEGAL_WORD, word.GetWordName());
         }
         else {
 //            inst.sendAllMessage(MessageType.PLAY_NEXT_TURN, new ScoreMessageArg(PlayerName, totalScore));
