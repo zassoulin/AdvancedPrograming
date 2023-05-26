@@ -16,6 +16,7 @@ import ap.scrabble.gameclient.model.host.HostTurnManager;
 import ap.scrabble.gameclient.model.host.RemoteClientCommunicator;
 import ap.scrabble.gameclient.model.host.SocketDictionaryServerCommunicator;
 import ap.scrabble.gameclient.model.host.SocketHostServer;
+import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
@@ -85,6 +86,7 @@ public class GameManager extends Observable {
     }
 
 
+    // Host code
     public void CreateGame(String HostName){
         //Start server
         //add Host player
@@ -98,6 +100,8 @@ public class GameManager extends Observable {
         AddPlayer(LocalRecipient.get(), HostName,true);
 
     }
+
+    // Remote client code
     public void JoinGame(String ClientName){
         this.gameState = GameState.JOIN_GAME;
         this.hostComm = SocketHostServerCommunicator.create(
@@ -105,12 +109,14 @@ public class GameManager extends Observable {
         this.hostComm.start();
         this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator(this.hostComm);
         this.turnManager = new RemoteClientTurnManager(null, playerList, this.hostComm);
-        // TODO: Fix player added logic in host+remote
-        // Message response = this.hostComm.sendAndReceiveMessage(MessageType.ADD_PLAYER, ClientName);
-        // if (response.type == MessageType.PLAYER_ADDED) {
-        //     LocalRecipient.get().sendMessage(MessageType.PLAYER_ADDED, ClientName);
-        // }
+        Message response = this.hostComm.sendAndReceiveMessage(MessageType.ADD_PLAYER, ClientName);
+        if (response.type == MessageType.PLAYER_ADDED) {
+            LocalRecipient.get().sendMessage(MessageType.PLAYER_ADDED, ClientName);
+        }
+        // TODO: handle error messages
     }
+
+    // Host code
     public void AddPlayer(GameRecipient requester, String PlayerName,boolean IsLocal){
         synchronized (playerList) {
             // Player overrides `equals` so it can be compared with a string
@@ -123,9 +129,12 @@ public class GameManager extends Observable {
             Player player = PlayerFactory.GetInstance().CreatePlayer(PlayerName,IsLocal);
             playerList.add(player);
             game.getGameData().addScoreToPlayer(PlayerName,0);//Adding player to leaderboard
-            // AllRecipient.get().sendMessage(MessageType.PLAYER_ADDED, PlayerName);
+            List<String> playerNamesList = new ArrayList<>();
+            playerList.forEach((p) -> playerNamesList.add(p.getName()));
+            AllRecipient.get().sendMessage(MessageType.PLAYER_ADDED, playerNamesList);
         }
     }
+
     public void StartGame(){
         this.gameState = GameState.PLAY;
         AllRecipient.get().sendMessage(MessageType.GAME_STARTED, game.gameData);

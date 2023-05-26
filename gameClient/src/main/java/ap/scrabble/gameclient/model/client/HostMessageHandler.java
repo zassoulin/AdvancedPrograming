@@ -23,6 +23,12 @@ public class HostMessageHandler implements MessageHandler{
         // MY_TURN, PLAYER_ADDED, etc.
 
         switch (msg.type) {
+            // =========== HOST ===========
+        case GAME_STARTED:
+            // TODO: Implement
+            break;
+            // ============================
+
             // =========== TEST ===========
         case RESPONSE_HOST:
             notifyResponse(msg);

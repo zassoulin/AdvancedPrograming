@@ -8,6 +8,8 @@ import ap.scrabble.gameclient.model.recipient.AllRecipient;
 import ap.scrabble.gameclient.model.recipient.RemoteRecipient;
 
 public class RemoteClientCommunicator extends SocketCommunicator {
+    private RemoteRecipient recipient;
+
     public RemoteClientCommunicator(Socket socket, MessageHandler messageHandler) {
         super(socket, messageHandler, true);
     }
@@ -18,6 +20,8 @@ public class RemoteClientCommunicator extends SocketCommunicator {
 
     @Override
     protected void started() {
-        AllRecipient.get().addRemoteRecipient(new RemoteRecipient(this));
+        recipient = new RemoteRecipient(this);
+        ((ClientMessageHandler)messageHandler).setRecipient(recipient);
+        AllRecipient.get().addRemoteRecipient(recipient);
     }
 }
