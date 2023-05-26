@@ -11,11 +11,12 @@ import ap.scrabble.gameclient.model.client.RemoteClientTurnManager;
 import ap.scrabble.gameclient.model.client.RemoteDictionaryServerCommunicator;
 import ap.scrabble.gameclient.model.client.SocketHostServerCommunicator;
 import ap.scrabble.gameclient.model.communicator.DictionaryServerCommunicator;
+import ap.scrabble.gameclient.model.host.ClientMessageHandler;
 import ap.scrabble.gameclient.model.host.HostTurnManager;
 import ap.scrabble.gameclient.model.host.RemoteClientCommunicator;
-import ap.scrabble.gameclient.model.host.ClientMessageHandler;
 import ap.scrabble.gameclient.model.host.SocketDictionaryServerCommunicator;
 import ap.scrabble.gameclient.model.host.SocketHostServer;
+import ap.scrabble.gameclient.model.message.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.model.recipient.AllRecipient;
@@ -57,31 +58,6 @@ public class GameManager extends Observable {
         JOIN_GAME,
         PLAY
     }
-
-    public static enum MessageType {
-        PLAYER_ALREADY_EXISTS,
-        CANT_JOIN_HOST,
-        PLAYER_ADDED,
-        JOIN_GAME,
-        CURRENT_PLAYER,
-        MY_TURN,
-        OTHER_PLAYER_TURN,
-        ILLEGAL_WORD,
-        PLAY_NEXT_TURN,
-        UPDATE_GAME_DATA,
-        GAME_OVER,
-        GAME_STARTED,
-        QUERY,
-        CHALLENGE,
-        ADD_PLAYER,
-    }
-
-    public static class Message extends ap.scrabble.gameclient.util.Message<MessageType> {
-        public Message(MessageType type, Object arg) {
-            super(type, arg);
-        }
-    }
-
 
     public static GameManager get() {
         if (GameManagerInstance == null) {

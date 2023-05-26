@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import ap.scrabble.gameclient.model.GameManager.Message;
+import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageHandler;
 
 public abstract class SocketCommunicator implements Communicator {

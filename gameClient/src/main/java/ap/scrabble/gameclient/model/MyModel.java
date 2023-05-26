@@ -9,7 +9,6 @@ import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
-import ap.scrabble.gameclient.util.Message;
 
 public class MyModel extends Model implements Observer{
 
@@ -51,12 +50,12 @@ public class MyModel extends Model implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		assertCond(arg != null, "MyModel: Notify observer from `GameManager` missing argument");
-		var msg = (GameManager.Message)arg;
+		var msg = (ap.scrabble.gameclient.model.message.Message)arg;
 		sendMessage(msg.type.name(), msg.arg);
 	}
 
 	private void sendMessage(String type, Object arg) {
 		setChanged();
-		notifyObservers(new Message<String>(type, arg));
+		notifyObservers(new ap.scrabble.gameclient.util.Message<String>(type, arg));
 	}
 }

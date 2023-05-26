@@ -3,10 +3,10 @@ package ap.scrabble.gameclient.model.host;
 import java.util.List;
 
 import ap.scrabble.gameclient.model.GameManager;
-import ap.scrabble.gameclient.model.GameManager.MessageType;
 import ap.scrabble.gameclient.model.Player;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
+import ap.scrabble.gameclient.model.message.MessageType;
 import ap.scrabble.gameclient.model.recipient.GameRecipient;
 
 public class LocalPlayer extends Player{

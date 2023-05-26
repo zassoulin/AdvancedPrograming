@@ -1,6 +1,6 @@
 package ap.scrabble.gameclient.model.host;
 
-import ap.scrabble.gameclient.model.GameManager.Message;
+import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageHandler;
 
 // Runs on the host's side and handles messages from the client

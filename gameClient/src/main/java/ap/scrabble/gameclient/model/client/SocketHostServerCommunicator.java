@@ -3,10 +3,10 @@ package ap.scrabble.gameclient.model.client;
 import java.io.IOException;
 import java.net.Socket;
 
-import ap.scrabble.gameclient.model.GameManager.Message;
-import ap.scrabble.gameclient.model.GameManager.MessageType;
 import ap.scrabble.gameclient.model.communicator.SocketCommunicator;
+import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageHandler;
+import ap.scrabble.gameclient.model.message.MessageType;
 
 public class SocketHostServerCommunicator extends SocketCommunicator implements HostServerCommunicator {
     public SocketHostServerCommunicator(Socket socket, MessageHandler messageHandler) {

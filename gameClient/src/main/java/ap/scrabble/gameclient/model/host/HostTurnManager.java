@@ -6,6 +6,7 @@ import ap.scrabble.gameclient.model.GameManager;
 import ap.scrabble.gameclient.model.Player;
 import ap.scrabble.gameclient.model.TurnManager;
 import ap.scrabble.gameclient.model.board.Word;
+import ap.scrabble.gameclient.model.message.MessageType;
 import ap.scrabble.gameclient.model.recipient.AllRecipient;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 
@@ -18,12 +19,12 @@ public class HostTurnManager extends TurnManager{
 
     @Override
     public void StartTurn() {
-        AllRecipient.get().sendMessage(GameManager.MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());//TODO: change to allRecipients
+        AllRecipient.get().sendMessage(MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());//TODO: change to allRecipients
         if(playerList.get(CurrentPlayerIndex).getIsLocal() == true){
-            LocalRecipient.get().sendMessage(GameManager.MessageType.MY_TURN,null);//TODO :when it is my turn View need to unlock view and request Players Tiles
+            LocalRecipient.get().sendMessage(MessageType.MY_TURN,null);//TODO :when it is my turn View need to unlock view and request Players Tiles
         }
         else {
-            LocalRecipient.get().sendMessage(GameManager.MessageType.OTHER_PLAYER_TURN, null);//TODo: when not my turn lock view and hide player tiles
+            LocalRecipient.get().sendMessage(MessageType.OTHER_PLAYER_TURN, null);//TODo: when not my turn lock view and hide player tiles
         }
 
     }
@@ -31,7 +32,7 @@ public class HostTurnManager extends TurnManager{
     @Override
     public boolean EndTurn() {
         if (EndConditionReached()) {
-            AllRecipient.get().sendMessage(GameManager.MessageType.GAME_OVER, null);
+            AllRecipient.get().sendMessage(MessageType.GAME_OVER, null);
             return true;
         }
         else {

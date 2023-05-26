@@ -1,8 +1,8 @@
 package ap.scrabble.gameclient.model.recipient;
 
 import ap.scrabble.gameclient.model.GameManager;
-import ap.scrabble.gameclient.model.GameManager.Message;
-import ap.scrabble.gameclient.model.GameManager.MessageType;
+import ap.scrabble.gameclient.model.message.Message;
+import ap.scrabble.gameclient.model.message.MessageType;
 
 public class LocalRecipient extends GameRecipient  {
 

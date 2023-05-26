@@ -2,7 +2,7 @@ package ap.scrabble.gameclient.model.client;
 
 import static java.lang.System.currentTimeMillis;
 
-import ap.scrabble.gameclient.model.GameManager.Message;
+import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageHandler;
 
 public class HostMessageHandler implements MessageHandler{
