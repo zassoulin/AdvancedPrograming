@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
@@ -14,7 +15,15 @@ public class GameGrid extends GridPane {
 
     private byte[][] boardLayout;
 
-    BoardController board;
+//    BoardController board;
+
+    private StackPane clickedRect;
+
+    public int getSquareSize() {
+        return squareSize;
+    }
+
+    private final int squareSize =  48;
 
     public GameGrid() {
         super();
@@ -36,9 +45,12 @@ public class GameGrid extends GridPane {
 
     private void drawBoard() {
         Rectangle rectangle;
+        StackPane stackPane;
+
         for (int i = 0; i < boardLayout.length; i++) {
             for (int j = 0; j < boardLayout[i].length; j++) {
-                rectangle = new Rectangle(48,48);
+                stackPane = new StackPane();
+                rectangle = new Rectangle(squareSize,squareSize);
                 switch (boardLayout[i][j]) {
                     case 0:
                         rectangle.setFill(Color.GREEN);
@@ -58,11 +70,21 @@ public class GameGrid extends GridPane {
                 }
 
                 rectangle.setStroke(Color.BLACK);
-                add(rectangle, i, j);
+                stackPane.getChildren().addAll(rectangle);
+                add(stackPane, i, j);
                 int finalI = i;
                 int finalJ = j;
-                rectangle.setOnMouseClicked(mouseEvent -> System.out.println(finalI + ", " + finalJ));
+                StackPane finalStackPane = stackPane;
+                rectangle.setOnMouseClicked(mouseEvent -> {
+                    System.out.println(finalI + ", " + finalJ);
+                    this.clickedRect = finalStackPane;
+                });
             }
         }
     }
+
+    public StackPane getClickedRect() {
+        return clickedRect;
+    }
+
 }
