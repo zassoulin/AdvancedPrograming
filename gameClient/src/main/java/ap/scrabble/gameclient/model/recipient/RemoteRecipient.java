@@ -1,15 +1,14 @@
 package ap.scrabble.gameclient.model.recipient;
 
-import ap.scrabble.gameclient.model.ClientHandler;
-import ap.scrabble.gameclient.model.GameManager;
+import ap.scrabble.gameclient.model.GameManager.Message;
 import ap.scrabble.gameclient.model.GameManager.MessageType;
-import ap.scrabble.gameclient.util.Message;
+import ap.scrabble.gameclient.model.communicator.Communicator;
 
 public class RemoteRecipient extends GameRecipient {
-    ClientHandler clientHandler;
+    Communicator clientCommunicator;
 
-    public RemoteRecipient(ClientHandler clientHandler) {
-        this.clientHandler = clientHandler;
+    public RemoteRecipient(Communicator clientCommunicator) {
+        this.clientCommunicator = clientCommunicator;
     }
 
     @Override
@@ -19,6 +18,6 @@ public class RemoteRecipient extends GameRecipient {
 
     @Override
     public void sendMessage(MessageType type, Object arg) {
-        clientHandler.WriteMessage(new Message(type,arg));
+        clientCommunicator.writeMessage(new Message(type,arg));
     }
 }

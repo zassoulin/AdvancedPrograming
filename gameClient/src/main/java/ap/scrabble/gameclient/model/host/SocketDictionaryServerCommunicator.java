@@ -1,9 +1,11 @@
-package ap.scrabble.gameclient.model;
+package ap.scrabble.gameclient.model.host;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+
+import ap.scrabble.gameclient.model.communicator.DictionaryServerCommunicator;
 
 public class SocketDictionaryServerCommunicator implements DictionaryServerCommunicator{
 
@@ -22,14 +24,12 @@ public class SocketDictionaryServerCommunicator implements DictionaryServerCommu
 
     @Override
     public String runClientQueryRequest(String word,String ... books) {
-        String res;
         String query = "Q" + formatBooksAndWord(word,books);
         return SendRequest(query);
     }
 
     @Override
     public String runClientChallengeRequest(String word,String ... books) {
-        String res;
         String query = "C" + formatBooksAndWord(word,books);
         return SendRequest(query);
     }

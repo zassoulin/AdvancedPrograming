@@ -1,15 +1,12 @@
 package ap.scrabble.gameclient.model;
 
-import junit.framework.TestCase;
+import java.io.IOException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.*;
-import java.net.Socket;
+import junit.framework.TestCase;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SocketDictionaryServerCommunicatorTest extends TestCase {

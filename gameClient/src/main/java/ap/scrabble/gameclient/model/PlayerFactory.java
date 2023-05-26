@@ -1,6 +1,7 @@
 package ap.scrabble.gameclient.model;
 
-import ap.scrabble.gameclient.model.recipient.GameRecipient;
+import ap.scrabble.gameclient.model.client.RemotePlayer;
+import ap.scrabble.gameclient.model.host.LocalPlayer;
 
 public class PlayerFactory {
     private static PlayerFactory inst;

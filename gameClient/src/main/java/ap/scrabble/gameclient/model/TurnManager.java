@@ -5,9 +5,9 @@ import ap.scrabble.gameclient.model.board.Word;
 import java.util.List;
 
 public abstract class TurnManager {
-    List<Player> playerList;
+    protected List<Player> playerList;
 
-    Integer CurrentPlayerIndex;
+    protected Integer CurrentPlayerIndex;
 
     public TurnManager(List<Player> playerList){
         this.playerList = playerList;

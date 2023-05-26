@@ -1,19 +1,19 @@
 package ap.scrabble.gameclient.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.recipient.GameRecipient;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Player {
 
-    List<Tile> playersTiles;
-    String PlayerName;
+    protected List<Tile> playersTiles;
+    protected String PlayerName;
 
-    Integer MAXIMUM_TILES_PER_PLAYER = 7;
-    boolean isLocal;
+    protected Integer MAXIMUM_TILES_PER_PLAYER = 7;
+    protected boolean isLocal;
 
     public Player(String playerName, boolean isLocal) {
         PlayerName = playerName;
@@ -22,6 +22,7 @@ public abstract class Player {
         this.playersTiles = GetMissingTiles();
     }
 
+    public boolean getIsLocal() { return isLocal; }
     public String getName() { return PlayerName; }
 
     public void addTilesToPlayer(List<Tile> tilesToAdd){
@@ -50,5 +51,20 @@ public abstract class Player {
     public abstract void PlaceWord(GameRecipient requester,Word word);
 
     public abstract List<Tile> GetMissingTiles();
+
+    // Compare names
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (obj instanceof String) {
+            return PlayerName.equals((String)obj);
+        } else if (obj instanceof Player) {
+            return PlayerName.equals(((Player)obj).PlayerName);
+        }
+        return false;
+    }
 
 }

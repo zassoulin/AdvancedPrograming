@@ -1,4 +1,5 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
-    "editor.insertSpaces": false
+    "editor.insertSpaces": false,
+    "git.openRepositoryInParentFolders": "never"
 }

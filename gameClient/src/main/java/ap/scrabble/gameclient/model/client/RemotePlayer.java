@@ -1,5 +1,6 @@
-package ap.scrabble.gameclient.model;
+package ap.scrabble.gameclient.model.client;
 
+import ap.scrabble.gameclient.model.Player;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.recipient.GameRecipient;

@@ -1,22 +1,25 @@
-package ap.scrabble.gameclient.model;
+package ap.scrabble.gameclient.model.host;
 
+import java.util.List;
+
+import ap.scrabble.gameclient.model.GameManager;
+import ap.scrabble.gameclient.model.Player;
+import ap.scrabble.gameclient.model.TurnManager;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.recipient.AllRecipient;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 
-import java.util.List;
-
-public class hostTurnManager extends TurnManager{
+public class HostTurnManager extends TurnManager{
 
 
-    public hostTurnManager(List<Player> playerList) {
+    public HostTurnManager(List<Player> playerList) {
         super(playerList);
     }
 
     @Override
     public void StartTurn() {
         AllRecipient.get().sendMessage(GameManager.MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());//TODO: change to allRecipients
-        if(playerList.get(CurrentPlayerIndex).isLocal == true){
+        if(playerList.get(CurrentPlayerIndex).getIsLocal() == true){
             LocalRecipient.get().sendMessage(GameManager.MessageType.MY_TURN,null);//TODO :when it is my turn View need to unlock view and request Players Tiles
         }
         else {
@@ -47,6 +50,6 @@ public class hostTurnManager extends TurnManager{
     }
 
     public boolean EndConditionReached() {
-        return GameManager.get().getGame().bag.size() == 0;
+        return GameManager.get().getGame().getBag().size() == 0;
     }
 }

@@ -15,6 +15,8 @@ public class Game {
     GameData gameData;
     Tile.Bag bag;
 
+    public Tile.Bag getBag() { return bag; }
+
     public Game(List<Player> playerList) {
         this.gameData = new GameData(playerList);
         bag = new Tile.Bag();

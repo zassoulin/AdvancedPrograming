@@ -5,6 +5,17 @@ import java.util.List;
 import java.util.Observable;
 
 import ap.scrabble.gameclient.model.board.Word;
+import ap.scrabble.gameclient.model.client.HostMessageHandler;
+import ap.scrabble.gameclient.model.client.HostServerCommunicator;
+import ap.scrabble.gameclient.model.client.RemoteClientTurnManager;
+import ap.scrabble.gameclient.model.client.RemoteDictionaryServerCommunicator;
+import ap.scrabble.gameclient.model.client.SocketHostServerCommunicator;
+import ap.scrabble.gameclient.model.communicator.DictionaryServerCommunicator;
+import ap.scrabble.gameclient.model.host.HostTurnManager;
+import ap.scrabble.gameclient.model.host.RemoteClientCommunicator;
+import ap.scrabble.gameclient.model.host.ClientMessageHandler;
+import ap.scrabble.gameclient.model.host.SocketDictionaryServerCommunicator;
+import ap.scrabble.gameclient.model.host.SocketHostServer;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.model.recipient.AllRecipient;
@@ -36,8 +47,10 @@ public class GameManager extends Observable {
     }
 
     private DictionaryServerCommunicator dictionaryServerCommunicator;
+    private HostServerCommunicator hostComm;
+    public HostServerCommunicator getHostComm() { return hostComm; }
 
-    SocketHostServer socketHostServer;
+    private SocketHostServer socketHostServer;
     public static enum GameState {
         MAIN_MENU,
         CREATE_GAME,
@@ -60,6 +73,7 @@ public class GameManager extends Observable {
         GAME_STARTED,
         QUERY,
         CHALLENGE,
+        ADD_PLAYER,
     }
 
     public static class Message extends ap.scrabble.gameclient.util.Message<MessageType> {
@@ -67,8 +81,6 @@ public class GameManager extends Observable {
             super(type, arg);
         }
     }
-
-
 
 
     public static GameManager get() {
@@ -101,29 +113,40 @@ public class GameManager extends Observable {
         //Start server
         //add Host player
         this.gameState = GameState.CREATE_GAME;
-        turnManager = new hostTurnManager(playerList);
+        turnManager = new HostTurnManager(playerList);
         this.game = new Game(playerList);
-        this.socketHostServer = new SocketHostServer(hostServerConfig.getPort(),new RemoteClientHandler(),6);
+        this.socketHostServer = new SocketHostServer(
+            hostServerConfig.getPort(),6, RemoteClientCommunicator::create, ClientMessageHandler::create);
         socketHostServer.start();
         this.dictionaryServerCommunicator = new SocketDictionaryServerCommunicator(dictionaryServerConfig.getIP(),dictionaryServerConfig.getPort());
         AddPlayer(LocalRecipient.get(), HostName,true);
 
     }
     public void JoinGame(String ClientName){
-        this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator();
-
-
+        this.gameState = GameState.JOIN_GAME;
+        this.hostComm = SocketHostServerCommunicator.create(
+            hostServerConfig.getIP(), hostServerConfig.getPort(), HostMessageHandler.create());
+        this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator(this.hostComm);
+        this.turnManager = new RemoteClientTurnManager(null, playerList, this.hostComm);
+        // TODO: Fix player added logic in host+remote
+        // Message response = this.hostComm.sendAndReceiveMessage(MessageType.ADD_PLAYER, ClientName);
+        // if (response.type == MessageType.PLAYER_ADDED) {
+        //     LocalRecipient.get().sendMessage(MessageType.PLAYER_ADDED, ClientName);
+        // }
     }
     public void AddPlayer(GameRecipient requester, String PlayerName,boolean IsLocal){
         synchronized (playerList) {
-            if (playerList.contains(PlayerName)) {
+            // Player overrides `equals` so it can be compared with a string
+            @SuppressWarnings("all")
+            boolean contained = playerList.contains(PlayerName);
+            if (contained) {
                 requester.sendMessage(MessageType.PLAYER_ALREADY_EXISTS, PlayerName);
                 return;
             }
             Player player = PlayerFactory.GetInstance().CreatePlayer(PlayerName,IsLocal);
             playerList.add(player);
             game.getGameData().addScoreToPlayer(PlayerName,0);//Adding player to leaderboard
-            AllRecipient.get().sendMessage(MessageType.PLAYER_ADDED, PlayerName);
+            // AllRecipient.get().sendMessage(MessageType.PLAYER_ADDED, PlayerName);
         }
     }
     public void StartGame(){

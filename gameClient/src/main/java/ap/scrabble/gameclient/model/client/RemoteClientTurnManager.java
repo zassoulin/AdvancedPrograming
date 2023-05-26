@@ -1,20 +1,22 @@
-package ap.scrabble.gameclient.model;
+package ap.scrabble.gameclient.model.client;
 
+import ap.scrabble.gameclient.model.Player;
+import ap.scrabble.gameclient.model.TurnManager;
 import ap.scrabble.gameclient.model.board.Word;
 
 import java.util.List;
 
 public class RemoteClientTurnManager extends TurnManager {
-    Player ClientPlayer;
-    List<Player> playerList;
-    Integer currentPlayer;
+    private Player ClientPlayer;
+    private List<Player> playerList;
+    private Integer currentPlayer;
 
-    HostServerCommunicator hostServerCommunicator;
+    private HostServerCommunicator hostServerCommunicator;
 
-    public RemoteClientTurnManager(Player clientPlayer, List<Player> playerList) {
+    public RemoteClientTurnManager(Player clientPlayer, List<Player> playerList, HostServerCommunicator hostServerCommunicator) {
         super(playerList);
         ClientPlayer = clientPlayer;
-        hostServerCommunicator = HostServerCommunicator.get();
+        this.hostServerCommunicator = hostServerCommunicator;
 
     }
 

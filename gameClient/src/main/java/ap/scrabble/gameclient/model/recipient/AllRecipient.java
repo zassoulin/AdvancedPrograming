@@ -19,7 +19,9 @@ public class AllRecipient extends GameRecipient {
 
     // Call this when a new remote player connects
     public void addRemoteRecipient(RemoteRecipient remoteRecipient) {
-        remoteRecipients.add(remoteRecipient);
+        synchronized (remoteRecipients) {
+            remoteRecipients.add(remoteRecipient);
+        }
     }
 
     @Override
@@ -30,8 +32,10 @@ public class AllRecipient extends GameRecipient {
     @Override
     public void sendMessage(MessageType type, Object arg) {
         LocalRecipient.get().sendMessage(type, arg);
-        for (RemoteRecipient r : remoteRecipients) {
-            r.sendMessage(type, arg);
+        synchronized (remoteRecipients) {
+            for (RemoteRecipient r : remoteRecipients) {
+                r.sendMessage(type, arg);
+            }
         }
     }
 }
