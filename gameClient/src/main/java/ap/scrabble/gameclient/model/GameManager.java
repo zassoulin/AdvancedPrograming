@@ -23,6 +23,12 @@ import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 public class GameManager extends Observable {
 
     private static GameManager GameManagerInstance;
+
+    public String getRemotePlayerName() {
+        return RemotePlayerName;
+    }
+
+    private String RemotePlayerName;
     private List<Player> playerList = new ArrayList<>();
     private GameState gameState = GameState.MAIN_MENU;
 
@@ -105,10 +111,13 @@ public class GameManager extends Observable {
             hostServerConfig.getIP(), hostServerConfig.getPort(), HostMessageHandler.create());
         this.hostComm.start();
         this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator(this.hostComm);
-        this.turnManager = new RemoteClientTurnManager(null, playerList, this.hostComm);
-        Message response = this.hostComm.sendAndReceiveMessage(MessageType.ADD_PLAYER, ClientName);
+//        this.turnManager = new RemoteClientTurnManager(null, playerList, this.hostComm);
+        Message response = this.hostComm.sendAndReceiveMessage(MessageType.JOIN_GAME, ClientName);
         if (response.type == MessageType.PLAYER_ADDED) {
-            LocalRecipient.get().sendMessage(MessageType.PLAYER_ADDED, ClientName);
+            this.RemotePlayerName = ClientName;
+            LocalRecipient.get().sendMessage(MessageType.PLAYER_ADDED, response.arg);
+        }else {
+            LocalRecipient.get().sendMessage(response.type,response.arg);
         }
         // TODO: handle error messages
     }

@@ -20,13 +20,13 @@ public class ClientMessageHandler implements MessageHandler {
     public void setRecipient(RemoteRecipient recipient) { this.recipient = recipient; }
 
     @Override
-    public void handleMessage(Message msg) {
+    public void handleMessage(Message msg) {//handle async communication
         // TODO: implement
         // REMOTE_ADD_WORD, REMOTE_JOIN_GAME, etc.
 
         switch (msg.type) {
             // ========== CLIENT ==========
-        case ADD_PLAYER:
+            case JOIN_GAME:
             String clientName = (String)msg.arg;
             GameManager.get().AddPlayer(recipient, clientName, false);
             break;
@@ -35,7 +35,6 @@ public class ClientMessageHandler implements MessageHandler {
             Word word = (Word) msg.arg;
             GameManager.get().addWord(recipient,word);
             break;
-
             // =========== TEST ===========
         case HELLO_HOST:
             LocalRecipient.get().sendMessage(msg.type, msg.arg);

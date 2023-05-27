@@ -2,17 +2,21 @@ package ap.scrabble.gameclient.model;
 
 import static ap.scrabble.gameclient.util.Assert.assertCond;
 
+import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
 import ap.scrabble.gameclient.model.board.Word;
+import ap.scrabble.gameclient.model.client.HostMessageHandler;
+import ap.scrabble.gameclient.model.message.Message;
+import ap.scrabble.gameclient.model.message.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 
 public class MyModel extends Model implements Observer{
 
-
+	boolean isHost;
 	public MyModel(DictionaryServerConfig dictionaryServerConfig, HostServerConfig hostServerConfig) {
 
 		GameManager.get().addObserver(this);
@@ -31,10 +35,12 @@ public class MyModel extends Model implements Observer{
 	}
 	@Override
 	public void CreateGame(String name){
+		isHost = true;
 		GameManager.get().CreateGame(name);
 	}
 	@Override
 	public void JoinGame(String PlayerName){
+		isHost = false;
 		GameManager.get().JoinGame(PlayerName);
 	}
 	@Override
@@ -44,7 +50,13 @@ public class MyModel extends Model implements Observer{
 
 	@Override
 	public void addWord(Word word) {
+		if(isHost){
 		GameManager.get().addWord(LocalRecipient.get(), word);
+		}
+		else{
+			Message res = GameManager.get().getHostComm().sendAndReceiveMessage(MessageType.PLAY_REMOTE_PLAYER_TURN,word);
+			LocalRecipient.get().sendMessage(res.type,res.arg);
+		}
 	}
 
 	@Override
