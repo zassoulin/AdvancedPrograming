@@ -7,11 +7,7 @@ import java.util.Observable;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.client.*;
 import ap.scrabble.gameclient.model.communicator.DictionaryServerCommunicator;
-import ap.scrabble.gameclient.model.host.ClientMessageHandler;
-import ap.scrabble.gameclient.model.host.HostTurnManager;
-import ap.scrabble.gameclient.model.host.RemoteClientCommunicator;
-import ap.scrabble.gameclient.model.host.SocketDictionaryServerCommunicator;
-import ap.scrabble.gameclient.model.host.SocketHostServer;
+import ap.scrabble.gameclient.model.host.*;
 import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
@@ -111,7 +107,6 @@ public class GameManager extends Observable {
             hostServerConfig.getIP(), hostServerConfig.getPort(), HostMessageHandler.create());
         this.hostComm.start();
         this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator(this.hostComm);
-//        this.turnManager = new RemoteClientTurnManager(null, playerList, this.hostComm);
         Message response = this.hostComm.sendAndReceiveMessage(MessageType.JOIN_GAME, ClientName);
         if (response.type == MessageType.PLAYER_ADDED) {
             this.RemotePlayerName = ClientName;

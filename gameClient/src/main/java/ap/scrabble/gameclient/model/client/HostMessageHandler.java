@@ -31,10 +31,9 @@ public class HostMessageHandler implements MessageHandler{
             // =========== HOST ===========
         case GAME_STARTED:
             LocalRecipient.get().sendMessage(msg.type,msg.arg);
-            // TODO: Implement
             break;
         case UPDATE_GAME_DATA:
-            notifyResponse(msg);//TODO: Update the board
+            LocalRecipient.get().sendMessage(msg.type,msg.arg);//TODO: Update the board
             break;
         case CURRENT_PLAYER:
             LocalRecipient.get().sendMessage(MessageType.MY_TURN, GameManager.get().getRemotePlayerName().equals(msg.arg));
@@ -49,6 +48,15 @@ public class HostMessageHandler implements MessageHandler{
             break;
 
         case JOIN_GAME:
+            notifyResponse(msg);
+            break;
+        case PLAYER_ALREADY_EXISTS:
+            notifyResponse(msg);
+            break;
+        case CANT_JOIN_HOST:
+            LocalRecipient.get().sendMessage(msg.type,msg.arg);
+            break;
+        case ILLEGAL_WORD:
             notifyResponse(msg);
             break;
 

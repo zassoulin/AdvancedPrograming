@@ -62,8 +62,6 @@ public enum MessageType {
     // ======== UNUSED/TBD ========
     JOIN_GAME,
     PLAY_NEXT_TURN,
-    QUERY,
-    CHALLENGE,
     // ============================
 
     // =========== TEST ===========

@@ -1,5 +1,6 @@
-package ap.scrabble.gameclient.model;
+package ap.scrabble.gameclient.model.host;
 
+import ap.scrabble.gameclient.model.Player;
 import ap.scrabble.gameclient.model.board.Word;
 
 import java.util.List;
