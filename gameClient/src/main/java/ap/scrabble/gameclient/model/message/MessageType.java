@@ -16,12 +16,7 @@ public enum MessageType {
     // Arg: List<String> playerNames
     // View: Update the list of player names to the display.
     // Remote-Model: Update `playerList`, forward message to view (and asynchronously wait for `START_MESSAGE`).
-    PLAYER_ADDED,
-    // Description: The request to join the game has been successful
-    // Arg: List<String> playerNames
-    // View: Update the list of player names to the display,Wait for host to start game.
-    // Remote-Model: Update `playerList`, forward message to view (and asynchronously wait for `START_MESSAGE`).
-    PLAYER_ADDED_SUCCESSFULLY,//TODO: NOT NEEDED FOR NOW
+    PLAYER_ADDED,// TODO: before moving on unto next stage make sure if requesting player it is in the new list
     // Description: Update what's the current player's name.
     // Arg: String playerName
     // View: Highlight the name of the current player.
@@ -53,6 +48,16 @@ public enum MessageType {
     // View: Move to board view and display the current scores and board (what about player names?).
     // Remote-Model: Forward the message to view (TODO and?...).
     GAME_STARTED,
+    // Description: Request TO Receives the current player Tiles
+    // Arg: none
+    // View: Request when MY_TURN is TRUE
+    // Remote-Model: Forward the message to view (TODO and?...).
+    GET_CURRENT_PLAYER_TILES,
+    // Description: Returns the Current Player Tiles
+    // Arg: Tile[]
+    // View: Request when MY_TURN is TRUE
+    // Remote-Model: Forward the message to view (TODO and?...).
+    PLAYER_TILES,
     // ============================
 
     // ========== CLIENT ==========

@@ -78,6 +78,7 @@ public abstract class SocketCommunicator implements Communicator {
     @Override
     public void writeMessage(Message msg) {
         try {
+            out.reset();
             out.writeObject(msg);
             out.flush();
         } catch (IOException e) {

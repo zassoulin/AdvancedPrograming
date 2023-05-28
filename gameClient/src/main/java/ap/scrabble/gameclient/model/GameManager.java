@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.client.*;
 import ap.scrabble.gameclient.model.communicator.DictionaryServerCommunicator;
@@ -109,7 +110,7 @@ public class GameManager extends Observable {
         this.hostComm.start();
         this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator(this.hostComm);
         Message response = this.hostComm.sendAndReceiveMessage(MessageType.JOIN_GAME, ClientName);
-        System.out.println(MessageFormat.format("JOIN GAME Received message of type {0} with Value: {1}",response.type,response.arg));
+//        System.out.println(MessageFormat.format("JOIN GAME Received message of type {0} with Value: {1}",response.type,response.arg));
         if (response.type == MessageType.PLAYER_ADDED) {
             this.RemotePlayerName = ClientName;
             LocalRecipient.get().sendMessage(MessageType.PLAYER_ADDED, response.arg);
@@ -157,6 +158,10 @@ public class GameManager extends Observable {
         }
         // assuming the word was actually placed... not sure how to handle it otherwise...
 //        turnManager.StartTurn(); // This needs to be called after the player successfully placed a word
+    }
+    public void GetCurrentPlayerTiles(GameRecipient requester){
+        Tile[] tiles = turnManager.GetCurrentPlayerTiles();
+        requester.sendMessage(MessageType.PLAYER_TILES , tiles);
     }
     @Override
     public synchronized void setChanged() {

@@ -39,6 +39,9 @@ public class ClientMessageHandler implements MessageHandler {
         case HELLO_HOST:
             LocalRecipient.get().sendMessage(msg.type, msg.arg);
             break;
+        case  GET_CURRENT_PLAYER_TILES:
+            GameManager.get().GetCurrentPlayerTiles(recipient);
+            break;
         case HI_HOST_THIS_IS_CLIENT:
             LocalRecipient.get().sendMessage(msg.type, msg.arg);
             break;

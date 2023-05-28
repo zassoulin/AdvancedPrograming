@@ -11,14 +11,6 @@ public class RemotePlayer extends Player{
         super(playerName, false);
     }
 
-    @Override
-    public Integer PlayTurn(Word word) {
-        return 0;//TODO: implement
-    }
 
-    @Override
-    public List<Tile> GetMissingTiles() {
-        return null;
-    }
 
 }

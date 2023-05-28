@@ -39,9 +39,8 @@ public class HostMessageHandler implements MessageHandler{
             LocalRecipient.get().sendMessage(MessageType.MY_TURN, GameManager.get().getRemotePlayerName().equals(msg.arg));
             LocalRecipient.get().sendMessage(MessageType.CURRENT_PLAYER, msg.arg); //TODO: DISPLAY CURRENT PLAYER,if current Player is you play
             break;
-        case PLAYER_ADDED_SUCCESSFULLY:
+        case PLAYER_TILES:
             LocalRecipient.get().sendMessage(msg.type,msg.arg);
-            notifyResponse(msg);
             break;
         case PLAYER_ADDED:
 //            LocalRecipient.get().sendMessage(msg.type,msg.arg);//TODO: VIEW ADDS PLAYER LIST TO WAITING LIST

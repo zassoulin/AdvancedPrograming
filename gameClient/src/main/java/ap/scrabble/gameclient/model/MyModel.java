@@ -58,6 +58,14 @@ public class MyModel extends Model implements Observer{
 //			LocalRecipient.get().sendMessage(res.type,res.arg);
 		}
 	}
+	public void GetCurrentPlayerTiles(){
+		if(isHost){
+			GameManager.get().GetCurrentPlayerTiles(LocalRecipient.get());
+		}
+		else{
+			GameManager.get().getHostComm().writeMessage(new Message(MessageType.GET_CURRENT_PLAYER_TILES,null));
+		}
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {

@@ -22,7 +22,9 @@ public class BookScrabbleHandler implements ClientHandler {
 		if (line != null)
 		{
 			String[] args = line.split(",");
+			System.out.println(line);
 			boolean answer = handleArgs(args);
+			System.out.println(answer);
 			out.println(answer ? "true" : "false");
 		}
 	}
