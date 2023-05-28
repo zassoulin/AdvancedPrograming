@@ -1,9 +1,10 @@
 package ap.scrabble.gameclient.model.board;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Word {
+public class Word implements Serializable {
 
 	private Tile[] tiles;
 	private int row,col;

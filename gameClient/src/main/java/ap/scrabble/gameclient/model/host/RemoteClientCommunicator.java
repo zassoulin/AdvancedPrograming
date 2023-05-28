@@ -11,7 +11,7 @@ public class RemoteClientCommunicator extends SocketCommunicator {
     private RemoteRecipient recipient;
 
     public RemoteClientCommunicator(Socket socket, MessageHandler messageHandler) {
-        super(socket, messageHandler, true);
+        super(socket, messageHandler, false);
     }
 
     public static SocketCommunicator create(Socket socket, MessageHandler messageHandler) {

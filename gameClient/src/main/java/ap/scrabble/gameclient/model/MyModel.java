@@ -54,8 +54,8 @@ public class MyModel extends Model implements Observer{
 		GameManager.get().addWord(LocalRecipient.get(), word);
 		}
 		else{
-			Message res = GameManager.get().getHostComm().sendAndReceiveMessage(MessageType.PLAY_REMOTE_PLAYER_TURN,word);
-			LocalRecipient.get().sendMessage(res.type,res.arg);
+			GameManager.get().getHostComm().writeMessage(new Message( MessageType.PLAY_REMOTE_PLAYER_TURN,word));
+//			LocalRecipient.get().sendMessage(res.type,res.arg);
 		}
 	}
 

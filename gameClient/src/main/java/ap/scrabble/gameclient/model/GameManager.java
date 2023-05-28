@@ -1,5 +1,6 @@
 package ap.scrabble.gameclient.model;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -108,13 +109,13 @@ public class GameManager extends Observable {
         this.hostComm.start();
         this.dictionaryServerCommunicator = new RemoteDictionaryServerCommunicator(this.hostComm);
         Message response = this.hostComm.sendAndReceiveMessage(MessageType.JOIN_GAME, ClientName);
+        System.out.println(MessageFormat.format("JOIN GAME Received message of type {0} with Value: {1}",response.type,response.arg));
         if (response.type == MessageType.PLAYER_ADDED) {
             this.RemotePlayerName = ClientName;
             LocalRecipient.get().sendMessage(MessageType.PLAYER_ADDED, response.arg);
         }else {
             LocalRecipient.get().sendMessage(response.type,response.arg);
         }
-        // TODO: handle error messages
     }
 
     // Host code
@@ -132,6 +133,7 @@ public class GameManager extends Observable {
             game.getGameData().addScoreToPlayer(PlayerName,0);//Adding player to leaderboard
             List<String> playerNamesList = new ArrayList<>();
             playerList.forEach((p) -> playerNamesList.add(p.getName()));
+//            requester.sendMessage(MessageType.PLAYER_ADDED_SUCCESSFULLY,playerNamesList); NOT NEEDED
             AllRecipient.get().sendMessage(MessageType.PLAYER_ADDED, playerNamesList);
         }
     }

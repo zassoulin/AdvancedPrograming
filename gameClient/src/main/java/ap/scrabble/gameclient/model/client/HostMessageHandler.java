@@ -39,8 +39,13 @@ public class HostMessageHandler implements MessageHandler{
             LocalRecipient.get().sendMessage(MessageType.MY_TURN, GameManager.get().getRemotePlayerName().equals(msg.arg));
             LocalRecipient.get().sendMessage(MessageType.CURRENT_PLAYER, msg.arg); //TODO: DISPLAY CURRENT PLAYER,if current Player is you play
             break;
+        case PLAYER_ADDED_SUCCESSFULLY:
+            LocalRecipient.get().sendMessage(msg.type,msg.arg);
+            notifyResponse(msg);
+            break;
         case PLAYER_ADDED:
-            LocalRecipient.get().sendMessage(msg.type,msg.arg);//TODO: VIEW ADDS PLAYER LIST TO WAITING LIST
+//            LocalRecipient.get().sendMessage(msg.type,msg.arg);//TODO: VIEW ADDS PLAYER LIST TO WAITING LIST
+            notifyResponse(msg);
             break;
         case GAME_OVER:
             GameManager.get().close();//TODO: move to gameOver display
@@ -57,7 +62,8 @@ public class HostMessageHandler implements MessageHandler{
             LocalRecipient.get().sendMessage(msg.type,msg.arg);
             break;
         case ILLEGAL_WORD:
-            notifyResponse(msg);
+            LocalRecipient.get().sendMessage(msg.type,msg.arg);
+//            notifyResponse(msg);
             break;
 
             // ============================

@@ -17,6 +17,11 @@ public enum MessageType {
     // View: Update the list of player names to the display.
     // Remote-Model: Update `playerList`, forward message to view (and asynchronously wait for `START_MESSAGE`).
     PLAYER_ADDED,
+    // Description: The request to join the game has been successful
+    // Arg: List<String> playerNames
+    // View: Update the list of player names to the display,Wait for host to start game.
+    // Remote-Model: Update `playerList`, forward message to view (and asynchronously wait for `START_MESSAGE`).
+    PLAYER_ADDED_SUCCESSFULLY,//TODO: NOT NEEDED FOR NOW
     // Description: Update what's the current player's name.
     // Arg: String playerName
     // View: Highlight the name of the current player.
