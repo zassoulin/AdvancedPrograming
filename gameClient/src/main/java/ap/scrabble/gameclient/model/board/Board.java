@@ -84,7 +84,7 @@ public class Board implements Serializable {
 	private boolean changesTile(Word w) {
 		int i=w.getRow(),j=w.getCol();
 		for(Tile t : w.getTiles()) {			
-			if(tiles[i][j]!=null && tiles[i][j]!=t)
+			if(tiles[i][j]!=null && !tiles[i][j].equals(t))//Bug changed to Equals
 				return  true;
 			if(w.isVertical()) i++; else j++;
 		}
@@ -239,6 +239,9 @@ public class Board implements Serializable {
 				else
 					return 0;
 			}			
+		}
+		else {
+			return 0;//Possible Bug found in Code
 		}
 
 		// the placement

@@ -4,7 +4,6 @@ import java.util.List;
 
 import ap.scrabble.gameclient.model.GameManager;
 import ap.scrabble.gameclient.model.Player;
-import ap.scrabble.gameclient.model.TurnManager;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.message.MessageType;
 import ap.scrabble.gameclient.model.recipient.AllRecipient;
@@ -19,14 +18,8 @@ public class HostTurnManager extends TurnManager{
 
     @Override
     public void StartTurn() {
-        AllRecipient.get().sendMessage(MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());//TODO: change to allRecipients
-        if(playerList.get(CurrentPlayerIndex).getIsLocal() == true){
-            LocalRecipient.get().sendMessage(MessageType.MY_TURN,null);//TODO :when it is my turn View need to unlock view and request Players Tiles
-        }
-        else {
-            LocalRecipient.get().sendMessage(MessageType.OTHER_PLAYER_TURN, null);//TODo: when not my turn lock view and hide player tiles
-        }
-
+        LocalRecipient.get().sendMessage(MessageType.MY_TURN, playerList.get(CurrentPlayerIndex).getIsLocal());
+        AllRecipient.get().sendMessage(MessageType.CURRENT_PLAYER, getCurrentPlayer().getName());
     }
 
     @Override

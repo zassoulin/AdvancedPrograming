@@ -1,9 +1,10 @@
 package ap.scrabble.gameclient.model.board;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
-public class Tile {
+public class Tile implements Serializable {
 
 	public final char letter;
 	public final int score;
