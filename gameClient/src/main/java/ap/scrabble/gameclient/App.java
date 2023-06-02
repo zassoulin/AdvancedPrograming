@@ -3,6 +3,8 @@ package ap.scrabble.gameclient;
 import java.io.IOException;
 
 import ap.scrabble.gameclient.model.MyModel;
+import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
+import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.view.MyView;
 import ap.scrabble.gameclient.viewmodel.MyViewModel;
 import javafx.application.Application;
@@ -21,9 +23,9 @@ public class App extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
 		FXMLLoader fxl = new FXMLLoader();
-		Parent root = fxl.load(getClass().getResource("GameWindow.fxml").openStream());
+		Parent root = fxl.load(getClass().getResource("startingWindow.fxml").openStream());
 
-//		MyModel model = new MyModel();
+//		MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
 //		MyViewModel viewModel = new MyViewModel(model);
 //		MyView view = (MyView)fxl.getController();
 //		view.init(viewModel);

@@ -25,15 +25,15 @@ public class HostTester implements Observer {
         MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
         GameManager.get().addObserver(this);
         System.out.println("creating Game with P1");
-        model.CreateGame("P1");
+        model.CreateGame("P1");//P1 is Host create game is setting the host!
         System.out.println("Adding Player P2");
         model.addLocalPlayer("P2");
         System.out.println("SLEEPING FOR 40 sec and waiting for players to join");
-        Thread.sleep(40000);
+        Thread.sleep(40000);//Now we need to start ClientTester
         System.out.println("Starting Game");
-        model.StartGame();
+        model.StartGame();//Host is starting
         System.out.println("ITS P1 TURN SO REQUESTING PLAYER TILES");
-        model.GetCurrentPlayerTiles();
+        model.GetCurrentPlayerTiles();//When YOURTURN IS TRUE
         System.out.println("P1 placing word WAS");
         Tile.Bag bag = new Tile.Bag();
         Tile [] tiles = new Tile[3];
@@ -43,12 +43,12 @@ public class HostTester implements Observer {
         Word word = new Word(tiles , 7, 7,true);
         model.addWord(word);
         System.out.println("ITS P2 TURN SO REQUESTING PLAYER TILES");
-        model.GetCurrentPlayerTiles();
+        model.GetCurrentPlayerTiles();//When in it my Turn Call GetCurrentPlayerTiles;
         System.out.println("P2 placing Illegal word ZIV");
         tiles[0] = bag.getTile('Z');
         tiles[1] = bag.getTile('I');
         tiles[2] = bag.getTile('V');
-       word = new Word(tiles , 10, 10,true);
+        word = new Word(tiles , 10, 10,true);
         model.addWord(word);
         System.out.println("P2 placing word WHO");
         tiles[0] = bag.getTile('W');

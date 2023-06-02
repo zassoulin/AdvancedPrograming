@@ -58,6 +58,7 @@ public enum MessageType {
     // View: Request when MY_TURN is TRUE
     // Remote-Model: Forward the message to view (TODO and?...).
     PLAYER_TILES,
+
     // ============================
 
     // ========== CLIENT ==========
