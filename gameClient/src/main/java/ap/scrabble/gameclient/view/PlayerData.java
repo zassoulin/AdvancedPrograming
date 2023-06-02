@@ -1,4 +1,5 @@
 package ap.scrabble.gameclient.view;
+
 public class PlayerData {
     private String name;
     private int score;

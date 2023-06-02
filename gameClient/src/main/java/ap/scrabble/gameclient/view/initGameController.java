@@ -1,25 +1,20 @@
 package ap.scrabble.gameclient.view;
+
+import ap.scrabble.gameclient.App;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class initGameController {
-    private StartingWindow startingWindow;
-    public void setStartingWindow(StartingWindow startingWindow) {
+    private App startingWindow;
+    public void setStartingWindow(App startingWindow) {
         this.startingWindow = startingWindow;
     }
     @FXML
@@ -33,19 +28,37 @@ public class initGameController {
     @FXML
     private TextField hostTextBoxPlayer;
     @FXML
-    private Button hostButtonAddPlayer;
+    private Button hostAddPlayerButton;
     @FXML
-    private Button hostButtonStartServer;
+    private Button hostButtonStartGame;
+    @FXML
+    private Label errorLabel;
     @FXML
     private TextField JoinGameTextBoxIP;
     @FXML
-    private TextField JoinGameTextBoxPlayer;
-    @FXML
     private Button JoinGameButtonConnect;
+    @FXML
+    private Button joinGame;
+    @FXML
+    private Button hostGame;
+    @FXML
+    private TextField InitGamePlayerText;
 
     @FXML
-    public void HostButtonsVisible()
+    public void HostButtonsFunction()
     { /* 2 */
+        String playerName = InitGamePlayerText.getText();
+
+        if (playerName.isEmpty())
+        { /* 3 */
+            errorLabel.setText("Please enter player name.");
+            return;
+        } /* 3 */
+
+        // Clear the text field and error label
+        InitGamePlayerText.clear();
+        errorLabel.setText("");
+
         StartingWindowVisibleButtons(true, false);
 
         String ipAddress = getIPAddress();
@@ -56,48 +69,85 @@ public class initGameController {
         hostTextBoxPlayer.setOnKeyTyped(event -> handleKeyTyped(event, hostTextBoxPlayer, "Enter player name"));
     } /* 2 */
 
-    public void JoinGameButtonsVisible()
+    public void JoinGameButtonFunction()
     { /* 2 */
+
+        String playerName = InitGamePlayerText.getText();
+
+        if (playerName.isEmpty())
+        { /* 3 */
+            errorLabel.setText("Please enter player name.");
+            return;
+        } /* 3 */
+
+        // Clear the text field and error label
+        InitGamePlayerText.clear();
+        errorLabel.setText("");
+
+
         StartingWindowVisibleButtons(false, true);
+        hostGame.setDisable(true);
+        InitGamePlayerText.setVisible(false);
 
         JoinGameTextBoxIP.setText("Enter IP Address");
         JoinGameTextBoxIP.setOnMouseClicked(event -> handleMouseClick(event, JoinGameTextBoxIP, "Enter IP Address"));
         JoinGameTextBoxIP.setOnKeyTyped(event -> handleKeyTyped(event, JoinGameTextBoxIP, "Enter IP Address"));
-
-        JoinGameTextBoxPlayer.setText("Enter player name");
-        JoinGameTextBoxPlayer.setOnMouseClicked(event -> handleMouseClick(event, JoinGameTextBoxPlayer, "Enter player name"));
-        JoinGameTextBoxPlayer.setOnKeyTyped(event -> handleKeyTyped(event, JoinGameTextBoxPlayer, "Enter player name"));
-    } /* 2 */
-
-    public void addLocalPlayer() throws IOException
-    { /* 2 */
-        if (playerCount < 3)
-            openWindow("AddLocalPlayer.fxml", "Add Player", startingWindow.getPrimaryStage(), false);
 
     } /* 2 */
 
     @FXML
     public void addPlayer()
     { /* 2 */
+
+        String playerName = hostTextBoxPlayer.getText();
+
+        if (playerName.isEmpty())
+        { /* 3 */
+            errorLabel.setText("Please enter a player name.");
+            return;
+        } /* 3 */
+
+        // Clear the text field and error label
+        hostTextBoxPlayer.clear();
+        errorLabel.setText("");
+
         // Save player info somewhere..
 
-        playerCount++;
-        hostPlayerCount.setText("Player count: " + playerCount);
+        if (playerCount < 3)
+        { /* 3 */
+            playerCount++;
+            hostPlayerCount.setText("Connected players: " + playerCount);
+
+            hostButtonStartGame.setDisable(false);
+
+            if(playerCount == 3)
+                hostAddPlayerButton.setDisable(true);
+        } /* 3 */
     } /* 2 */
 
     private void StartingWindowVisibleButtons(boolean hostButtonsStt, boolean joinGameButtonsStt)
     { /* 2 */
+        InitGamePlayerText.setVisible(false);
+        joinGame.setDisable(true);
+        hostGame.setDisable(true);
+
         hostLabelIP.setVisible(hostButtonsStt);
         hostTextBoxPlayer.setVisible(hostButtonsStt);
-        hostButtonAddPlayer.setVisible(hostButtonsStt);
-        hostButtonStartServer.setVisible(hostButtonsStt);
+        hostButtonStartGame.setVisible(hostButtonsStt);
+        hostAddPlayerButton.setVisible(hostButtonsStt);
         hostPlayerCount.setVisible(hostButtonsStt);
 
         JoinGameTextBoxIP.setVisible(joinGameButtonsStt);
-        JoinGameTextBoxPlayer.setVisible(joinGameButtonsStt);
         JoinGameButtonConnect.setVisible(joinGameButtonsStt);
-    } /* 2 */
 
+        if(hostButtonsStt)
+            hostGame.setTextFill(Color.DARKCYAN);
+
+        if(joinGameButtonsStt)
+        {
+            joinGame.setTextFill(Color.DARKCYAN);
+        }
+    } /* 2 */
     private String getIPAddress()
     { /* 2 */
         try
@@ -124,23 +174,5 @@ public class initGameController {
         if (textField.getText().equals(placeholder))
             textField.setText("");
 
-    } /* 2 */
-
-    private void openWindow(String fxmlFile, String title, Stage parentStage, boolean resizable) throws IOException
-    { /* 2 */
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-        Stage stage = new Stage();
-        stage.setTitle(title);
-        stage.initOwner(parentStage);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setResizable(resizable);
-
-        Parent root = loader.load();
-        AddLocalPlayerController addPlayerController = loader.getController();
-        addPlayerController.setGameController(this); // Set the gameController instance
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     } /* 2 */
 } /* 1 */

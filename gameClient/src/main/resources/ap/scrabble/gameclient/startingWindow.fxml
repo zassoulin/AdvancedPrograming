@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
@@ -9,19 +10,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" prefHeight="329.0" prefWidth="550.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ap.scrabble.gameclient.view.initGameController">
+<VBox alignment="TOP_CENTER" prefHeight="492.0" prefWidth="550.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ap.scrabble.gameclient.view.initGameController">
     <children>
-        <Label fx:id="startingWindowFXML1" />
-        <Label alignment="CENTER" prefHeight="29.0" prefWidth="138.0" text="Scrabble Game" />
-        <ButtonBar prefHeight="52.0" prefWidth="510.0">
+        <Label fx:id="startingWindowFXML1" text="Scrabble Game" />
+      <TextField fx:id="InitGamePlayerText" alignment="CENTER" prefHeight="25.0" prefWidth="345.0" promptText="Enter Local Player Name" />
+        <ButtonBar prefHeight="61.0" prefWidth="510.0">
             <buttons>
-                <Button fx:id="hostGame" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#HostButtonsVisible" prefHeight="25.0" prefWidth="261.0" text="host a game" />
-                <Button fx:id="joinGame" alignment="BOTTOM_CENTER" minWidth="0.0" mnemonicParsing="false" onAction="#JoinGameButtonsVisible" prefHeight="25.0" text="Join a game" textAlignment="RIGHT" />
+                <Button fx:id="hostGame" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#HostButtonsFunction" prefHeight="25.0" prefWidth="261.0" text="host a game" />
+                <Button fx:id="joinGame" alignment="BOTTOM_CENTER" minWidth="0.0" mnemonicParsing="false" onAction="#JoinGameButtonFunction" prefHeight="25.0" text="Join a game" textAlignment="RIGHT" />
             </buttons>
         </ButtonBar>
-      <GridPane fx:id = "grid" prefHeight="135.0" prefWidth="510.0">
+      <GridPane fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="125.0" prefWidth="238.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
@@ -31,16 +31,16 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="hostLabelIP" prefHeight="17.0" prefWidth="255.0" text="  IP " visible="false" />
-            <TextField fx:id="hostTextBoxPlayer" alignment="TOP_LEFT" prefHeight="25.0" prefWidth="290.0" promptText="Enter player name" visible="false" GridPane.rowIndex="1" />
-            <Button fx:id="hostButtonAddPlayer" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#addLocalPlayer" prefHeight="25.0" prefWidth="261.0" text="Add local player" visible="false" GridPane.rowIndex="2" />
-            <Button fx:id="hostButtonStartServer" alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" onAction="#HostButtonsVisible" prefHeight="14.0" prefWidth="255.0" text="Start a game" visible="false" GridPane.rowIndex="3" />
-             <TextField fx:id="JoinGameTextBoxIP" prefHeight="17.0" prefWidth="255.0" promptText="Enter IP Address" text="IP" visible="false" />
-             <TextField fx:id="JoinGameTextBoxPlayer" prefHeight="25.0" prefWidth="290.0" promptText="Enter player name" visible="false" GridPane.rowIndex="1" />
-            <Button fx:id="JoinGameButtonConnect" alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" onAction="#HostButtonsVisible" prefHeight="25.0" prefWidth="261.0" text="connect to game" visible="false" GridPane.rowIndex="2" />
+            <Label fx:id="hostLabelIP" contentDisplay="CENTER" prefHeight="17.0" prefWidth="255.0" text="  IP " textAlignment="CENTER" visible="false" />
+            <TextField fx:id="hostTextBoxPlayer" alignment="CENTER" prefHeight="25.0" prefWidth="302.0" visible="false" GridPane.rowIndex="1" />
+             <Button fx:id="hostAddPlayerButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#addPlayer" prefHeight="14.0" prefWidth="255.0" text="Add Player" textAlignment="CENTER" visible="false" GridPane.rowIndex="2" />
+            <Button fx:id="hostButtonStartGame" alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" onAction="#HostButtonsFunction" prefHeight="14.0" prefWidth="255.0" text="Start a game" textAlignment="CENTER" visible="false" GridPane.rowIndex="3" />
+             <TextField fx:id="JoinGameTextBoxIP" alignment="CENTER" prefHeight="17.0" prefWidth="255.0" promptText="Enter IP Address" text="IP" visible="false" />
+            <Button fx:id="JoinGameButtonConnect" alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" onAction="#HostButtonsFunction" prefHeight="25.0" prefWidth="261.0" text="connect to game" textAlignment="CENTER" visible="false" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Label fx:id="hostPlayerCount" prefHeight="17.0" prefWidth="255.0"  visible="false" text="Player count: 0" />
+      <Label fx:id="hostPlayerCount" prefHeight="17.0" prefWidth="255.0" text="Connected players: 0" visible="false" />
+      <Label fx:id="errorLabel" textFill="#ff0000" wrapText="true" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
