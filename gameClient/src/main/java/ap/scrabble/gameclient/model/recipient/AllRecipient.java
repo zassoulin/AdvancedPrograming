@@ -3,7 +3,7 @@ package ap.scrabble.gameclient.model.recipient;
 import java.util.ArrayList;
 import java.util.List;
 
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
 
 public class AllRecipient extends GameRecipient {
 

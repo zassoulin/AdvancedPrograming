@@ -7,8 +7,7 @@ import static java.lang.System.getenv;
 import ap.scrabble.gameclient.model.GameManager;
 import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageHandler;
-import ap.scrabble.gameclient.model.message.MessageType;
-import ap.scrabble.gameclient.model.recipient.AllRecipient;
+import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 
 public class HostMessageHandler implements MessageHandler{

@@ -7,8 +7,9 @@ import ap.scrabble.gameclient.model.Model;
 import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
-import ap.scrabble.gameclient.model.message.Message;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
+import ap.scrabble.gameclient.util.Message;
+
 
 public class MyViewModel extends ViewModel {
 	// Implement the ViewModel facade
@@ -20,18 +21,22 @@ public class MyViewModel extends ViewModel {
 	List<String> playerNames;
 
 
-
 	public MyViewModel(Model model) {
 		this.model = model;
 		model.addObserver(this);
 	}
+
+	public void createGameRt(String playerName) { model.CreateGame(playerName);}
+	public void setPlayerNameRt(String playerName){model.addLocalPlayer(playerName);}
+	public void joinGameRt(String playerName){model.JoinGame(playerName);}
+	public void startGameRt(){model.StartGame();}
 
 	public void something(){
 //		model.addWord();
 		model.getGameState();
 		model.GetCurrentPlayerTiles();
 
-		model.
+		//model.
 	}
 
 	public void sendWord(){

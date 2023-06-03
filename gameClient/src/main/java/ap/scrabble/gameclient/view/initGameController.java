@@ -1,6 +1,7 @@
 package ap.scrabble.gameclient.view;
 
 import ap.scrabble.gameclient.App;
+import ap.scrabble.gameclient.viewmodel.MyViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,7 +14,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class initGameController {
+
     private App startingWindow;
+    private MyView myView;
+    public void setMyView(MyView v){
+        this.myView = v;
+    }
     public void setStartingWindow(App startingWindow) {
         this.startingWindow = startingWindow;
     }
@@ -49,21 +55,28 @@ public class initGameController {
     { /* 2 */
         String playerName = InitGamePlayerText.getText();
 
+        /* make sure to enter player name */
         if (playerName.isEmpty())
         { /* 3 */
             errorLabel.setText("Please enter player name.");
             return;
         } /* 3 */
 
-        // Clear the text field and error label
+        /* Clear the text field and error label */
         InitGamePlayerText.clear();
         errorLabel.setText("");
 
+        /* sent a request to create game */
+        myView.ViewCreateGameRt(playerName);
+
+        /* reveal relevant buttons */
         StartingWindowVisibleButtons(true, false);
 
+        /* show IP address */
         String ipAddress = getIPAddress();
         hostLabelIP.setText("IP Address: " + ipAddress);
 
+        /* optional - adding player text box */
         hostTextBoxPlayer.setText("Enter player name");
         hostTextBoxPlayer.setOnMouseClicked(event -> handleMouseClick(event, hostTextBoxPlayer, "Enter player name"));
         hostTextBoxPlayer.setOnKeyTyped(event -> handleKeyTyped(event, hostTextBoxPlayer, "Enter player name"));
@@ -83,6 +96,9 @@ public class initGameController {
         // Clear the text field and error label
         InitGamePlayerText.clear();
         errorLabel.setText("");
+
+        /* sent a request to join the game */
+        myView.ViewJoinGameRt(playerName);
 
 
         StartingWindowVisibleButtons(false, true);
@@ -107,13 +123,14 @@ public class initGameController {
             return;
         } /* 3 */
 
-        // Clear the text field and error label
+        /* Clear the text field and error label */
         hostTextBoxPlayer.clear();
         errorLabel.setText("");
 
-        // Save player info somewhere..
+        /* Save player info somewhere */
+        myView.ViewJoinGameRt(playerName);
 
-        if (playerCount < 3)
+        if (playerCount < 4)
         { /* 3 */
             playerCount++;
             hostPlayerCount.setText("Connected players: " + playerCount);
@@ -175,4 +192,9 @@ public class initGameController {
             textField.setText("");
 
     } /* 2 */
+
+    public void startGame()
+    {
+        myView.ViewStartGameRt();
+    }
 } /* 1 */

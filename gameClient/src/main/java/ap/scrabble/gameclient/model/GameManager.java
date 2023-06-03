@@ -1,6 +1,5 @@
 package ap.scrabble.gameclient.model;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -11,7 +10,7 @@ import ap.scrabble.gameclient.model.client.*;
 import ap.scrabble.gameclient.model.communicator.DictionaryServerCommunicator;
 import ap.scrabble.gameclient.model.host.*;
 import ap.scrabble.gameclient.model.message.Message;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.model.recipient.AllRecipient;

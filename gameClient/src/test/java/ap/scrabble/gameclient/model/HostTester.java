@@ -4,17 +4,14 @@ import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.message.Message;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
-import com.sun.tools.javac.Main;
 import org.junit.Test;
 
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
 import static org.junit.Assert.assertTrue;
 
@@ -22,7 +19,7 @@ public class HostTester implements Observer {
     @Test
     public void HostEndToEndTest() throws InterruptedException {
         GameManager gameManager = GameManager.get();
-        MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
+        MyModel model = new MyModel(new DictionaryServerConfig("ap/scrabble/gameclient/dictionary_server.ini"),new HostServerConfig("host_server.ini"));
         GameManager.get().addObserver(this);
         System.out.println("creating Game with P1");
         model.CreateGame("P1");//P1 is Host create game is setting the host!

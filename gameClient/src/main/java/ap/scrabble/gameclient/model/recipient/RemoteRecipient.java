@@ -2,7 +2,7 @@ package ap.scrabble.gameclient.model.recipient;
 
 import ap.scrabble.gameclient.model.communicator.Communicator;
 import ap.scrabble.gameclient.model.message.Message;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
 
 public class RemoteRecipient extends GameRecipient {
     Communicator clientCommunicator;
