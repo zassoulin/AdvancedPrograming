@@ -11,12 +11,27 @@ public class MyView implements View, Observer {
 	private MyViewModel viewModel;
 	private BoardController boardController;
 
-	public void init(MyViewModel viewModel, BoardController bc) {
+	private initGameController gameController;
+
+//	public void init(MyViewModel viewModel, BoardController bc) {
+//		this.viewModel = viewModel;
+//		viewModel.addObserver(this);
+//		this.boardController = bc;
+//		bc.setMyView(this);
+//		//menuController.setMyView(this);
+//	}
+
+	//OR - MY CHANGES
+	public void init(MyViewModel viewModel, initGameController gc) {
 		this.viewModel = viewModel;
 		viewModel.addObserver(this);
 		this.boardController = bc;
 		boardController.setMyView(this);
 //		startTestGame();
+
+		// this.gameController = gc;
+		// gc.setMyView(this);
+		// //menuController.setMyView(this);
 	}
 
 	@Override
@@ -40,5 +55,18 @@ public class MyView implements View, Observer {
 	public void joinGame(ActionEvent actionEvent) {
 	}
 
+
+	public void addPlayerCountRt()
+	{
+		//this.viewModel.
+	}
+	public void ViewCreateGameRt(String playerName)
+	{
+		this.viewModel.createGameRt(playerName);
+		addPlayerCountRt();;
+	}
+	public void ViewSetPlayerNameRt(String playerName){this.viewModel.setPlayerNameRt(playerName);}
+	public void ViewJoinGameRt(String playerName){this.viewModel.joinGameRt(playerName);}
+	public void ViewStartGameRt(){this.viewModel.startGameRt();}
 
 }

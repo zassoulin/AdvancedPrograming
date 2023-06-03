@@ -12,7 +12,7 @@ public class ModelTest {
     @Test
     public void TestMain(){
         GameManager gameManager = GameManager.get();
-        MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
+        MyModel model = new MyModel(new DictionaryServerConfig("ap/scrabble/gameclient/dictionary_server.ini"),new HostServerConfig("host_server.ini"));
         model.CreateGame("P1");
         model.addLocalPlayer("P2");
         int a = 1;
@@ -34,7 +34,7 @@ public class ModelTest {
     @Test
     public void TestHost(){
         GameManager gameManager = GameManager.get();
-        MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
+        MyModel model = new MyModel(new DictionaryServerConfig("ap/scrabble/gameclient/dictionary_server.ini"),new HostServerConfig("host_server.ini"));
         model.JoinGame("P3");
         Tile.Bag bag = new Tile.Bag();
         Tile [] tiles = new Tile[3];

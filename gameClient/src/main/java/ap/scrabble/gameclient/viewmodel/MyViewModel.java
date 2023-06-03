@@ -24,12 +24,16 @@ public class MyViewModel extends ViewModel {
 	List<String> playerNames;
 
 
-
 	public MyViewModel(Model model) {
 		this.model = model;
 		model.addObserver(this);
 		model.getGameState();
 	}
+
+	public void createGameRt(String playerName) { model.CreateGame(playerName);}
+	public void setPlayerNameRt(String playerName){model.addLocalPlayer(playerName);}
+	public void joinGameRt(String playerName){model.JoinGame(playerName);}
+	public void startGameRt(){model.StartGame();}
 
 	public void something(){
 //		model.addWord();

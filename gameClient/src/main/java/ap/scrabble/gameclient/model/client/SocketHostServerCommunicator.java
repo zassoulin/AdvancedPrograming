@@ -6,7 +6,7 @@ import java.net.Socket;
 import ap.scrabble.gameclient.model.communicator.SocketCommunicator;
 import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageHandler;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
 
 public class SocketHostServerCommunicator extends SocketCommunicator implements HostServerCommunicator {
     private boolean startedListen = false;

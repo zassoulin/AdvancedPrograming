@@ -6,6 +6,7 @@ import ap.scrabble.gameclient.model.MyModel;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.view.MyView;
+import ap.scrabble.gameclient.view.initGameController;
 import ap.scrabble.gameclient.viewmodel.MyViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 
 /**
  * JavaFX App
- */
+ **/
 public class App extends Application {
 
 	private static Scene scene;
@@ -31,11 +32,14 @@ public class App extends Application {
 		view.init(viewModel,fxl.getController());
 		view.startTestGame();
 
+        // /* Get the initGameController instance */
+        // initGameController controller = fxl.getController();
 
-//		MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
-//		MyViewModel viewModel = new MyViewModel(model);
-//		MyView view = (MyView)fxl.getController();
-//		view.init(viewModel);
+		// MyModel model = new MyModel(new DictionaryServerConfig("gameClient\\dictionary_server.ini"),new HostServerConfig("gameClient\\host_server.ini"));
+
+		// MyViewModel viewModel = new MyViewModel(model);
+		// MyView view = new MyView();
+		// view.init(viewModel,fxl.getController());
 
 		scene = new Scene(root);//, 640, 480);
 		stage.setScene(scene);
