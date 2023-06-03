@@ -31,13 +31,14 @@ public class HostTester2 implements Observer {
         model.StartGame();//Host is starting
         System.out.println("ITS P1 TURN SO REQUESTING PLAYER TILES");
         model.GetCurrentPlayerTiles();//When YOURTURN IS TRUE
-        System.out.println("P1 placing word WAS");
+        System.out.println("P1 placing word HORN");
         Tile.Bag bag = new Tile.Bag();
         Tile [] tiles = new Tile[3];
-        tiles[0] = bag.getTile('W');
-        tiles[1] = bag.getTile('A');
-        tiles[2] = bag.getTile('S');
-        Word word = new Word(tiles , 7, 7,true);
+        tiles[0] = bag.getTile('H');
+        tiles[1] = bag.getTile('O');
+        tiles[2] = bag.getTile('R');
+        tiles[2] = bag.getTile('N');
+        Word word = new Word(tiles , 7, 7,false);
         model.addWord(word);
         System.out.println("ITS P2 TURN SO REQUESTING PLAYER TILES");
         model.GetCurrentPlayerTiles();//When in it my Turn Call GetCurrentPlayerTiles;
@@ -47,11 +48,12 @@ public class HostTester2 implements Observer {
         tiles[2] = bag.getTile('V');
         word = new Word(tiles , 10, 10,true);
         model.addWord(word);
-        System.out.println("P2 placing word WHO");
-        tiles[0] = bag.getTile('W');
-        tiles[1] = bag.getTile('H');
-        tiles[2] = bag.getTile('O');
-        word = new Word(tiles , 7, 7,false);
+        System.out.println("P2 placing word FARM");
+        tiles[0] = bag.getTile('F');
+        tiles[1] = bag.getTile('A');
+        tiles[2] = bag.getTile('R');
+        tiles[2] = bag.getTile('M');
+        word = new Word(tiles , 5, 9,true);
         model.addWord(word);
         System.out.println("SLEEPING FOR 2 MIN before closing");
         Thread.sleep(120000);

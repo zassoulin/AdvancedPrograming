@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.Observable;
 
 import ap.scrabble.gameclient.model.Model;
+import ap.scrabble.gameclient.model.board.Board;
 import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
+//import ap.scrabble.gameclient.util.MessageType;
+//import ap.scrabble.gameclient.util.Message;
 import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageType;
+
 
 public class MyViewModel extends ViewModel {
 	// Implement the ViewModel facade
@@ -24,18 +28,24 @@ public class MyViewModel extends ViewModel {
 	public MyViewModel(Model model) {
 		this.model = model;
 		model.addObserver(this);
+		model.getGameState();
 	}
 
 	public void something(){
 //		model.addWord();
 		model.getGameState();
 		model.GetCurrentPlayerTiles();
-
-		model.
 	}
 
-	public void sendWord(){
+	public void startTestGame(){
+		model.CreateGame("test");
+		model.StartGame();
+	}
 
+	public void getBoard(){
+		System.out.println(model.getGameState());
+
+//		gameData.getBoard().print();
 	}
 
 	public void receiveSubmittedWord(char[] letters, int x, int y, boolean vertical){
@@ -62,6 +72,10 @@ public class MyViewModel extends ViewModel {
 		return null;
 	}
 
+	private void printBoard(){
+		Board b = gameData.getBoard();
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		Message message = (Message) arg;
@@ -71,8 +85,9 @@ public class MyViewModel extends ViewModel {
 	public void HandleMessage(Message message){
 		if(message.type == MessageType.UPDATE_GAME_DATA){
 			gameData = (GameData) message.arg;
+			System.out.println("fuck you");
+			printBoard();
 			//TODO: viewmodel/view needs to update board&score board accordingly
-//			gameData.getBoard().print();
 //			System.out.println( gameData.getPlayersScores());
 		}
 		else if(message.type == MessageType.PLAYER_TILES){

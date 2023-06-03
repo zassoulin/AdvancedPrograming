@@ -15,8 +15,8 @@ public class MyView implements View, Observer {
 		this.viewModel = viewModel;
 		viewModel.addObserver(this);
 		this.boardController = bc;
-		bc.setMyView(this);
-		menuController.setMyView(this)
+		boardController.setMyView(this);
+//		startTestGame();
 	}
 
 	@Override
@@ -25,11 +25,17 @@ public class MyView implements View, Observer {
 	}
 
 	public void submitLetters(char[] letters, int x, int y, boolean vertical){
-		this.viewModel.receiveSubmittedWord(letters,x,y,vertical);
+//		this.viewModel.receiveSubmittedWord(letters,x,y,vertical);
+		this.viewModel.getBoard();
 	}
 
-    public void hostGame(ActionEvent actionEvent) {
+    public void startTestGame() {
+		this.viewModel.startTestGame();
     }
+
+	public void hostGame(ActionEvent actionEvent) {
+		this.viewModel.startTestGame();
+	}
 
 	public void joinGame(ActionEvent actionEvent) {
 	}
