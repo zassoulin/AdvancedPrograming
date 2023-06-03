@@ -8,10 +8,10 @@ import ap.scrabble.gameclient.model.board.Board;
 import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
-//import ap.scrabble.gameclient.util.MessageType;
-//import ap.scrabble.gameclient.util.Message;
-import ap.scrabble.gameclient.model.message.Message;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
+import ap.scrabble.gameclient.util.Message;
+//import ap.scrabble.gameclient.model.message.Message;
+//import ap.scrabble.gameclient.model.message.MessageType;
 
 
 public class MyViewModel extends ViewModel {

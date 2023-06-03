@@ -22,7 +22,7 @@ public class MyView implements View, Observer {
 //	}
 
 	//OR - MY CHANGES
-	public void init(MyViewModel viewModel, initGameController gc) {
+	public void init(MyViewModel viewModel, BoardController bc) {
 		this.viewModel = viewModel;
 		viewModel.addObserver(this);
 		this.boardController = bc;
