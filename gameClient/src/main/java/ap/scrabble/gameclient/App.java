@@ -2,7 +2,12 @@ package ap.scrabble.gameclient;
 
 import java.io.IOException;
 
+import ap.scrabble.gameclient.model.MyModel;
+import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
+import ap.scrabble.gameclient.model.properties.HostServerConfig;
+import ap.scrabble.gameclient.view.MyView;
 import ap.scrabble.gameclient.view.initGameController;
+import ap.scrabble.gameclient.viewmodel.MyViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +18,7 @@ import javafx.stage.Stage;
 
 /**
  * JavaFX App
- */
+ **/
 public class App extends Application {
 
 	private static Scene scene;
@@ -28,18 +33,12 @@ public class App extends Application {
 
         /* Get the initGameController instance */
         initGameController controller = fxl.getController();
-        //controller.setStartingWindow(this);
 
-//		MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
-//		MyViewModel viewModel = new MyViewModel(model);
-//		MyView view = (MyView)fxl.getController();
-//		view.init(viewModel);
+		MyModel model = new MyModel(new DictionaryServerConfig("gameClient\\dictionary_server.ini"),new HostServerConfig("gameClient\\host_server.ini"));
 
-
-//		MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
-//		MyViewModel viewModel = new MyViewModel(model);
-//		MyView view = (MyView)fxl.getController();
-//		view.init(viewModel);
+		MyViewModel viewModel = new MyViewModel(model);
+		MyView view = new MyView();
+		view.init(viewModel,fxl.getController());
 
 		/* show first window */
         stage.setTitle("Starting Window");

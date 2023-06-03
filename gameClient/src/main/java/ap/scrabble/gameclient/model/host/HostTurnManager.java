@@ -5,7 +5,7 @@ import java.util.List;
 import ap.scrabble.gameclient.model.GameManager;
 import ap.scrabble.gameclient.model.Player;
 import ap.scrabble.gameclient.model.board.Word;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.model.recipient.AllRecipient;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
 
