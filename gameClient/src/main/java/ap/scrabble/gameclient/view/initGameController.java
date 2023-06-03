@@ -196,5 +196,6 @@ public class initGameController {
     public void startGame()
     {
         myView.ViewStartGameRt();
+        myView.ViewMoveToGameWindowRt();
     }
 } /* 1 */
