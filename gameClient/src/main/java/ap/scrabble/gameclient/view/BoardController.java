@@ -18,6 +18,12 @@ import java.util.*;
 
 public class BoardController implements Initializable {
 
+    MyView myView;
+
+    public void setMyView(MyView v){
+        this.myView = v;
+    }
+
     // ------------------------ Game grid ------------------------
     @FXML
     GameGrid gameGrid;
@@ -148,15 +154,8 @@ public class BoardController implements Initializable {
 
     // ------------------------ Button clicks ------------------------
 
-    public void submit(ActionEvent actionEvent) {
-        printDirection();
-        if (areCoordinatesInLine() > 0){
-            Character[] c = getLettersInLine(areCoordinatesInLine());
-            printLettersInLine(c);
-        }
-    }
 
-    public Character[] getLettersInLine(int direction) {
+    public char[] getLettersInLine(int direction, WordInfo wi) {
         // Sort based on direction
         tempPlacedTiles.sort((tile1, tile2) -> {
             if (direction == 1) { // horizontal
@@ -172,7 +171,7 @@ public class BoardController implements Initializable {
 
         // Calculate total length and initialize array
         int length = direction == 1 ? lastCoordinate[0] - firstCoordinate[0] + 1 : lastCoordinate[1] - firstCoordinate[1] + 1;
-        Character[] letters = new Character[length];
+        char[] letters = new char[length];
 
         // Fill array with letters or nulls
         for (int i = 0; i < length; i++) {
@@ -189,6 +188,10 @@ public class BoardController implements Initializable {
                 }
             }
 
+            if (i == 0){
+                wi.setX(currentX);
+                wi.setY(currentY);
+            }
             // Assign letter to array or null if tile not found
             letters[i] = (foundTile != null) ? foundTile.getLetter() : null;
 //            letters[i] = (foundTile != null) ? foundTile.getLetter() : '_';
@@ -197,7 +200,7 @@ public class BoardController implements Initializable {
         return letters;
     }
 
-    private void printLettersInLine(Character[] letters) {
+    private void printLettersInLine(char[] letters) {
         System.out.print("Letters in line: ");
         for (Character letter : letters) {
             if (letter == null) {
@@ -227,8 +230,6 @@ public class BoardController implements Initializable {
         }
     }
 
-
-
     private int areCoordinatesInLine() {
         if (tempPlacedTiles.size() < 2) {
             return 0; // 0 or 1 points doesn't define a line direction
@@ -248,6 +249,27 @@ public class BoardController implements Initializable {
     }
 
 
+
+    public void submit(ActionEvent actionEvent) { // send x, y, chars, bool vertical
+        printDirection();
+        if (areCoordinatesInLine() > 0){
+            char[] c = getLettersInLine(areCoordinatesInLine(), new WordInfo());
+            printLettersInLine(c);
+        }
+
+        WordInfo wi = new WordInfo();
+
+        boolean vertical = false;
+        if (areCoordinatesInLine() == 0)
+            return;
+        else if (areCoordinatesInLine() == 2)
+            vertical = true;
+        wi.setVertical(vertical);
+
+        wi.setLetters(getLettersInLine(areCoordinatesInLine(), wi));
+
+        this.myView.submitLetters(wi.getLetters(), wi.getX(), wi.getY(), wi.isVertical());
+    }
     public void clear(ActionEvent actionEvent) {
         gameGrid.getChildren().clear();
     }

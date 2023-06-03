@@ -1,15 +1,12 @@
 package ap.scrabble.gameclient.viewmodel;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
-import ap.scrabble.gameclient.model.GameManager;
 import ap.scrabble.gameclient.model.Model;
-import ap.scrabble.gameclient.model.Player;
 import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Tile;
+import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.model.message.MessageType;
 
@@ -17,10 +14,52 @@ public class MyViewModel extends ViewModel {
 	// Implement the ViewModel facade
 
 	private Model model;
+	private GameData gameData;
+//	Map<String,Tile[]> playersScores;
+	private Tile[] tileList;
+	List<String> playerNames;
+
+
 
 	public MyViewModel(Model model) {
 		this.model = model;
 		model.addObserver(this);
+	}
+
+	public void something(){
+//		model.addWord();
+		model.getGameState();
+		model.GetCurrentPlayerTiles();
+
+		model.
+	}
+
+	public void sendWord(){
+
+	}
+
+	public void receiveSubmittedWord(char[] letters, int x, int y, boolean vertical){
+		model.GetCurrentPlayerTiles();
+		Word word = new Word(buildTiles(letters),x,y,vertical);
+
+		model.addWord(word);
+	}
+
+	public Tile[] buildTiles(char[] chars){
+		Tile[] tiles = new Tile[chars.length];
+		int idx = 0;
+		for (char c:chars) {
+			tiles[idx] = getTileFromList(c);
+		}
+		return tiles;
+	}
+
+	private Tile getTileFromList(char c){
+		for (Tile t:tileList) {
+			if (t != null && t.letter == c)
+				return t;
+		}
+		return null;
 	}
 
 	@Override
@@ -31,18 +70,19 @@ public class MyViewModel extends ViewModel {
 	}
 	public void HandleMessage(Message message){
 		if(message.type == MessageType.UPDATE_GAME_DATA){
-			GameData gameData = (GameData) message.arg;
+			gameData = (GameData) message.arg;
 			//TODO: viewmodel/view needs to update board&score board accordingly
 //			gameData.getBoard().print();
 //			System.out.println( gameData.getPlayersScores());
 		}
 		else if(message.type == MessageType.PLAYER_TILES){
-			Tile[] tileList = (Tile[]) message.arg;
+//			Tile[] tileList = (Tile[]) message.arg;
+			this.tileList = (Tile[]) message.arg;
 			//TODO:show to view the player Tiles, When Player tries to place Word view/Viewmodel needs to make sure they are in the list
 //			System.out.println(tileList);
 		}
 		else if (message.type == MessageType.PLAYER_ADDED){
-			List<String> playerNames = (List<String>) message.arg;
+			playerNames = (List<String>) message.arg;
 			//TODO: view needs to update the player count in lobby and if implemented show the player list
 			//TODO: When viewmodel calls the JoinGame request it may want to know if it has succeed if so the viewModel needs to check if Its PlayerName is included in the playerNames list
 		} else if (message.type == MessageType.PLAYER_ALREADY_EXISTS) {

@@ -12,11 +12,10 @@ import org.junit.Test;
 import java.text.MessageFormat;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
 import static org.junit.Assert.assertTrue;
 
-public class ClientTester implements Observer {
+public class ClientTester2 implements Observer {
     @Test
     public void ClientEndToEndTest() throws InterruptedException {
         GameManager gameManager = GameManager.get();
