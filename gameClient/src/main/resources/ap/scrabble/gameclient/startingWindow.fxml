@@ -39,7 +39,7 @@
             <Button fx:id="JoinGameButtonConnect" alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" onAction="#HostButtonsFunction" prefHeight="25.0" prefWidth="261.0" text="connect to game" textAlignment="CENTER" visible="false" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Label fx:id="hostPlayerCount" prefHeight="17.0" prefWidth="255.0" text="Connected players: 0" visible="false" />
+      <Label fx:id="hostPlayerCount" prefHeight="17.0" prefWidth="255.0" text="Connected players: 1" visible="false" />
       <Label fx:id="errorLabel" textFill="#ff0000" wrapText="true" />
     </children>
     <padding>

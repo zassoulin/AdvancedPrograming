@@ -24,7 +24,7 @@ public class initGameController {
         this.startingWindow = startingWindow;
     }
     @FXML
-    static int playerCount = 0;
+    static int playerCount = 1;
     @FXML
     private Label startingWindowFXML;
     @FXML
