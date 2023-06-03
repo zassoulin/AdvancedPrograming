@@ -12,26 +12,22 @@ public enum MessageType {
     // View: Display error message and stay in the main menu view.
     // Remote-Model: Forward message to view and forfeit `JoinGame` (TODO: figure out whether to close the opened socket?).
     CANT_JOIN_HOST,
-    // Description: A player joined the lobby.
-    // Arg: String playerName
-    // View: Add the new player's name to the display.
-    // Remote-Model: Forward message to view and wait for `START_MESSAGE`.
-    PLAYER_ADDED,
+    // Description: A player joined the lobby - update the list of player names.
+    // Arg: List<String> playerNames
+    // View: Update the list of player names to the display.
+    // Remote-Model: Update `playerList`, forward message to view (and asynchronously wait for `START_MESSAGE`).
+    PLAYER_ADDED,// TODO: before moving on unto next stage make sure if requesting player it is in the new list
     // Description: Update what's the current player's name.
     // Arg: String playerName
     // View: Highlight the name of the current player.
-    // Remote-Model: Forward message to view.
+    // Remote-Model: Check if it's our player's turn and forward message to view.
     CURRENT_PLAYER,
-    // Description: It's our turn (one of our local players' turn).
-    // Arg: String playerName
-    // View: Switch to play-mode - Unlock the view to user inputs and request `GetTiles` from `Model`.
-    // Remote-Model: TODO - fix bug where the the message is only sent locally.
+    // Description: Is it our turn?
+    // Arg: boolean isOurTurn
+    // View: when `true`: Switch to play-mode - Unlock the view to user inputs and request `GetTiles` from `Model`.
+    //       when `false: Switch to watch-mode - Lock the view to user inputs.
+    // Remote-Model: N/A.
     MY_TURN,
-    // Description: Update that it's another player's turn.
-    // Arg: String playerName
-    // View: Switch to watch-mode - Lock the view to user inputs.
-    // Remote-Model: TODO - fix bug where the the message is only sent locally.
-    OTHER_PLAYER_TURN,
     // Description: Illegal word was played.
     // Arg: String word (concatenation of the letters)
     // View: Stay in play mode, the user needs to input a different word.
@@ -52,18 +48,31 @@ public enum MessageType {
     // View: Move to board view and display the current scores and board (what about player names?).
     // Remote-Model: Forward the message to view (TODO and?...).
     GAME_STARTED,
+    // Description: Request TO Receives the current player Tiles
+    // Arg: none
+    // View: Request when MY_TURN is TRUE
+    // Remote-Model: Forward the message to view (TODO and?...).
+    GET_CURRENT_PLAYER_TILES,
+    // Description: Returns the Current Player Tiles
+    // Arg: Tile[]
+    // View: Request when MY_TURN is TRUE
+    // Remote-Model: Forward the message to view (TODO and?...).
+    PLAYER_TILES,
+
     // ============================
 
     // ========== CLIENT ==========
+    // Arg: String clientName
+    ADD_PLAYER,
+
+    PLAY_REMOTE_PLAYER_TURN,
+
     // ============================
 
     // TODO: Decide what to do with the "Unused and/or To Be Decided later"
     // ======== UNUSED/TBD ========
     JOIN_GAME,
     PLAY_NEXT_TURN,
-    QUERY,
-    CHALLENGE,
-    ADD_PLAYER,
     // ============================
 
     // =========== TEST ===========

@@ -9,6 +9,12 @@ import ap.scrabble.gameclient.model.recipient.GameRecipient;
 
 public abstract class Player {
 
+    public Tile [] getPlayersTiles() {
+//        if (playersTiles == null)
+//            GetMissingTiles();
+        return (Tile[]) playersTiles.toArray(new Tile[0]);
+    }
+
     protected List<Tile> playersTiles;
     protected String PlayerName;
 
@@ -18,7 +24,7 @@ public abstract class Player {
     public Player(String playerName, boolean isLocal) {
         PlayerName = playerName;
         this.isLocal = isLocal;
-        this.playersTiles = new ArrayList<Tile>();
+        this.playersTiles = new ArrayList<>();
         this.playersTiles = GetMissingTiles();
     }
 
@@ -36,9 +42,7 @@ public abstract class Player {
         return PlayerName;
     }
 
-    public Word GetPlayerWord(){
-        return  new Word(new Tile[4],1,2,true);//TODO: GetPlayerWordFromGIu
-    }
+
 
     public void RemoveWordFromPlayer(Word word){
         Tile [] tiles = word.getTiles();
@@ -47,10 +51,19 @@ public abstract class Player {
         }
     }
 
-    public abstract Integer PlayTurn(Word word);
-    public abstract void PlaceWord(GameRecipient requester,Word word);
-
-    public abstract List<Tile> GetMissingTiles();
+    public Integer PlayTurn(Word word) {
+        Integer score = GameManager.get().getGame().placePlayerTurn(word,PlayerName);
+        if(score == 0)
+            return score;
+        RemoveWordFromPlayer(word);
+        GetMissingTiles();
+        return score;
+    }
+    public List<Tile> GetMissingTiles() {
+        Integer neededTiles = MAXIMUM_TILES_PER_PLAYER - this.playersTiles.size();
+        List<Tile> newTiles = GameManager.get().getGame().GetTiles(neededTiles);
+        return newTiles;
+    }
 
     // Compare names
     @Override

@@ -12,7 +12,7 @@ public class SocketHostServerCommunicator extends SocketCommunicator implements 
     private boolean startedListen = false;
 
     public SocketHostServerCommunicator(Socket socket, MessageHandler messageHandler) {
-        super(socket, messageHandler, false);
+        super(socket, messageHandler, true);
     }
 
     public static SocketHostServerCommunicator create(String ip, int port, MessageHandler messageHandler) {
