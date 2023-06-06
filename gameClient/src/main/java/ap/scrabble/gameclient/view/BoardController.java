@@ -3,17 +3,14 @@ package ap.scrabble.gameclient.view;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class BoardController implements Initializable {
@@ -27,11 +24,20 @@ public class BoardController implements Initializable {
     // ------------------------ Game grid ------------------------
     @FXML
     GameGrid gameGrid;
+    @FXML
+    Label p1name;
+    @FXML
+    Label p2name;
+    @FXML
+    Label p3name;
+    @FXML
+    Label p4name;
 
     final private byte dl = 1;    // double letter
     final private byte tl = 2;    // triple letter
     final private byte dw = 3;    // double word
     final private byte tw = 4;    // triple word
+
 
     private byte[][] boardLayout = {
             {tw, 0, 0, dl, 0, 0, 0, tw, 0, 0, 0, dl, 0, 0, tw},
@@ -301,4 +307,27 @@ public class BoardController implements Initializable {
     }
 
     // -------------------------------Init-----------------------------------
+
+    public void setBoardWindowNames() {
+        List<String> playerNames = this.myView.ViewGetPlayerNames();
+        int numOfPlayers = playerNames.size();
+
+        switch (numOfPlayers) {
+            case 4:
+                p4name.setText(playerNames.get(3));
+                p4name.setVisible(true);
+            case 3:
+                p3name.setText(playerNames.get(2));
+                p3name.setVisible(true);
+            case 2:
+                p2name.setText(playerNames.get(1));
+                p2name.setVisible(true);
+            case 1:
+                p1name.setText(playerNames.get(0));
+                p1name.setVisible(true);
+                break;
+        }
+    }
+
+
 }
