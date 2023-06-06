@@ -44,6 +44,7 @@ public class App extends Application {
 		MyViewModel viewModel = new MyViewModel(model);
 		MyView view = new MyView();
 		view.init(viewModel,fxl.getController(),fxlBoard.getController(), BoardRoot, stage);
+//		view.startSimGame();
 
 		/* show first window */
         stage.setTitle("Starting Window");

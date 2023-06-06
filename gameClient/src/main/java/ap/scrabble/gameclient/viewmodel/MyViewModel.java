@@ -11,8 +11,6 @@ import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.util.Message;
-//import ap.scrabble.gameclient.model.message.Message;
-//import ap.scrabble.gameclient.model.message.MessageType;
 
 
 public class MyViewModel extends ViewModel {
@@ -32,9 +30,16 @@ public class MyViewModel extends ViewModel {
 	}
 
 	public void createGameRt(String playerName) { model.CreateGame(playerName);}
-	public void setPlayerNameRt(String playerName){model.addLocalPlayer(playerName);}
+//	public void setPlayerNameRt(String playerName){model.addLocalPlayer(playerName);}
 	public void joinGameRt(String playerName){model.JoinGame(playerName);}
-	public void startGameRt(){model.StartGame();}
+	public void startGameRt(){
+		model.StartGame();
+//		model.GetCurrentPlayerTiles(); // update
+	}
+
+	public void addPlayer(String playerName){
+		model.addLocalPlayer(playerName);
+	}
 
 	public void something(){
 //		model.addWord();
@@ -42,21 +47,10 @@ public class MyViewModel extends ViewModel {
 		model.GetCurrentPlayerTiles();
 	}
 
-	public void startTestGame(){
-		model.CreateGame("test");
-		model.StartGame();
-	}
-
-	public void getBoard(){
-		System.out.println(model.getGameState());
-
-//		gameData.getBoard().print();
-	}
 
 	public void receiveSubmittedWord(char[] letters, int x, int y, boolean vertical){
-		model.GetCurrentPlayerTiles();
 		Word word = new Word(buildTiles(letters),x,y,vertical);
-
+		System.out.println("VM sending to M: " + word.GetWordName());
 		model.addWord(word);
 	}
 
@@ -65,6 +59,7 @@ public class MyViewModel extends ViewModel {
 		int idx = 0;
 		for (char c:chars) {
 			tiles[idx] = getTileFromList(c);
+			idx++;
 		}
 		return tiles;
 	}
@@ -79,12 +74,28 @@ public class MyViewModel extends ViewModel {
 
 	private void printBoard(){
 		Board b = gameData.getBoard();
+		b.print();
+	}
+
+	private void sendMessage(String type, Object arg) {
+		setChanged();
+		notifyObservers(new ap.scrabble.gameclient.util.Message<String>(type, arg));
+	}
+
+	private char[] tilesToChars(){
+		char[] c = new char[tileList.length];
+		int i = 0;
+		for (Tile t:this.tileList){
+			c[i] = t.letter;
+			i++;
+		}
+		return c;
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		Message message = (Message) arg;
-		System.out.println(MessageFormat.format("View Received message of type {0} with Value: {1}", message.type , message.arg));
+		System.out.println(MessageFormat.format("ViewModel Received message of type {0} with Value: {1}", message.type , message.arg));
 		HandleMessage(message);
 	}
 	public void HandleMessage(Message message){
@@ -98,8 +109,10 @@ public class MyViewModel extends ViewModel {
 		else if(message.type == "PLAYER_TILES"){
 //			Tile[] tileList = (Tile[]) message.arg;
 			this.tileList = (Tile[]) message.arg;
+			sendMessage("PLAYER_TILES",tilesToChars());
 			//TODO:show to view the player Tiles, When Player tries to place Word view/Viewmodel needs to make sure they are in the list
-//			System.out.println(tileList);
+			System.out.println("ViewModel: Got player tiles: ");
+			System.out.println(tilesToChars());
 		}
 		else if (message.type == "PLAYER_ADDED"){
 			playerNames = (List<String>) message.arg;
@@ -108,8 +121,10 @@ public class MyViewModel extends ViewModel {
 		} else if (message.type == "PLAYER_ALREADY_EXISTS") {
 			String PlayerName = (String) message.arg;
 			//TODO: This message is received when Trying to join a game with a name which already exists,View needs to tell User to try joining again with a different name
-		} else if (message.type == "GAME_STARTED") {
-			//TODO:move view into Game mode(show user the board scoreboard etc..)
+		} else if (message.type == "GAME_STARTED") { // arg = GameData
+			gameData = (GameData) message.arg;
+			sendMessage("GAME_STARTED","GAME_STARTED");
+			model.GetCurrentPlayerTiles(); // inital call to get first player's tiles
 		} else if (message.type == "CURRENT_PLAYER") {
 			String CurrentPlayerName = (String) message.arg;
 			//TODO: change View current playName to the player received

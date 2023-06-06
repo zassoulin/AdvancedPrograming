@@ -19,7 +19,7 @@ public class ClientTester2 implements Observer {
     @Test
     public void ClientEndToEndTest() throws InterruptedException {
         GameManager gameManager = GameManager.get();
-        MyModel model = new MyModel(new DictionaryServerConfig("ap/scrabble/gameclient/dictionary_server.ini"),new HostServerConfig("host_server.ini"));
+        MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
         GameManager.get().addObserver(this);
         model.JoinGame("P3");
         Tile.Bag bag = new Tile.Bag();

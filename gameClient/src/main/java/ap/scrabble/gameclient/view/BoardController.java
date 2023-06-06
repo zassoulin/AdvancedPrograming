@@ -9,11 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class BoardController implements Initializable {
@@ -94,7 +90,8 @@ public class BoardController implements Initializable {
     @FXML
     HBox TileRack;
 
-    char []tiles = new char[]{'t','s','b', 'u','k','a','l',};
+//    char []tiles = new char[]{'t','s','b', 'u','k','a','l',};
+    char []tiles = new char[7];
 
     final private int tileW = 80;
     final private int tileH = 90;
@@ -105,14 +102,18 @@ public class BoardController implements Initializable {
 
     private void drawTileStack(char[] tiles){
         try {
-            TileImage tileView;
-            StackPane sp;
+//            TileImage tileView;
+//            StackPane sp;
             for (int i = 0; i < tiles.length; i++) {
                 addTileToRack(tiles[i]);
             }
         }catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    private void clearTileStack(){
+        TileRack.getChildren().clear();
     }
 
     private void addTileToRack(TileImage t) {
@@ -152,9 +153,16 @@ public class BoardController implements Initializable {
 //        System.out.println("Card clicked: " + clickedTile.getLetter());
     }
 
+    public void updatePlayerTiles(char[] c) {
+        this.tiles = c;
+        clearTileStack();
+        drawTileStack(c);
+    }
+
     // ------------------------ Button clicks ------------------------
 
 
+    // Returns all letters in line with an indentation in the middle for spaces
     public char[] getLettersInLine(int direction, WordInfo wi) {
         // Sort based on direction
         tempPlacedTiles.sort((tile1, tile2) -> {
@@ -193,8 +201,8 @@ public class BoardController implements Initializable {
                 wi.setY(currentY);
             }
             // Assign letter to array or null if tile not found
-            letters[i] = (foundTile != null) ? foundTile.getLetter() : null;
-//            letters[i] = (foundTile != null) ? foundTile.getLetter() : '_';
+//            letters[i] = (foundTile != null) ? foundTile.getLetter() : null;
+            letters[i] = (foundTile != null) ? foundTile.getLetter() : '_';
         }
 
         return letters;
@@ -213,7 +221,7 @@ public class BoardController implements Initializable {
     }
 
     private void printDirection() {
-        int direction = areCoordinatesInLine();
+        int direction = getWordDirection();
         switch (direction) {
             case 0:
                 System.out.println("not valid");
@@ -230,7 +238,8 @@ public class BoardController implements Initializable {
         }
     }
 
-    private int areCoordinatesInLine() {
+    // returns 1 if word is horizontal, 2 if vertical, otherwise 0
+    private int getWordDirection() {
         if (tempPlacedTiles.size() < 2) {
             return 0; // 0 or 1 points doesn't define a line direction
         }
@@ -248,27 +257,60 @@ public class BoardController implements Initializable {
         return 0; // not in a line
     }
 
+    private int getEntryLength() {
+        if (tempPlacedTiles.size() == 1) {
+            return 1;
+        }
+        // Determine the direction
+        int direction = getWordDirection();
 
+        // Sort based on the direction
+        tempPlacedTiles.sort((tile1, tile2) -> {
+            if (direction == 1) { // horizontal
+                return Integer.compare(tile1.getCoord()[0], tile2.getCoord()[0]); // compare x-coordinates
+            } else { // vertical
+                return Integer.compare(tile1.getCoord()[1], tile2.getCoord()[1]); // compare y-coordinates
+            }
+        });
+
+        // Get first and last coordinates
+        int[] firstCoordinate = tempPlacedTiles.get(0).getCoord();
+        int[] lastCoordinate = tempPlacedTiles.get(tempPlacedTiles.size() - 1).getCoord();
+
+        // Calculate total distance
+        if (direction == 1) { // horizontal
+            return lastCoordinate[0] - firstCoordinate[0] + 1;
+        } else { // vertical
+            return lastCoordinate[1] - firstCoordinate[1] + 1;
+        }
+    }
 
     public void submit(ActionEvent actionEvent) { // send x, y, chars, bool vertical
+        System.out.println("Submit clicked");
+        if (tempPlacedTiles.size() == 0)
+            return;
         printDirection();
-        if (areCoordinatesInLine() > 0){
-            char[] c = getLettersInLine(areCoordinatesInLine(), new WordInfo());
-            printLettersInLine(c);
+        System.out.println("word length: " + getEntryLength());
+        char[] c = new char[getEntryLength()];
+        if (c.length == 1){
+            c[0] = tempPlacedTiles.get(0).getLetter();
+            this.myView.submitLetters(c, tempPlacedTiles.get(0).getXgrid(),  tempPlacedTiles.get(0).getYgrid(), true);
+            return;
         }
-
         WordInfo wi = new WordInfo();
 
-        boolean vertical = false;
-        if (areCoordinatesInLine() == 0)
-            return;
-        else if (areCoordinatesInLine() == 2)
-            vertical = true;
-        wi.setVertical(vertical);
+        if (getWordDirection() > 0) {
+            boolean vertical = false;
+            if (getWordDirection() == 2)
+                vertical = true;
+            c = getLettersInLine(getWordDirection(), wi);
+            printLettersInLine(c);
 
-        wi.setLetters(getLettersInLine(areCoordinatesInLine(), wi));
+            wi.setVertical(vertical);
+            wi.setLetters(c);
 
-        this.myView.submitLetters(wi.getLetters(), wi.getX(), wi.getY(), wi.isVertical());
+            this.myView.submitLetters(wi.getLetters(), wi.getX(), wi.getY(), wi.isVertical());
+        }
     }
     public void clear(ActionEvent actionEvent) {
         gameGrid.getChildren().clear();
@@ -279,8 +321,6 @@ public class BoardController implements Initializable {
         if (Math.random() < 0.5) {
             randomChar += ('a' - 'A');  // Convert to lowercase
         }
-
-
 
         addTileToRack(randomChar);
         System.out.println(this.TileRack.getChildren());
@@ -299,6 +339,8 @@ public class BoardController implements Initializable {
                 BorderStrokeStyle.DOTTED, CornerRadii.EMPTY, BorderStroke.MEDIUM)));
 
     }
+
+
 
     // -------------------------------Init-----------------------------------
 }
