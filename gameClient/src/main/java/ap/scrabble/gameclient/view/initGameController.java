@@ -137,7 +137,7 @@ public class initGameController {
 
             hostButtonStartGame.setDisable(false);
 
-            if(playerCount == 3)
+            if(playerCount == 4)
                 hostAddPlayerButton.setDisable(true);
         } /* 3 */
     } /* 2 */
@@ -197,5 +197,6 @@ public class initGameController {
     {
         myView.ViewStartGameRt();
         myView.ViewMoveToGameWindowRt();
+
     }
 } /* 1 */

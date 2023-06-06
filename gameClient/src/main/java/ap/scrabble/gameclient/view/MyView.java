@@ -1,5 +1,6 @@
 package ap.scrabble.gameclient.view;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -60,6 +61,12 @@ public class MyView implements View, Observer {
 		stage.setTitle("Game Window");
 		scene = new Scene(this.BoardRoot);
 		stage.setScene(scene);
+		this.boardController.setBoardWindowNames();
+	}
+
+	public List<String> ViewGetPlayerNames()
+	{
+		return this.viewModel.getPlayerNames();
 	}
 
 }

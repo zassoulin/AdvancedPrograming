@@ -48,7 +48,7 @@
     <HBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="1060.0" spacing="100.0">
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
-               <Label fx:id="p1name" text="Player 1" />
+               <Label fx:id="p1name" text="Player 1" visible="false" />
               <Label text="Score: ">
 
         </Label>
@@ -58,21 +58,21 @@
          </VBox>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
-               <Label fx:id="p2name" text="Player 1" />
+               <Label fx:id="p2name" text="Player 1" visible="false" />
                <Label text="Score: " />
                <Label fx:id="p2score" text="0" />
             </children>
          </VBox>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
-               <Label fx:id="p3name" text="Player 1" />
+               <Label fx:id="p3name" text="Player 1" visible="false" />
                <Label text="Score: " />
                <Label fx:id="p3score" text="0" />
             </children>
          </VBox>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
-               <Label fx:id="p4name" text="Player 1" />
+               <Label fx:id="p4name" text="Player 1" visible="false" />
                <Label text="Score: " />
                <Label fx:id="p4score" text="0" />
             </children>
