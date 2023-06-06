@@ -19,7 +19,7 @@ public class HostTester implements Observer {
     @Test
     public void HostEndToEndTest() throws InterruptedException {
         GameManager gameManager = GameManager.get();
-        MyModel model = new MyModel(new DictionaryServerConfig("ap/scrabble/gameclient/dictionary_server.ini"),new HostServerConfig("host_server.ini"));
+        MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
         GameManager.get().addObserver(this);
         System.out.println("creating Game with P1");
         model.CreateGame("P1");//P1 is Host create game is setting the host!

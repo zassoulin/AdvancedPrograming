@@ -318,9 +318,6 @@ public class BoardController implements Initializable {
 
     public void skip(ActionEvent actionEvent) {
         char randomChar = (char) ('A' + Math.random() * ('Z' - 'A' + 1));
-        if (Math.random() < 0.5) {
-            randomChar += ('a' - 'A');  // Convert to lowercase
-        }
 
         addTileToRack(randomChar);
         System.out.println(this.TileRack.getChildren());
