@@ -67,6 +67,11 @@ public class MyModel extends Model implements Observer{
 	}
 
 	@Override
+	public void LoadGame(String SaveName) {
+
+	}
+
+	@Override
 	public void update(Observable o, Object arg) {
 		assertCond(arg != null, "MyModel: Notify observer from `GameManager` missing argument");
 		var msg = (ap.scrabble.gameclient.model.message.Message)arg;

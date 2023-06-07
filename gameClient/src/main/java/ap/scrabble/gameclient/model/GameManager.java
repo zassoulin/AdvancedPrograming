@@ -100,6 +100,9 @@ public class GameManager extends Observable {
         AddPlayer(LocalRecipient.get(), HostName,true);
 
     }
+    public void LoadGame(String SaveName){
+
+    }
 
     // Remote client code
     public void JoinGame(String ClientName){

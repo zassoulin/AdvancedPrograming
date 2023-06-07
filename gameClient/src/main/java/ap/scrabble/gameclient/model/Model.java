@@ -21,4 +21,6 @@ public abstract class Model extends Observable {
 	public abstract void addWord(Word word);//Update_game_Data if succeeded Illegal word o.w
 
 	public abstract void GetCurrentPlayerTiles();//Returns Player_tiles
+
+	public abstract void LoadGame(String SaveName);
 }
