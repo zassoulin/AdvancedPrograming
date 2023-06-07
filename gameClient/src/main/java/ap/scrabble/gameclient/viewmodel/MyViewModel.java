@@ -19,12 +19,20 @@ public class MyViewModel extends ViewModel {
 	private GameData gameData;
 //	Map<String,Tile[]> playersScores;
 	private Tile[] tileList;
-	List<String> playerNames;
+	private static List<String> playerNames;
 
 
 	public MyViewModel(Model model) {
 		this.model = model;
 		model.addObserver(this);
+	}
+
+	public static List<String> getPlayerNames() {
+		return playerNames;
+	}
+
+	public static void setPlayerNames(List<String> playerNames) {
+		MyViewModel.playerNames = playerNames;
 	}
 
 	public void createGameRt(String playerName) { model.CreateGame(playerName);}
