@@ -7,12 +7,12 @@ import ap.scrabble.gameclient.model.message.Message;
 import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
+import org.hibernate.Session;
 import org.junit.Test;
 
 import java.text.MessageFormat;
 import java.util.Observable;
 import java.util.Observer;
-
 import static org.junit.Assert.assertTrue;
 
 public class ClientTester2 implements Observer {
