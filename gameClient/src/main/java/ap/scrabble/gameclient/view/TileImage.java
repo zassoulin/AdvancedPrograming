@@ -11,6 +11,7 @@ public class TileImage extends ImageView {
     private Rectangle border;
     private char letter;
     private int x;
+    private int y;
 
     public int getXgrid() {
         return x;
@@ -31,10 +32,10 @@ public class TileImage extends ImageView {
     public int[] getCoord(){
         return new int[]{x,y};
     }
-    private int y;
 
     public TileImage(Image image, char l, int w, int h, Rectangle border){
         super(image);
+//        this.letter = Character.toLowerCase(l);
         this.letter = l;
         this.setFitWidth(w);
         this.setFitHeight(h);

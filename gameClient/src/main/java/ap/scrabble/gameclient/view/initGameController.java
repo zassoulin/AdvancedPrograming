@@ -82,6 +82,13 @@ public class initGameController {
         hostTextBoxPlayer.setOnKeyTyped(event -> handleKeyTyped(event, hostTextBoxPlayer, "Enter player name"));
     } /* 2 */
 
+
+    public void setTestPlayers(){
+        InitGamePlayerText.setText("TestHost");
+        hostTextBoxPlayer.setText("TestGuest");
+        addPlayer();
+    }
+
     public void JoinGameButtonFunction()
     { /* 2 */
 
@@ -128,7 +135,8 @@ public class initGameController {
         errorLabel.setText("");
 
         /* Save player info somewhere */
-        myView.ViewJoinGameRt(playerName);
+//        myView.ViewJoinGameRt(playerName);
+        myView.addPlayer(playerName);
 
         if (playerCount < 4)
         { /* 3 */
@@ -196,7 +204,6 @@ public class initGameController {
     public void startGame()
     {
         myView.ViewStartGameRt();
-        myView.ViewMoveToGameWindowRt();
-
+        //myView.ViewMoveToGameWindowRt();
     }
 } /* 1 */

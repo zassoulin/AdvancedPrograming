@@ -10,11 +10,9 @@ import ap.scrabble.gameclient.view.MyView;
 import ap.scrabble.gameclient.view.initGameController;
 import ap.scrabble.gameclient.viewmodel.MyViewModel;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -23,9 +21,6 @@ import javafx.stage.Stage;
 public class App extends Application {
 
 	private static Scene scene;
-	private Stage primaryStage; // Reference to the main stage
-	@FXML
-	private Label playerCountLabel;
 
 	@Override
 	public void start(Stage stage) throws IOException {
@@ -49,6 +44,7 @@ public class App extends Application {
 		MyViewModel viewModel = new MyViewModel(model);
 		MyView view = new MyView();
 		view.init(viewModel,fxl.getController(),fxlBoard.getController(), BoardRoot, stage);
+//		view.startSimGame();
 
 		/* show first window */
         stage.setTitle("Starting Window");
@@ -57,13 +53,6 @@ public class App extends Application {
 		stage.show();
 	}
 
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
-
-	public void setPlayerCountLabel(Label playerCountLabel) {
-		this.playerCountLabel = playerCountLabel;
-	}
 
 	public static void main(String[] args) {
 		launch();
