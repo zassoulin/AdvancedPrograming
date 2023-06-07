@@ -2,14 +2,12 @@ package ap.scrabble.gameclient.model;
 
 import static ap.scrabble.gameclient.util.Assert.assertCond;
 
-import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
 import ap.scrabble.gameclient.model.board.Word;
-import ap.scrabble.gameclient.model.client.HostMessageHandler;
 import ap.scrabble.gameclient.model.message.Message;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.model.recipient.LocalRecipient;
@@ -58,6 +56,7 @@ public class MyModel extends Model implements Observer{
 //			LocalRecipient.get().sendMessage(res.type,res.arg);
 		}
 	}
+	@Override
 	public void GetCurrentPlayerTiles(){
 		if(isHost){
 			GameManager.get().GetCurrentPlayerTiles(LocalRecipient.get());

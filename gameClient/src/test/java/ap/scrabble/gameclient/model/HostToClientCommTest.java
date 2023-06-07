@@ -14,7 +14,7 @@ import ap.scrabble.gameclient.model.host.ClientMessageHandler;
 import ap.scrabble.gameclient.model.host.RemoteClientCommunicator;
 import ap.scrabble.gameclient.model.host.SocketHostServer;
 import ap.scrabble.gameclient.model.message.Message;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 
 public class HostToClientCommTest implements Observer {

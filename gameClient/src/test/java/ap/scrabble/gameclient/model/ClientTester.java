@@ -4,7 +4,7 @@ import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.message.Message;
-import ap.scrabble.gameclient.model.message.MessageType;
+import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import org.junit.Test;
@@ -12,7 +12,6 @@ import org.junit.Test;
 import java.text.MessageFormat;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
 import static org.junit.Assert.assertTrue;
 
@@ -20,13 +19,13 @@ public class ClientTester implements Observer {
     @Test
     public void ClientEndToEndTest() throws InterruptedException {
         GameManager gameManager = GameManager.get();
-        MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
+        MyModel model = new MyModel(new DictionaryServerConfig("ap/scrabble/gameclient/dictionary_server.ini"),new HostServerConfig("host_server.ini"));
         GameManager.get().addObserver(this);
         model.JoinGame("P3");
         Tile.Bag bag = new Tile.Bag();
         Tile [] tiles = new Tile[3];
-        System.out.println("SLEEPING FOR 1 MIN To wait for my turn ");
-        Thread.sleep(60000);
+        System.out.println("SLEEPING FOR 30 sec To wait for my turn ");
+        Thread.sleep(30000);
         System.out.println("ITS P3 TURN SO REQUESTING PLAYER TILES");
         model.GetCurrentPlayerTiles();
         System.out.println("P3 placing Legal word WOW");
