@@ -3,6 +3,8 @@ package ap.scrabble.gameclient;
 import java.io.IOException;
 
 import ap.scrabble.gameclient.model.MyModel;
+import ap.scrabble.gameclient.model.board.Tile;
+import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.model.properties.DictionaryServerConfig;
 import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import ap.scrabble.gameclient.view.BoardController;
@@ -45,8 +47,17 @@ public class App extends Application {
 		BoardController controllerBoard = fxlBoard.getController();
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-		MyModel model = new MyModel(new DictionaryServerConfig("gameClient\\dictionary_server.ini"),new HostServerConfig("gameClient\\host_server.ini"));
+		MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
 		MyViewModel viewModel = new MyViewModel(model);
+		model.CreateGame("p1");
+		model.StartGame();
+		Tile.Bag bag = new Tile.Bag();
+		Tile [] tiles = new Tile[3];
+		tiles[0] = bag.getTile('W');
+		tiles[1] = bag.getTile('O');
+		tiles[2] = bag.getTile('W');
+		Word word = new Word(tiles , 5, 7,true);
+		model.addWord(word);
 		MyView view = new MyView();
 		view.init(viewModel,fxl.getController(),fxlBoard.getController(), BoardRoot, stage);
 
