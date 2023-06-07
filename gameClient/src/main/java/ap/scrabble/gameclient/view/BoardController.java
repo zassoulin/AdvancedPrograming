@@ -184,21 +184,21 @@ public class BoardController implements Initializable {
         // Fill array with letters or nulls
         for (int i = 0; i < length; i++) {
             // Calculate current coordinate
-            int currentX = direction == 1 ? firstCoordinate[0] + i : firstCoordinate[0];
-            int currentY = direction == 1 ? firstCoordinate[1] : firstCoordinate[1] + i;
+            int col = direction == 1 ? firstCoordinate[0] + i : firstCoordinate[0];
+            int row = direction == 1 ? firstCoordinate[1] : firstCoordinate[1] + i;
 
             // Find tile at current coordinate
             TileImage foundTile = null;
             for (TileImage tile : tempPlacedTiles) {
-                if (tile.getCoord()[0] == currentX && tile.getCoord()[1] == currentY) {
+                if (tile.getCoord()[0] == col && tile.getCoord()[1] == row) {
                     foundTile = tile;
                     break;
                 }
             }
 
             if (i == 0){
-                wi.setX(currentX);
-                wi.setY(currentY);
+                wi.setX(row);
+                wi.setY(col);
             }
             // Assign letter to array or null if tile not found
 //            letters[i] = (foundTile != null) ? foundTile.getLetter() : null;
