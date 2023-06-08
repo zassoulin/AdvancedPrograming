@@ -78,8 +78,8 @@ public class MyView implements View, Observer {
 
 	public List<String> ViewGetPlayerNames()
 	{
-		return this.viewModel.getPlayerNames();
 		gameStarted = true;
+		return this.viewModel.getPlayerNames();
 	}
 
 	public void addPlayer(String playerName) {

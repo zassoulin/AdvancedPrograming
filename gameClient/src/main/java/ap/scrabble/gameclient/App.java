@@ -40,7 +40,7 @@ public class App extends Application {
 		BoardController controllerBoard = fxlBoard.getController();
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-		MyModel model = new MyModel(new DictionaryServerConfig("gameClient\\dictionary_server.ini"),new HostServerConfig("gameClient\\host_server.ini"));
+		MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
 		MyViewModel viewModel = new MyViewModel(model);
 		MyView view = new MyView();
 		view.init(viewModel,fxl.getController(),fxlBoard.getController(), BoardRoot, stage);
