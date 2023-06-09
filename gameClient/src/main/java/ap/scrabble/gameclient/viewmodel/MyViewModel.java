@@ -2,6 +2,7 @@ package ap.scrabble.gameclient.viewmodel;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import ap.scrabble.gameclient.model.Model;
@@ -22,6 +23,15 @@ public class MyViewModel extends ViewModel {
 	private Tile[] tileList;
 	private static List<String> playerNames;
 
+    /*
+    Retrieves the score of a player with the given name.
+    This method retrieves the player scores from the game data and returns the score associated with the specified player name.
+    */
+	public Integer getPlayerScore(String playerName)
+	{
+		Map<String, Integer> playerScores = this.gameData.getPlayersScores();
+		return playerScores.get(playerName);
+	}
 
 	public MyViewModel(Model model) {
 		this.model = model;

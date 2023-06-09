@@ -1,5 +1,6 @@
 package ap.scrabble.gameclient.view;
 
+import ap.scrabble.gameclient.model.board.GameData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -368,6 +369,14 @@ public class BoardController implements Initializable {
 
     // -------------------------------Init-----------------------------------
 
+    /**
+
+     Sets the names of the board windows for each player.
+
+     This method retrieves the player names from the view and assigns them to the corresponding board windows.
+
+     The visibility of the board windows and related components is also adjusted based on the number of players.
+     */
     public void setBoardWindowNames() {
         List<String> playerNames = this.myView.ViewGetPlayerNames();
         int numOfPlayers = playerNames.size();
@@ -396,6 +405,66 @@ public class BoardController implements Initializable {
                 break;
         }
     }
+
+    /**
+     * Retrieves the score for the specified player from the view.
+     * @param playerName The name of the player.
+     */
+    public void getScore(String playerName) {
+        // Call the view to get the score for the player
+        Integer playerScore = this.myView.ViewGetScore(playerName);
+    }
+
+    /**
+     * Sets the scores on the board for all players.
+     * It retrieves the player names from the view and updates the score labels accordingly.
+     */
+    public void setScoreOnBoard() {
+        // Get the list of player names from the view
+        List<String> playerNames = this.myView.ViewGetPlayerNames();
+
+        // Iterate over the player names and update the score labels
+        for (String playerName : playerNames) {
+
+            // Get the score for the current player
+            int playerScore = this.myView.ViewGetScore(playerName);
+
+            // Update the score label based on the player index
+            switch (playerNames.indexOf(playerName)) {
+                case 0:
+                    p1score.setText(String.valueOf(playerScore));
+                    break;
+                case 1:
+                    p2score.setText(String.valueOf(playerScore));
+                    break;
+                case 2:
+                    p3score.setText(String.valueOf(playerScore));
+                    break;
+                case 3:
+                    p4score.setText(String.valueOf(playerScore));
+                    break;
+            }
+        }
+    }
+
+
+    /**
+     Updates the score of a player.
+     @param playerName The name of the player whose score needs to be updated.
+     @param score The new score to be assigned to the player.
+     */
+    public void updatePlayerScore(String playerName, int score) {
+        if (playerName.equals(p1name.getText())) {
+            p1score.setText(Integer.toString(score));
+        } else if (playerName.equals(p2name.getText())) {
+            p2score.setText(Integer.toString(score));
+        } else if (playerName.equals(p3name.getText())) {
+            p3score.setText(Integer.toString(score));
+        } else if (playerName.equals(p4name.getText())) {
+            p4score.setText(Integer.toString(score));
+        }
+    }
+
 
 
 }
