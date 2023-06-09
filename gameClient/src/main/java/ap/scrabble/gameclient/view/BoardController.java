@@ -32,6 +32,23 @@ public class BoardController implements Initializable {
     Label p3name;
     @FXML
     Label p4name;
+    @FXML
+    Label p1score;
+    @FXML
+    Label p2score;
+    @FXML
+    Label p3score;
+    @FXML
+    Label p4score;
+    @FXML
+    Label p1scoreTitle;
+    @FXML
+    Label p2scoreTitle;
+    @FXML
+    Label p3scoreTitle;
+    @FXML
+    Label p4scoreTitle;
+
 
     final private byte dl = 1;    // double letter
     final private byte tl = 2;    // triple letter
@@ -359,15 +376,23 @@ public class BoardController implements Initializable {
             case 4:
                 p4name.setText(playerNames.get(3));
                 p4name.setVisible(true);
+                p4scoreTitle.setVisible(true);
+                p4score.setVisible(true);
             case 3:
                 p3name.setText(playerNames.get(2));
                 p3name.setVisible(true);
+                p3scoreTitle.setVisible(true);
+                p3score.setVisible(true);
             case 2:
                 p2name.setText(playerNames.get(1));
                 p2name.setVisible(true);
+                p2scoreTitle.setVisible(true);
+                p2score.setVisible(true);
             case 1:
                 p1name.setText(playerNames.get(0));
                 p1name.setVisible(true);
+                p1scoreTitle.setVisible(true);
+                p1score.setVisible(true);
                 break;
         }
     }

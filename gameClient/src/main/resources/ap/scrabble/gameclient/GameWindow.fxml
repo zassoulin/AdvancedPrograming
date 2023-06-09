@@ -49,32 +49,32 @@
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
                <Label fx:id="p1name" text="Player 1" visible="false" />
-              <Label text="Score: ">
+              <Label  fx:id="p1scoreTitle" text="Score: " visible="false">
 
         </Label>
-              <Label fx:id="p1score" text="0">
+              <Label fx:id="p1score" text="0" visible="false">
         </Label>
             </children>
          </VBox>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
                <Label fx:id="p2name" text="Player 1" visible="false" />
-               <Label text="Score: " />
-               <Label fx:id="p2score" text="0" />
+               <Label fx:id="p2scoreTitle" text="Score: " visible="false" />
+               <Label fx:id="p2score" text="0" visible="false"  />
             </children>
          </VBox>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
                <Label fx:id="p3name" text="Player 1" visible="false" />
-               <Label text="Score: " />
-               <Label fx:id="p3score" text="0" />
+               <Label fx:id="p3scoreTitle" text="Score: " visible="false" />
+               <Label fx:id="p3score" text="0" visible="false" />
             </children>
          </VBox>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
                <Label fx:id="p4name" text="Player 1" visible="false" />
-               <Label text="Score: " />
-               <Label fx:id="p4score" text="0" />
+               <Label fx:id="p4scoreTitle" text="Score: " visible="false" />
+               <Label fx:id="p4score" text="0" visible="false" />
             </children>
          </VBox>
          <opaqueInsets>
