@@ -82,6 +82,11 @@ public class MyView implements View, Observer {
 		return this.viewModel.getPlayerNames();
 	}
 
+	public int ViewGetScore(String playerName)
+	{
+		return this.viewModel.getPlayerScore(playerName);
+	}
+
 	public void addPlayer(String playerName) {
 		viewModel.addPlayer(playerName);
 	}
@@ -102,7 +107,11 @@ public class MyView implements View, Observer {
 			char[] c = (char[])message.arg;
 			boardController.updatePlayerTiles(c);
 		}
+		else if (message.type.equals("PLAYER_SCORE")) {
+			String playerName = (String) message.arg;
+			int score = ViewGetScore(playerName);
+			boardController.updatePlayerScore(playerName, score);
+		}
 	}
-
 
 }
