@@ -1,7 +1,9 @@
 package ap.scrabble.gameclient.viewmodel;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import ap.scrabble.gameclient.model.Model;
@@ -9,7 +11,6 @@ import ap.scrabble.gameclient.model.board.Board;
 import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
-import ap.scrabble.gameclient.util.MessageType;
 import ap.scrabble.gameclient.util.Message;
 
 
@@ -18,9 +19,9 @@ public class MyViewModel extends ViewModel {
 
 	private Model model;
 	private GameData gameData;
-//	Map<String,Tile[]> playersScores;
 	private Tile[] tileList;
 	private static List<String> playerNames;
+	private Map<String,Integer> playersScores = new HashMap<>();;
 
 
 	public MyViewModel(Model model) {
@@ -29,6 +30,10 @@ public class MyViewModel extends ViewModel {
 		model.getGameState();
 	}
 
+	public void setPlayersScores(Map<String, Integer> playersScores) {
+		this.playersScores = playersScores;
+		sendMessage("PLAYER_SCORES", this.playersScores);
+	}
 	public static List<String> getPlayerNames() {
 		return playerNames;
 	}
@@ -56,9 +61,9 @@ public class MyViewModel extends ViewModel {
 	}
 
 
-	public void receiveSubmittedWord(char[] letters, int x, int y, boolean vertical){
+	public void sendSubmittedWord(char[] letters, int x, int y, boolean vertical){
 		Word word = new Word(buildTiles(letters),x,y,vertical);
-		System.out.println("VM sending to M: " + word.GetWordName());
+//		System.out.println("VM sending to M: " + word.GetWordName());
 		model.addWord(word);
 	}
 
@@ -109,8 +114,9 @@ public class MyViewModel extends ViewModel {
 	public void HandleMessage(Message message){
 		if(message.type == "UPDATE_GAME_DATA"){
 			gameData = (GameData) message.arg;
-			System.out.println("fuck you");
 			printBoard();
+			setPlayersScores(gameData.getPlayersScores());
+
 			//TODO: viewmodel/view needs to update board&score board accordingly
 //			System.out.println( gameData.getPlayersScores());
 		}
@@ -119,11 +125,14 @@ public class MyViewModel extends ViewModel {
 			this.tileList = (Tile[]) message.arg;
 			sendMessage("PLAYER_TILES",tilesToChars());
 			//TODO:show to view the player Tiles, When Player tries to place Word view/Viewmodel needs to make sure they are in the list
-			System.out.println("ViewModel: Got player tiles: ");
+			System.out.print("ViewModel: Got player tiles: ");
 			System.out.println(tilesToChars());
 		}
 		else if (message.type == "PLAYER_ADDED"){
 			playerNames = (List<String>) message.arg;
+			// initialize player scores
+			playersScores.put(playerNames.get(playerNames.size()-1),0);
+			setPlayersScores(playersScores);
 			//TODO: view needs to update the player count in lobby and if implemented show the player list
 			//TODO: When viewmodel calls the JoinGame request it may want to know if it has succeed if so the viewModel needs to check if Its PlayerName is included in the playerNames list
 		} else if (message.type == "PLAYER_ALREADY_EXISTS") {
@@ -132,9 +141,11 @@ public class MyViewModel extends ViewModel {
 		} else if (message.type == "GAME_STARTED") { // arg = GameData
 			gameData = (GameData) message.arg;
 			sendMessage("GAME_STARTED","GAME_STARTED");
-			model.GetCurrentPlayerTiles(); // inital call to get first player's tiles
+//			model.GetCurrentPlayerTiles(); // inital call to get first player's tiles
 		} else if (message.type == "CURRENT_PLAYER") {
 			String CurrentPlayerName = (String) message.arg;
+			sendMessage("CURRENT_PLAYER", CurrentPlayerName);
+			model.GetCurrentPlayerTiles();
 			//TODO: change View current playName to the player received
 		} else if (message.type == "MY_TURN") {
 			boolean isMyTurn = (boolean) message.arg;

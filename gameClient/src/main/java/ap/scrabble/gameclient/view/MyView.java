@@ -2,6 +2,7 @@ package ap.scrabble.gameclient.view;
 
 import java.util.List;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -40,7 +41,7 @@ public class MyView implements View, Observer {
 
 
 	public void submitLetters(char[] letters, int x, int y, boolean vertical){
-		this.viewModel.receiveSubmittedWord(letters,x,y,vertical);
+		this.viewModel.sendSubmittedWord(letters,x,y,vertical);
 //		this.viewModel.getBoard();
 	}
 
@@ -86,6 +87,11 @@ public class MyView implements View, Observer {
 		viewModel.addPlayer(playerName);
 	}
 
+
+	private void updatePlayerScores(Map<String, Integer> playersScores) {
+		this.boardController.updatePlayerScores(playersScores);
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		Message message = (Message) arg;
@@ -101,6 +107,14 @@ public class MyView implements View, Observer {
 		else if (message.type == "PLAYER_TILES"){
 			char[] c = (char[])message.arg;
 			boardController.updatePlayerTiles(c);
+		}
+		else if (message.type == "PLAYER_SCORES"){
+			Map<String,Integer> playersScores = (Map<String,Integer>)message.arg;
+			updatePlayerScores(playersScores);
+		}
+		else if (message.type == "CURRENT_PLAYER"){
+			boardController.togglePlayerTurnHighlight((String)message.arg);
+			boardController.clearCache();
 		}
 	}
 
