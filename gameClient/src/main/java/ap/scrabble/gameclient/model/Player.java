@@ -56,7 +56,7 @@ public abstract class Player {
         if(score == 0)
             return score;
         RemoveWordFromPlayer(word);
-        GetMissingTiles();
+        playersTiles.addAll(GetMissingTiles());
         return score;
     }
     public List<Tile> GetMissingTiles() {
