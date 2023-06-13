@@ -123,10 +123,10 @@ public class MyViewModel extends ViewModel {
 		else if(message.type == "PLAYER_TILES"){
 //			Tile[] tileList = (Tile[]) message.arg;
 			this.tileList = (Tile[]) message.arg;
-			sendMessage("PLAYER_TILES",tilesToChars());
-			//TODO:show to view the player Tiles, When Player tries to place Word view/Viewmodel needs to make sure they are in the list
 			System.out.print("ViewModel: Got player tiles: ");
 			System.out.println(tilesToChars());
+			sendMessage("PLAYER_TILES",tilesToChars());
+			//TODO:show to view the player Tiles, When Player tries to place Word view/Viewmodel needs to make sure they are in the list
 		}
 		else if (message.type == "PLAYER_ADDED"){
 			playerNames = (List<String>) message.arg;
