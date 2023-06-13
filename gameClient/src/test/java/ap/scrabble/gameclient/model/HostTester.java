@@ -10,6 +10,7 @@ import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import org.junit.Test;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,7 +20,7 @@ public class HostTester implements Observer {
     @Test
     public void HostEndToEndTest() throws InterruptedException {
         GameManager gameManager = GameManager.get();
-        MyModel model = new MyModel(new DictionaryServerConfig("ap/scrabble/gameclient/dictionary_server.ini"),new HostServerConfig("host_server.ini"));
+        MyModel model = new MyModel(new DictionaryServerConfig("dictionary_server.ini"),new HostServerConfig("host_server.ini"));
         GameManager.get().addObserver(this);
         System.out.println("creating Game with P1");
         model.CreateGame("P1");//P1 is Host create game is setting the host!
@@ -70,7 +71,8 @@ public class HostTester implements Observer {
         }
         else if(message.type == MessageType.PLAYER_TILES){
             Tile[] tileList = (Tile[]) message.arg;
-            System.out.println(tileList);
+            System.out.println( Arrays.stream(tileList).toList());
+//            System.out.println(tileList.);
         }
     }
 }
