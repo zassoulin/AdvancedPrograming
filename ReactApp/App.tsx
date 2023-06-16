@@ -56,7 +56,7 @@ function Section({children, title}: SectionProps): JSX.Element {
 const MyComponent = () => {
   const [inputValue, setInputValue] = useState('');
 
-  const handleButtonPress = async () => {
+  const handleSubmitText = async () => {
     console.log('Input value:', inputValue);
 
     const response = await fetch(
@@ -79,9 +79,10 @@ const MyComponent = () => {
         style={styles.input}
         value={inputValue}
         onChangeText={handleInputChange}
+        onSubmitEditing={handleSubmitText}
         placeholder="Game ID"
       />
-      <TouchableOpacity onPress={handleButtonPress} style={styles.button}>
+      <TouchableOpacity onPress={handleSubmitText} style={styles.button}>
         <Text style={styles.buttonLabel}>Confirm</Text>
       </TouchableOpacity>
     </View>
