@@ -3,150 +3,35 @@ package ap.scrabble.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.net.InetSocketAddress;
 import java.util.List;
 
-class MyServer {
-	private int port;
-	private int maxNumOfThreads;
-	private boolean stop;
-	private Thread serverThread;
-	private List<ClientHandler> clients;
+import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 
-	public MyServer(int port, int maxNumOfThreads) {
-		this.port=port;
-		this.maxNumOfThreads = maxNumOfThreads;
-		this.clients = new ArrayList<>();
-	}
-
-	public void start() {
-		System.out.println("Host Server started");
-		stop=false;
-		serverThread = new Thread(()->run());
-		serverThread.start();
-	}
-
-	private void run() {
+public class RetardedHttpServer {
+	public static void main(String[] args) {
+		// Create the HTTP server
+		HttpServer server = null;
 		try {
-			ServerSocket serverSocket = new ServerSocket(port);
-			serverSocket.setSoTimeout(500);
-			while (!stop) {
-				Assert.assertCond(clients.size() <= maxNumOfThreads, "SocketHostServer: Too many clients (max number of threads allowed is %d)".formatted(maxNumOfThreads));
-				try {
-					Socket clientSocket = serverSocket.accept();
-					ClientHandler clientHandler = new ClientHandler(clientSocket);
-					clients.add(clientHandler);
-					clientHandler.start();
-				} catch (SocketTimeoutException e) {}
-			}
-			for (ClientHandler client : clients) {
-				client.close();
-			}
-			serverSocket.close();
-		}catch(IOException e) {
+			server = HttpServer.create(new InetSocketAddress(8080), 0);
+		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-
-	public void close() {
-		System.out.println("Server shutting down...");
-		stop = true;
-		try {
-			serverThread.join(6_000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private class ClientHandler {
-		private Socket socket;
-	
-		private InputStream in;
-		private OutputStream out;
-	
-		private Thread listenThread;
-		private boolean stop;
-	
-		public ClientHandler(Socket socket) {
-			this.socket = socket;
-			try {
-				this.in = socket.getInputStream();
-				this.out = socket.getOutputStream();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	
-		private void listen(){
-			try {
-				out.write(
-("HTTP HTTP/1.1 200 OK\n" +
-"Content-Type: text/plain\n" +
-"\n" +
-"mah balls")
-.getBytes(StandardCharsets.UTF_8));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			while (!stop) {
-				try {
-					int i = in.read();
-					if (i == -1) {
-						stop = true;
-						break;
-					}
-					String c = Character.toString(i);
-					System.out.print(c);
-				} catch (IOException e) {
-					stop = true;
-					break;
-				}
-			}
-			System.out.println();
+			System.err.println("\nCouldn't open HTTP server on port 8080. Exiting.");
+			System.exit(1);
 		}
 
-		public void start() {
-			stop = false;
-			listenThread = new Thread(this::listen);
-			listenThread.start();
-		}
+		// Define the request handler
+		server.createContext("/", new MyHandler());
 
-		public void close() {
-			stop = true;
-			try {
-				listenThread.join(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			try {
-				socket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-}
+		// Start the server
+		server.start();
 
-class Assert {
-	public static void assertCond(boolean condition, String msg) {
-		if (!condition) {
-			throw new RuntimeException(msg);
-		}
-	}
-}
+		System.out.println("Server started on port 8080");
 
-public class RetardedHttpServer
-{
-	public static void main( String[] args )
-	{
-		MyServer s = new MyServer(8080, 32);
-		s.start();
-
-		System.out.println("Press 'q' to shutdown the server:");
+		System.out.println("Press 'q' to shutdown the server:\n");
 		int c;
 		try {
 			while ((c = System.in.read()) != -1) {
@@ -158,6 +43,50 @@ public class RetardedHttpServer
 			e.printStackTrace();
 		}
 
-		s.close();
+		server.stop(6);
+	}
+
+	static class MyHandler implements HttpHandler {
+		static void PrintHeader(Headers headers) {
+			System.out.print("Header:");
+			headers.forEach((String str, List<String> arr) -> {
+				System.out.print("\t" + str);
+				arr.forEach((String subStr) -> {
+					System.out.print(" " + subStr);
+				});
+				System.out.println();
+			});
+		}
+
+		static void PrintBody(InputStream body) {
+			
+		}
+
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			// Print request
+			System.out.println("Request");
+			System.out.println("URI: " + exchange.getRequestURI().toASCIIString());
+			PrintHeader(exchange.getRequestHeaders());
+			System.out.println("Method: " + exchange.getRequestMethod());
+			PrintBody(exchange.getRequestBody());
+			System.out.println();
+
+			// Set the response headers
+			exchange.getResponseHeaders().set("Content-Type", "text/plain");
+			exchange.sendResponseHeaders(200, 0);
+			
+			// Write the response body
+			String response = "mah balls";
+			OutputStream outputStream = exchange.getResponseBody();
+			outputStream.write(response.getBytes());
+			outputStream.close();
+
+			// Print response
+			System.out.println("Response");
+			PrintHeader(exchange.getResponseHeaders());
+			System.out.println("Body:\t" + response);
+			System.out.println();
+		}
 	}
 }
