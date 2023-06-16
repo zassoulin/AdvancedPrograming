@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
+import Section from './Section';
 
 
 const GameID = () => {
@@ -29,18 +30,20 @@ const GameID = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        value={inputValue}
-        onChangeText={handleInputChange}
-        onSubmitEditing={handleSubmitText}
-        placeholder="Game ID"
-      />
-      <TouchableOpacity onPress={handleSubmitText} style={styles.button}>
-        <Text style={styles.buttonLabel}>Confirm</Text>
-      </TouchableOpacity>
-    </View>
+    <Section title="Enter Game ID">
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          value={inputValue}
+          onChangeText={handleInputChange}
+          onSubmitEditing={handleSubmitText}
+          placeholder="Game ID"
+        />
+        <TouchableOpacity onPress={handleSubmitText} style={styles.button}>
+          <Text style={styles.buttonLabel}>Confirm</Text>
+        </TouchableOpacity>
+      </View>
+    </Section>
   );
 };
 
