@@ -5,16 +5,16 @@
  * @format
  */
 
+import GameID from './GameID'
+
 import type { PropsWithChildren } from 'react';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
   useColorScheme
 } from 'react-native';
@@ -53,42 +53,6 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
-const MyComponent = () => {
-  const [inputValue, setInputValue] = useState('');
-
-  const handleSubmitText = async () => {
-    console.log('Input value:', inputValue);
-
-    const response = await fetch(
-      'http://localhost:8080/score-table.json?gameId=' + inputValue).then(function (response) {
-        return response.text();
-      }).then(function (message) {
-        return message;
-      });
-
-    console.log('Res: ', response);
-  };
-
-  const handleInputChange = (text: string) => {
-    setInputValue(text);
-  };
-
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        value={inputValue}
-        onChangeText={handleInputChange}
-        onSubmitEditing={handleSubmitText}
-        placeholder="Game ID"
-      />
-      <TouchableOpacity onPress={handleSubmitText} style={styles.button}>
-        <Text style={styles.buttonLabel}>Confirm</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -110,7 +74,7 @@ function App(): JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Section title="Enter Game ID">
-            <MyComponent />
+            <GameID />
           </Section>
         </View>
       </ScrollView>
@@ -119,29 +83,6 @@ function App(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-  },
-  button: {
-    padding: 10,
-    backgroundColor: 'blue',
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  buttonLabel: {
-    color: 'white',
-    fontSize: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    padding: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    width: 200,
-    color: 'black'
-  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
