@@ -1,10 +1,8 @@
 package ap.scrabble.gameclient.viewmodel;
 
+import java.io.*;
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
+import java.util.*;
 
 import ap.scrabble.gameclient.model.Model;
 import ap.scrabble.gameclient.model.board.Board;
@@ -21,13 +19,41 @@ public class MyViewModel extends ViewModel {
 	private GameData gameData;
 	private Tile[] tileList;
 	private static List<String> playerNames;
-	private Map<String,Integer> playersScores = new HashMap<>();;
+	private Map<String,Integer> playersScores = new HashMap<>();
+	private ArrayList<Word> wordsOnBoard = new ArrayList<>(); // don't need this probably
+	private Word tempWord;
+	private String currentPlayer;
 
 
 	public MyViewModel(Model model) {
 		this.model = model;
 		model.addObserver(this);
 		model.getGameState();
+	}
+
+	public void saveGame()  {
+		GameState gameState = new GameState(gameData, tileList, playerNames, playersScores, currentPlayer);
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("game.save"))) {
+			oos.writeObject(gameState);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void loadGame()  {
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("game.save"))) {
+			GameState gameState = (GameState) ois.readObject();
+			gameData = gameState.getGameData();
+			tileList = gameState.getTileList();
+			playerNames = gameState.getPlayerNames();
+			playersScores = gameState.getPlayersScores();
+			currentPlayer = gameState.getCurrentPlayer();
+		}
+		catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setPlayersScores(Map<String, Integer> playersScores) {
@@ -54,16 +80,10 @@ public class MyViewModel extends ViewModel {
 		model.addLocalPlayer(playerName);
 	}
 
-	public void something(){
-//		model.addWord();
-		model.getGameState();
-		model.GetCurrentPlayerTiles();
-	}
-
-
 	public void sendSubmittedWord(char[] letters, int x, int y, boolean vertical){
 		Word word = new Word(buildTiles(letters),x,y,vertical);
 //		System.out.println("VM sending to M: " + word.GetWordName());
+		tempWord = word;
 		model.addWord(word);
 	}
 
@@ -112,13 +132,14 @@ public class MyViewModel extends ViewModel {
 		HandleMessage(message);
 	}
 	public void HandleMessage(Message message){
-		if(message.type == "UPDATE_GAME_DATA"){
+		if(message.type == "UPDATE_GAME_DATA"){ // When word returned from server is valid
 			gameData = (GameData) message.arg;
 			printBoard();
 			setPlayersScores(gameData.getPlayersScores());
-
-			//TODO: viewmodel/view needs to update board&score board accordingly
-//			System.out.println( gameData.getPlayersScores());
+			// Save State
+			wordsOnBoard.add(tempWord); // save word for save/load
+			tempWord = null;
+			//viewmodel/view needs to update board&score board accordingly
 		}
 		else if(message.type == "PLAYER_TILES"){
 //			Tile[] tileList = (Tile[]) message.arg;
@@ -146,6 +167,8 @@ public class MyViewModel extends ViewModel {
 			String CurrentPlayerName = (String) message.arg;
 			sendMessage("CURRENT_PLAYER", CurrentPlayerName);
 			model.GetCurrentPlayerTiles();
+			// Save game
+			currentPlayer = CurrentPlayerName;
 			//TODO: change View current playName to the player received
 		} else if (message.type == "MY_TURN") {
 			boolean isMyTurn = (boolean) message.arg;

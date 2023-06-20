@@ -459,4 +459,12 @@ public class BoardController implements Initializable {
         }
         this.tempPlacedTiles.clear();
     }
+
+    public void saveGame(ActionEvent actionEvent) {
+        myView.saveGame();
+    }
+
+    public void loadGame(ActionEvent actionEvent) {
+        myView.loadGame();
+    }
 }

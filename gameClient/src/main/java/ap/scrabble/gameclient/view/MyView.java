@@ -74,6 +74,7 @@ public class MyView implements View, Observer {
 		stage.setTitle("Game Window");
 		scene = new Scene(this.BoardRoot);
 		stage.setScene(scene);
+		stage.setResizable(false);
 		this.boardController.setBoardWindowNames();
 	}
 
@@ -119,4 +120,11 @@ public class MyView implements View, Observer {
 	}
 
 
+	public void saveGame() {
+		viewModel.saveGame();
+	}
+
+	public void loadGame() {
+		viewModel.loadGame();
+	}
 }
