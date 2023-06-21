@@ -6,8 +6,9 @@
  */
 
 import GameID from './GameID';
+import ScoreTable from './ScoreTable';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -27,6 +28,9 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [gottem, setGottem] = useState(false)
+  const [response, setResponse] = useState('')
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -40,7 +44,12 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <GameID />
+          {
+            !gottem && <GameID setGottem={setGottem} setResponse={setResponse} />
+          }
+          {
+            gottem && <ScoreTable response={response} />
+          }
         </View>
       </ScrollView>
     </SafeAreaView>

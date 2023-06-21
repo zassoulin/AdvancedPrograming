@@ -63,6 +63,14 @@ public class RetardedHttpServer {
 			});
 		}
 
+		static String GetResponseJson() {
+			return
+				"{\n" +
+				"\t\"players\": [\"Avi\", \"Shimon\", \"Gaydamat\"],\n" +
+				"\t\"scores\": [42, 69, 4206969]\n" +
+				"}";
+		}
+
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
 			// Print request
@@ -77,7 +85,8 @@ public class RetardedHttpServer {
 			exchange.sendResponseHeaders(200, 0);
 			
 			// Write the response body
-			String response = "mah balls";
+			// String response = "mah balls";
+			String response = GetResponseJson();
 			OutputStream outputStream = exchange.getResponseBody();
 			outputStream.write(response.getBytes());
 			outputStream.close();

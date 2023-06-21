@@ -9,7 +9,9 @@ import {
 import Section from './Section';
 
 
-const GameID = () => {
+const GameID = (props: { setGottem: React.Dispatch<React.SetStateAction<boolean>>; setResponse: React.Dispatch<React.SetStateAction<string>>; }) => {
+  const { setGottem, setResponse } = props
+
   const [inputValue, setInputValue] = useState('');
 
   const handleSubmitText = async () => {
@@ -24,6 +26,8 @@ const GameID = () => {
         });
 
       console.log('Res: ', response);
+      setResponse(response)
+      setGottem(true)
     } catch (error) {
       console.error(error)
     }
