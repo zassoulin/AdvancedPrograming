@@ -1,9 +1,10 @@
 import React from 'react';
 import {
+  Dimensions,
   StyleSheet,
-  Text,
-  View
+  Text
 } from 'react-native';
+import { Col, Grid } from 'react-native-easy-grid';
 import Section from './Section';
 
 
@@ -36,49 +37,43 @@ const ScoreTable = (props: { response: string; }) => {
 
   return (
     <Section title={section}>
-      <View style={styles.container}>
-        <View style={styles.row}>
-          <Text style={styles.columnHeader}>Players</Text>
-          <Text style={styles.columnHeader}>Score</Text>
-        </View>
-        {players.map((player: string, index: number) => (
-          <View style={styles.row} key={index}>
-            <Text style={styles.column}>{player}</Text>
-            <Text style={styles.column}>{scores[index]}</Text>
-          </View>
-        ))}
-      </View>
+      <Grid style={styles.grid}>
+        <Col style={styles.column}>
+          <Text style={styles.textHeader}>Players</Text>
+          {players.map((player: string, index: number) => (
+            <Text style={styles.text} key={index}>{player}</Text>
+          ))}
+        </Col>
+        <Col style={styles.column}>
+          <Text style={styles.textHeader}>Scores</Text>
+          {scores.map((score: number, index: number) => (
+            <Text style={styles.text} key={index}>{score}</Text>
+          ))}
+        </Col>
+      </Grid>
     </Section>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  grid: {
     flex: 1,
-    alignSelf: 'stretch',
-    marginTop: 20,
-    marginHorizontal: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 5,
-    padding: 10,
-    width: 300,
-  },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    width: 300,
-  },
-  columnHeader: {
-    flex: 1,
-    fontWeight: 'bold',
-    width: '50%',
+    width: Dimensions.get('window').width,
   },
   column: {
     flex: 1,
-    width: '50%',
+  },
+  textHeader: {
+    flex: 1,
+    fontWeight: 'bold',
+    marginTop: 8,
+    fontSize: 18,
+  },
+  text: {
+    flex: 1,
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '200',
   },
 });
 

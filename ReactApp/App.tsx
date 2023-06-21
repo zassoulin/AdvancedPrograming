@@ -10,6 +10,7 @@ import ScoreTable from './ScoreTable';
 
 import React, { useState } from 'react';
 import {
+  Dimensions,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -43,6 +44,7 @@ function App(): JSX.Element {
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            height: Dimensions.get('window').height,
           }}>
           {
             !gottem && <GameID setGottem={setGottem} setResponse={setResponse} />

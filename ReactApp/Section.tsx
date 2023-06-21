@@ -1,11 +1,11 @@
 import { PropsWithChildren } from "react";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import {
   StyleSheet,
   Text,
   View,
   useColorScheme
 } from "react-native";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -39,6 +39,8 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 const styles = StyleSheet.create({
   sectionContainer: {
+    flex: 1,
+    width: '100%',
     marginTop: 32,
     paddingHorizontal: 24,
   },
