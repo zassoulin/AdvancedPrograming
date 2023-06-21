@@ -1,10 +1,15 @@
 package ap.scrabble.test;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -58,10 +63,6 @@ public class RetardedHttpServer {
 			});
 		}
 
-		static void PrintBody(InputStream body) {
-			
-		}
-
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
 			// Print request
@@ -69,7 +70,6 @@ public class RetardedHttpServer {
 			System.out.println("URI: " + exchange.getRequestURI().toASCIIString());
 			PrintHeader(exchange.getRequestHeaders());
 			System.out.println("Method: " + exchange.getRequestMethod());
-			PrintBody(exchange.getRequestBody());
 			System.out.println();
 
 			// Set the response headers

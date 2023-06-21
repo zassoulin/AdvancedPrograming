@@ -15,14 +15,18 @@ const GameID = () => {
   const handleSubmitText = async () => {
     console.log('Input value:', inputValue);
 
-    const response = await fetch(
-      'http://localhost:8080/score-table.json?gameId=' + inputValue).then(function (response) {
-        return response.text();
-      }).then(function (message) {
-        return message;
-      });
+    try {
+      const response = await fetch(
+        'http://localhost:8080/score-table.json?gameId=' + inputValue).then(function (response) {
+          return response.text();
+        }).then(function (message) {
+          return message;
+        });
 
-    console.log('Res: ', response);
+      console.log('Res: ', response);
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   const handleInputChange = (text: string) => {
