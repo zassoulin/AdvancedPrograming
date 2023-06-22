@@ -46,17 +46,26 @@ class Settings {
     console.log(
       '`storeHostnameSetting` just called `storeHostnameSetting_impl`',
     );
-    this.storeHostnameSetting_impl(value).then(() => {
-      console.log(
-        '`storeHostnameSetting` finished calling `storeHostnameSetting_impl`',
-      );
+    if (value.trim() === '') {
       this.loadHostnameSetting_impl().then(loadedHostname => {
         console.log(
-          `Updating \`useHostnameState\` with stored value: "${loadedHostname}"`,
+          `Given value is empty, keeping hostname as is: "${loadedHostname}"`,
         );
         setHostnameState(value);
       });
-    });
+    } else {
+      this.storeHostnameSetting_impl(value).then(() => {
+        console.log(
+          '`storeHostnameSetting` finished calling `storeHostnameSetting_impl`',
+        );
+        this.loadHostnameSetting_impl().then(loadedHostname => {
+          console.log(
+            `Updating \`useHostnameState\` with stored value: "${loadedHostname}"`,
+          );
+          setHostnameState(value);
+        });
+      });
+    }
     return {hostnameState, setHostnameState};
   };
 
