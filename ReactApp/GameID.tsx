@@ -20,7 +20,8 @@ const GameID = (props: {
   const handleSubmitText = async () => {
     console.log('Input value:', inputValue);
 
-    const hostname = Settings.get().loadHostnameSetting();
+    const {hostnameState} = Settings.get().useLoadHostnameSetting();
+    const hostname = hostnameState;
     const fetchRequest = `http://${hostname}/score-table.json?gameId=${inputValue}`;
 
     try {

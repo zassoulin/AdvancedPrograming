@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import Section from './Section';
-import Settings from './Settings';
+import {Settings, useLoadHostnameSetting} from './Settings';
 
 const SettingsScreen = (props: {
   setInSettings: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,7 +35,7 @@ const SettingsScreen = (props: {
           value={hostnameValue}
           onChangeText={handleInputChange}
           onSubmitEditing={handleSubmitSettings}
-          placeholder={Settings.get().loadHostnameSetting()}
+          placeholder={useLoadHostnameSetting}
         />
         <TouchableOpacity onPress={handleSubmitSettings} style={styles.button}>
           <Text style={styles.buttonLabel}>Confirm</Text>

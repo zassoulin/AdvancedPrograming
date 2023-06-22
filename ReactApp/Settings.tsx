@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSettingsContext} from './SettingsContext';
 
 class Settings {
   private static instance: Settings;
@@ -11,6 +12,7 @@ class Settings {
   }
 
   private hostnameStoreKey = '@hostname_key';
+  private defaultHostname = 'localhost:8080';
 
   private async storeHostnameSetting_impl(value: string) {
     try {
@@ -22,8 +24,7 @@ class Settings {
   }
 
   private async loadHostnameSetting_impl() {
-    // Default value of 'localhost:8080'
-    let hostname = 'localhost:8080';
+    let hostname = this.defaultHostname;
     try {
       const value = await AsyncStorage.getItem(this.hostnameStoreKey);
       if (value !== null) {
@@ -37,7 +38,8 @@ class Settings {
     return hostname;
   }
 
-  public storeHostnameSetting(value: string) {
+  public useStoreHostnameSetting = (value: string) => {
+    const {hostnameState, setHostnameState} = useSettingsContext();
     try {
       console.log(
         '`storeHostnameSetting` just called `storeHostnameSetting_impl`',
@@ -46,26 +48,32 @@ class Settings {
         console.log(
           '`storeHostnameSetting` finished calling `storeHostnameSetting_impl`',
         );
+        this.loadHostnameSetting_impl().then(loadedHostname => {
+          console.log(
+            `Updating \`useHostnameState\` with stored value: "${loadedHostname}"`,
+          );
+          setHostnameState.set(value);
+        });
       });
     } catch (error) {
       console.log(
         '`storeHostnameSetting` failed call to `storeHostnameSetting_impl`',
       );
     }
-  }
+    return [hostnameState, setHostnameState];
+  };
 
-  public loadHostnameSetting(): string {
-    // Default value of 'localhost:8080'
-    let hostname = 'localhost:8080';
+  public useLoadHostnameSetting = () => {
+    const {hostnameState, setHostnameState} = useSettingsContext();
     console.log('`loadHostnameSetting` just called `loadHostnameSetting_impl`');
-    hostname = this.loadHostnameSetting_impl().then((value: string) => {
+    this.loadHostnameSetting_impl().then((value: string) => {
       console.log(
         `\`loadHostnameSetting\` finished calling \`loadHostnameSetting_impl\`. Received value: "${value}"`,
       );
-      hostname = value;
+      setHostnameState.set(value);
     });
-    return hostname;
-  }
+    return [hostnameState, setHostnameState];
+  };
 }
 
 export default Settings;
