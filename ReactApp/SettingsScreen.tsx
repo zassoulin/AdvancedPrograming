@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Section from './Section';
 import Settings from './Settings';
+import {useSettingsContext} from './SettingsContext';
 
 const SettingsScreen = (props: {
   setInSettings: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,10 +16,15 @@ const SettingsScreen = (props: {
   const {setInSettings} = props;
 
   const [hostnameValue, setHostnameValue] = useState('');
+  const {hostnameState, setHostnameState} = useSettingsContext();
 
-  const handleSubmitSettings = async () => {
+  const handleSubmitSettings = () => {
     console.log('Trying to save hostname value:', hostnameValue);
-    Settings.get().useStoreHostnameSetting(hostnameValue);
+    Settings.get().useStoreHostnameSetting(
+      hostnameValue,
+      hostnameState,
+      setHostnameState,
+    );
     setInSettings(false);
   };
 

@@ -38,28 +38,25 @@ class Settings {
     return hostname;
   }
 
-  public useStoreHostnameSetting = (value: string): hostnameType => {
-    const {hostnameState, setHostnameState} = useSettingsContext();
-    try {
+  public useStoreHostnameSetting = (
+    value: string,
+    hostnameState: string,
+    setHostnameState: React.Dispatch<React.SetStateAction<string>>,
+  ): hostnameType => {
+    console.log(
+      '`storeHostnameSetting` just called `storeHostnameSetting_impl`',
+    );
+    this.storeHostnameSetting_impl(value).then(() => {
       console.log(
-        '`storeHostnameSetting` just called `storeHostnameSetting_impl`',
+        '`storeHostnameSetting` finished calling `storeHostnameSetting_impl`',
       );
-      this.storeHostnameSetting_impl(value).then(() => {
+      this.loadHostnameSetting_impl().then(loadedHostname => {
         console.log(
-          '`storeHostnameSetting` finished calling `storeHostnameSetting_impl`',
+          `Updating \`useHostnameState\` with stored value: "${loadedHostname}"`,
         );
-        this.loadHostnameSetting_impl().then(loadedHostname => {
-          console.log(
-            `Updating \`useHostnameState\` with stored value: "${loadedHostname}"`,
-          );
-          setHostnameState(value);
-        });
+        setHostnameState(value);
       });
-    } catch (error) {
-      console.log(
-        '`storeHostnameSetting` failed call to `storeHostnameSetting_impl`',
-      );
-    }
+    });
     return {hostnameState, setHostnameState};
   };
 
