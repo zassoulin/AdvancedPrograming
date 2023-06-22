@@ -1,38 +1,32 @@
 import React from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  Text
-} from 'react-native';
-import { Col, Grid } from 'react-native-easy-grid';
+import {Dimensions, StyleSheet, Text} from 'react-native';
+import {Col, Grid} from 'react-native-easy-grid';
 import Section from './Section';
 
-
-const ScoreTable = (props: { response: string; }) => {
-
+const ScoreTable = (props: {response: string}) => {
   // The response should be a json in this format:
   //{
   //  "players": ["Avi", "Shimon", "Gaydamat"],
   //  "scores": [42, 69, 4206969]
   //}
-  const { response } = props
+  const {response} = props;
 
-  let section = "Retarded Score Table"
-  let players = ["Rave"]
-  let scores = [0]
+  let section = 'Retarded Score Table';
+  let players = ['Rave'];
+  let scores = [0];
 
   try {
     const data = JSON.parse(response);
 
-    const tmp_section = "Score Table"
-    const tmp_players = data.players
-    const tmp_scores = data.scores
+    const tmp_section = 'Score Table';
+    const tmp_players = data.players;
+    const tmp_scores = data.scores;
 
-    section = tmp_section
-    players = tmp_players
-    scores = tmp_scores
+    section = tmp_section;
+    players = tmp_players;
+    scores = tmp_scores;
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 
   return (
@@ -41,13 +35,17 @@ const ScoreTable = (props: { response: string; }) => {
         <Col style={styles.column}>
           <Text style={styles.textHeader}>Players</Text>
           {players.map((player: string, index: number) => (
-            <Text style={styles.text} key={index}>{player}</Text>
+            <Text style={styles.text} key={index}>
+              {player}
+            </Text>
           ))}
         </Col>
         <Col style={styles.column}>
           <Text style={styles.textHeader}>Scores</Text>
           {scores.map((score: number, index: number) => (
-            <Text style={styles.text} key={index}>{score}</Text>
+            <Text style={styles.text} key={index}>
+              {score}
+            </Text>
           ))}
         </Col>
       </Grid>

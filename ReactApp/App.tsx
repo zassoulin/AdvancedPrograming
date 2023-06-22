@@ -8,19 +8,17 @@
 import GameID from './GameID';
 import ScoreTable from './ScoreTable';
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Dimensions,
   SafeAreaView,
   ScrollView,
   StatusBar,
   View,
-  useColorScheme
+  useColorScheme,
 } from 'react-native';
 
-import {
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,8 +27,8 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const [gottem, setGottem] = useState(false)
-  const [response, setResponse] = useState('')
+  const [gottem, setGottem] = useState(false);
+  const [response, setResponse] = useState('');
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -46,12 +44,10 @@ function App(): JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
             height: Dimensions.get('window').height,
           }}>
-          {
-            !gottem && <GameID setGottem={setGottem} setResponse={setResponse} />
-          }
-          {
-            gottem && <ScoreTable response={response} />
-          }
+          {!gottem && (
+            <GameID setGottem={setGottem} setResponse={setResponse} />
+          )}
+          {gottem && <ScoreTable response={response} />}
         </View>
       </ScrollView>
     </SafeAreaView>

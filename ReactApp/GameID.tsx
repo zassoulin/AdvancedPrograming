@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import Section from './Section';
 
-
-const GameID = (props: { setGottem: React.Dispatch<React.SetStateAction<boolean>>; setResponse: React.Dispatch<React.SetStateAction<string>>; }) => {
-  const { setGottem, setResponse } = props
+const GameID = (props: {
+  setGottem: React.Dispatch<React.SetStateAction<boolean>>;
+  setResponse: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const {setGottem, setResponse} = props;
 
   const [inputValue, setInputValue] = useState('');
 
@@ -19,17 +21,20 @@ const GameID = (props: { setGottem: React.Dispatch<React.SetStateAction<boolean>
 
     try {
       const response = await fetch(
-        'http://localhost:8080/score-table.json?gameId=' + inputValue).then(function (response) {
-          return response.text();
-        }).then(function (message) {
+        'http://localhost:8080/score-table.json?gameId=' + inputValue,
+      )
+        .then(function (resp) {
+          return resp.text();
+        })
+        .then(function (message) {
           return message;
         });
 
       console.log('Res: ', response);
-      setResponse(response)
-      setGottem(true)
+      setResponse(response);
+      setGottem(true);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -77,7 +82,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     width: 200,
-    color: 'black'
+    color: 'black',
   },
 });
 
