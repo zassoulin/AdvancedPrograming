@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import Section from './Section';
+import Settings from './Settings';
 
 const GameID = (props: {
   setGottem: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,9 +20,11 @@ const GameID = (props: {
   const handleSubmitText = async () => {
     console.log('Input value:', inputValue);
 
+    const hostname = Settings.get().loadHostnameSetting();
+
     try {
       const response = await fetch(
-        'http://localhost:8080/score-table.json?gameId=' + inputValue,
+        `http://${hostname}/score-table.json?gameId=${inputValue}`,
       )
         .then(function (resp) {
           return resp.text();

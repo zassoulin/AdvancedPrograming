@@ -7,6 +7,8 @@
 
 import GameID from './GameID';
 import ScoreTable from './ScoreTable';
+import SettingsScreen from './SettingsScreen';
+import SettingsButton from './SettingsButton';
 
 import React, {useState} from 'react';
 import {
@@ -27,6 +29,8 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [inSettings, setInSettings] = useState(false);
+
   const [gottem, setGottem] = useState(false);
   const [response, setResponse] = useState('');
 
@@ -44,10 +48,18 @@ function App(): JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
             height: Dimensions.get('window').height,
           }}>
-          {!gottem && (
+          {!inSettings && <SettingsButton setInSettings={setInSettings} />}
+        </View>
+        <View
+          style={{
+            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            height: Dimensions.get('window').height,
+          }}>
+          {inSettings && <SettingsScreen setInSettings={setInSettings} />}
+          {!inSettings && !gottem && (
             <GameID setGottem={setGottem} setResponse={setResponse} />
           )}
-          {gottem && <ScoreTable response={response} />}
+          {!inSettings && gottem && <ScoreTable response={response} />}
         </View>
       </ScrollView>
     </SafeAreaView>
