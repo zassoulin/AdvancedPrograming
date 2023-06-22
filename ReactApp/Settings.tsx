@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useSettingsContext} from './SettingsContext';
+import {useSettingsContext, hostnameType} from './SettingsContext';
 
 class Settings {
   private static instance: Settings;
@@ -38,7 +38,7 @@ class Settings {
     return hostname;
   }
 
-  public useStoreHostnameSetting = (value: string) => {
+  public useStoreHostnameSetting = (value: string): hostnameType => {
     const {hostnameState, setHostnameState} = useSettingsContext();
     try {
       console.log(
@@ -52,7 +52,7 @@ class Settings {
           console.log(
             `Updating \`useHostnameState\` with stored value: "${loadedHostname}"`,
           );
-          setHostnameState.set(value);
+          setHostnameState(value);
         });
       });
     } catch (error) {
@@ -60,19 +60,19 @@ class Settings {
         '`storeHostnameSetting` failed call to `storeHostnameSetting_impl`',
       );
     }
-    return [hostnameState, setHostnameState];
+    return {hostnameState, setHostnameState};
   };
 
-  public useLoadHostnameSetting = () => {
+  public useLoadHostnameSetting = (): hostnameType => {
     const {hostnameState, setHostnameState} = useSettingsContext();
     console.log('`loadHostnameSetting` just called `loadHostnameSetting_impl`');
     this.loadHostnameSetting_impl().then((value: string) => {
       console.log(
         `\`loadHostnameSetting\` finished calling \`loadHostnameSetting_impl\`. Received value: "${value}"`,
       );
-      setHostnameState.set(value);
+      setHostnameState(value);
     });
-    return [hostnameState, setHostnameState];
+    return {hostnameState, setHostnameState};
   };
 }
 

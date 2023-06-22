@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import Section from './Section';
-import {Settings, useLoadHostnameSetting} from './Settings';
+import Settings from './Settings';
 
 const SettingsScreen = (props: {
   setInSettings: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +18,7 @@ const SettingsScreen = (props: {
 
   const handleSubmitSettings = async () => {
     console.log('Trying to save hostname value:', hostnameValue);
-    Settings.get().storeHostnameSetting(hostnameValue);
+    Settings.get().useStoreHostnameSetting(hostnameValue);
     setInSettings(false);
   };
 
@@ -35,7 +35,7 @@ const SettingsScreen = (props: {
           value={hostnameValue}
           onChangeText={handleInputChange}
           onSubmitEditing={handleSubmitSettings}
-          placeholder={useLoadHostnameSetting}
+          placeholder={Settings.get().useLoadHostnameSetting().hostnameState}
         />
         <TouchableOpacity onPress={handleSubmitSettings} style={styles.button}>
           <Text style={styles.buttonLabel}>Confirm</Text>

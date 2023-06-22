@@ -9,6 +9,7 @@ import GameID from './GameID';
 import ScoreTable from './ScoreTable';
 import SettingsScreen from './SettingsScreen';
 import SettingsButton from './SettingsButton';
+import {SettingsContextProvider} from './SettingsContext';
 
 import React, {useState} from 'react';
 import {
@@ -36,30 +37,32 @@ function App(): JSX.Element {
   const [response, setResponse] = useState('');
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View style={styles.settingsButtonView}>
-          {!inSettings && <SettingsButton setInSettings={setInSettings} />}
-        </View>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            height: Dimensions.get('window').height,
-          }}>
-          {inSettings && <SettingsScreen setInSettings={setInSettings} />}
-          {!inSettings && !gottem && (
-            <GameID setGottem={setGottem} setResponse={setResponse} />
-          )}
-          {!inSettings && gottem && <ScoreTable response={response} />}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <SettingsContextProvider>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={backgroundStyle}>
+          <View style={styles.settingsButtonView}>
+            {!inSettings && <SettingsButton setInSettings={setInSettings} />}
+          </View>
+          <View
+            style={{
+              backgroundColor: isDarkMode ? Colors.black : Colors.white,
+              height: Dimensions.get('window').height,
+            }}>
+            {inSettings && <SettingsScreen setInSettings={setInSettings} />}
+            {!inSettings && !gottem && (
+              <GameID setGottem={setGottem} setResponse={setResponse} />
+            )}
+            {!inSettings && gottem && <ScoreTable response={response} />}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </SettingsContextProvider>
   );
 }
 

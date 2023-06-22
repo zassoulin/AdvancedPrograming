@@ -1,7 +1,12 @@
 import React, {useContext, useState} from 'react';
 
+export interface hostnameType {
+  hostnameState: string;
+  setHostnameState: React.Dispatch<React.SetStateAction<string>>;
+}
+
 // @ts-ignore
-const SettingsContext = React.createContext();
+const SettingsContext = React.createContext<hostnameType>();
 
 export function useSettingsContext() {
   return useContext(SettingsContext);
