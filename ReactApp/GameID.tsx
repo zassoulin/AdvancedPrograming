@@ -21,11 +21,11 @@ const GameID = (props: {
     console.log('Input value:', inputValue);
 
     const hostname = Settings.get().loadHostnameSetting();
+    const fetchRequest = `http://${hostname}/score-table.json?gameId=${inputValue}`;
 
     try {
-      const response = await fetch(
-        `http://${hostname}/score-table.json?gameId=${inputValue}`,
-      )
+      console.log(`Trying to fetch the score table: "${fetchRequest}"`);
+      const response = await fetch(fetchRequest)
         .then(function (resp) {
           return resp.text();
         })
@@ -37,6 +37,7 @@ const GameID = (props: {
       setResponse(response);
       setGottem(true);
     } catch (error) {
+      console.error('Failed to fetch the score table:');
       console.error(error);
     }
   };

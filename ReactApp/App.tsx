@@ -16,6 +16,7 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
+  StyleSheet,
   View,
   useColorScheme,
 } from 'react-native';
@@ -43,11 +44,7 @@ function App(): JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            height: Dimensions.get('window').height,
-          }}>
+        <View style={styles.settingsButtonView}>
           {!inSettings && <SettingsButton setInSettings={setInSettings} />}
         </View>
         <View
@@ -65,5 +62,14 @@ function App(): JSX.Element {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  settingsButtonView: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    zIndex: 5,
+  },
+});
 
 export default App;

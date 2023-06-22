@@ -58,9 +58,9 @@ class Settings {
     // Default value of 'localhost:8080'
     let hostname = 'localhost:8080';
     console.log('`loadHostnameSetting` just called `loadHostnameSetting_impl`');
-    this.loadHostnameSetting_impl().then((value: string) => {
+    hostname = this.loadHostnameSetting_impl().then((value: string) => {
       console.log(
-        `\`storeHostnameSetting\` finished calling \`storeHostnameSetting_impl\`. Received value: "${value}"`,
+        `\`loadHostnameSetting\` finished calling \`loadHostnameSetting_impl\`. Received value: "${value}"`,
       );
       hostname = value;
     });

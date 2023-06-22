@@ -1,6 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {SvgUri} from 'react-native-svg';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 const SettingsButton = (props: {
   setInSettings: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,7 +14,8 @@ const SettingsButton = (props: {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleSettingsPress} style={styles.button}>
-        <SvgUri width="100%" height="100%" uri="./gear-settings" />
+        {/* <Text style={styles.buttonLabel}>&#x26&#x99&#xFE&#x0F</Text> */}
+        <Text style={styles.buttonLabel}>⚙️</Text>
       </TouchableOpacity>
     </View>
   );
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    backgroundColor: 'blue',
+    backgroundColor: '#E5E5E5',
     borderRadius: 5,
     marginBottom: 10,
   },

@@ -29,7 +29,7 @@ const SettingsScreen = (props: {
   return (
     <Section title="Settings">
       <View style={styles.container}>
-        <Text style={styles.settingText}>Hostname:Port</Text>
+        <Text style={styles.settingText}>Hostname and Port</Text>
         <TextInput
           style={styles.input}
           value={hostnameValue}
