@@ -64,3 +64,10 @@ yarn-error.log
 
 # Debug files for vscode
 .vscode/.react
+
+# Exclude `apk` files
+!**/build/
+**/build/**
+!**/build/outputs/
+!**/build/outputs/apk/
+!**/build/outputs/apk/**
