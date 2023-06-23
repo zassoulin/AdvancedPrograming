@@ -1,0 +1,1 @@
+http://hostname:8080/score-table.json?gameId=MyCoolGame
