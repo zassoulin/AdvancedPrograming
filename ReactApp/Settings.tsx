@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useSettingsContext, hostnameType} from './SettingsContext';
+import {hostnameType} from './SettingsContext';
 
 class Settings {
   private static instance: Settings;
@@ -14,7 +14,7 @@ class Settings {
   private hostnameStoreKey = '@hostname_key';
   private defaultHostname = 'localhost:8080';
 
-  private async storeHostnameSetting_impl(value: string) {
+  public async storeHostnameSetting(value: string) {
     try {
       await AsyncStorage.setItem(this.hostnameStoreKey, value);
     } catch (error) {
@@ -23,7 +23,7 @@ class Settings {
     }
   }
 
-  private async loadHostnameSetting_impl() {
+  public async loadHostnameSetting() {
     let hostname = this.defaultHostname;
     try {
       const value = await AsyncStorage.getItem(this.hostnameStoreKey);
@@ -39,28 +39,26 @@ class Settings {
   }
 
   public useStoreHostnameSetting = (
+    hostnameStruct: hostnameType,
     value: string,
-    hostnameState: string,
-    setHostnameState: React.Dispatch<React.SetStateAction<string>>,
   ): hostnameType => {
-    console.log(
-      '`storeHostnameSetting` just called `storeHostnameSetting_impl`',
-    );
+    const {hostnameState, setHostnameState} = hostnameStruct;
+    console.log('`useStoreHostnameSetting` just called `storeHostnameSetting`');
     if (value.trim() === '') {
-      this.loadHostnameSetting_impl().then(loadedHostname => {
+      this.loadHostnameSetting().then(loadedHostname => {
         console.log(
           `Given value is empty, keeping hostname as is: "${loadedHostname}"`,
         );
         setHostnameState(value);
       });
     } else {
-      this.storeHostnameSetting_impl(value).then(() => {
+      this.storeHostnameSetting(value).then(() => {
         console.log(
-          '`storeHostnameSetting` finished calling `storeHostnameSetting_impl`',
+          '`useStoreHostnameSetting` finished calling `storeHostnameSetting`',
         );
-        this.loadHostnameSetting_impl().then(loadedHostname => {
+        this.loadHostnameSetting().then(loadedHostname => {
           console.log(
-            `Updating \`useHostnameState\` with stored value: "${loadedHostname}"`,
+            `Updating \`hostnameState\` with stored value: "${loadedHostname}"`,
           );
           setHostnameState(value);
         });
@@ -69,12 +67,14 @@ class Settings {
     return {hostnameState, setHostnameState};
   };
 
-  public useLoadHostnameSetting = (): hostnameType => {
-    const {hostnameState, setHostnameState} = useSettingsContext();
-    console.log('`loadHostnameSetting` just called `loadHostnameSetting_impl`');
-    this.loadHostnameSetting_impl().then((value: string) => {
+  public useLoadHostnameSetting = (
+    hostnameStruct: hostnameType,
+  ): hostnameType => {
+    const {hostnameState, setHostnameState} = hostnameStruct;
+    console.log('`useLoadHostnameSetting` just called `loadHostnameSetting`');
+    this.loadHostnameSetting().then((value: string) => {
       console.log(
-        `\`loadHostnameSetting\` finished calling \`loadHostnameSetting_impl\`. Received value: "${value}"`,
+        `\`useLoadHostnameSetting\` finished calling \`loadHostnameSetting\`. Received value: "${value}"`,
       );
       setHostnameState(value);
     });

@@ -16,15 +16,11 @@ const SettingsScreen = (props: {
   const {setInSettings} = props;
 
   const [hostnameValue, setHostnameValue] = useState('');
-  const {hostnameState, setHostnameState} = useSettingsContext();
+  const hostnameStruct = useSettingsContext();
 
   const handleSubmitSettings = () => {
     console.log('Trying to save hostname value:', hostnameValue);
-    Settings.get().useStoreHostnameSetting(
-      hostnameValue,
-      hostnameState,
-      setHostnameState,
-    );
+    Settings.get().useStoreHostnameSetting(hostnameStruct, hostnameValue);
     setInSettings(false);
   };
 
@@ -41,7 +37,9 @@ const SettingsScreen = (props: {
           value={hostnameValue}
           onChangeText={handleInputChange}
           onSubmitEditing={handleSubmitSettings}
-          placeholder={Settings.get().useLoadHostnameSetting().hostnameState}
+          placeholder={
+            Settings.get().useLoadHostnameSetting(hostnameStruct).hostnameState
+          }
         />
         <TouchableOpacity onPress={handleSubmitSettings} style={styles.button}>
           <Text style={styles.buttonLabel}>Confirm</Text>
