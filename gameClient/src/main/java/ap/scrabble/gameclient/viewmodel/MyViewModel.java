@@ -32,7 +32,8 @@ public class MyViewModel extends ViewModel {
 	}
 
 	public void saveGame()  {
-		GameState gameState = new GameState(gameData, tileList, playerNames, playersScores, currentPlayer);
+		System.out.println("Saving game...");
+		GameState gameState = new GameState(model, gameData, tileList, playerNames, playersScores, currentPlayer);
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("game.save"))) {
 			oos.writeObject(gameState);
 		}
@@ -45,6 +46,8 @@ public class MyViewModel extends ViewModel {
 	public void loadGame()  {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("game.save"))) {
 			GameState gameState = (GameState) ois.readObject();
+			model = gameState.getModel();
+			// if above is valid, then no need to update model, only view
 			gameData = gameState.getGameData();
 			tileList = gameState.getTileList();
 			playerNames = gameState.getPlayerNames();
@@ -54,6 +57,7 @@ public class MyViewModel extends ViewModel {
 		catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+//		model.getGameState();
 	}
 
 	public void setPlayersScores(Map<String, Integer> playersScores) {
@@ -180,7 +184,12 @@ public class MyViewModel extends ViewModel {
 			//TODO:Display error message
 		} else if (message.type == "ILLEGAL_WORD") {
 			//TODO Tell user The word he tried to place is illegal and he need to try again
-		}else {
+		}	else if (message.type == "TEST"){
+			System.out.println("TEST PASSED");
+		}
+
+
+		else {
 			System.out.println("ERROR RReceived unknown message of type " + message.type);
 			System.out.println("message Value is" + message.arg);
 		}

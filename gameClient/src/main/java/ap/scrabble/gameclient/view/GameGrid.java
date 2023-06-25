@@ -10,8 +10,9 @@ import javafx.scene.paint.Color;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class GameGrid extends GridPane {
+public class GameGrid extends GridPane implements Serializable {
 
 
     private byte[][] boardLayout;

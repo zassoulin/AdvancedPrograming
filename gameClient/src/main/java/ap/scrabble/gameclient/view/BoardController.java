@@ -10,10 +10,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.*;
 
-public class BoardController implements Initializable {
+public class BoardController implements Initializable, Serializable {
     MyView myView;
 
     public void setMyView(MyView v) {
