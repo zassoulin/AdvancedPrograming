@@ -41,6 +41,16 @@
                <Insets top="200.0" />
             </VBox.margin>
          </Button>
+        <Button fx:id="saveButton" onAction="#saveGame" prefHeight="25.0" prefWidth="80.0" text="Save Game" textAlignment="CENTER">
+            <VBox.margin>
+                <Insets top="200.0" />
+            </VBox.margin>
+        </Button>
+        <Button fx:id="TestSaveButton" onAction="#loadGame" prefHeight="25.0" prefWidth="80.0" text="Load Game" textAlignment="CENTER">
+            <VBox.margin>
+                <Insets top="200.0" />
+            </VBox.margin>
+        </Button>
          <BorderPane.margin>
             <Insets right="10.0" top="10.0" />
          </BorderPane.margin>
