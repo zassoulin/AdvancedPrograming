@@ -2,6 +2,7 @@ package ap.scrabble.gameclient.view;
 
 import ap.scrabble.gameclient.App;
 import ap.scrabble.gameclient.viewmodel.MyViewModel;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -49,6 +50,8 @@ public class initGameController {
     private Button hostGame;
     @FXML
     private TextField InitGamePlayerText;
+    @FXML
+    private Button LoadGameButton;
 
     @FXML
     public void HostButtonsFunction()
@@ -206,4 +209,10 @@ public class initGameController {
         myView.ViewStartGameRt();
         //myView.ViewMoveToGameWindowRt();
     }
+
+    public void loadGame() {
+        myView.loadGame();
+        myView.ViewMoveToGameWindowRt();
+    }
+
 } /* 1 */

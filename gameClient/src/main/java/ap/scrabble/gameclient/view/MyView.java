@@ -25,6 +25,7 @@ public class MyView implements View, Observer {
 
 	boolean gameStarted = false;
 
+
 	public void init(MyViewModel viewModel, initGameController gc, BoardController bc, Parent BoardRoot, Stage stage) {
 		this.viewModel = viewModel;
 		viewModel.addObserver(this);
