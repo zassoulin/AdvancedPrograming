@@ -10,6 +10,7 @@ import ap.scrabble.gameclient.model.properties.HostServerConfig;
 import org.junit.Test;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -70,7 +71,8 @@ public class HostTester implements Observer {
         }
         else if(message.type == MessageType.PLAYER_TILES){
             Tile[] tileList = (Tile[]) message.arg;
-            System.out.println(tileList);
+            System.out.println( Arrays.stream(tileList).toList());
+//            System.out.println(tileList.);
         }
     }
 }
