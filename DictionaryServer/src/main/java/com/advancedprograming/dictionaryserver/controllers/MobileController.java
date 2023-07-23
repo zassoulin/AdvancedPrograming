@@ -18,19 +18,22 @@ public class MobileController {
     public MobileController(GameSaveRepository gameSaveRepository) {
         this.gameSaveRepository = gameSaveRepository;
     }
-
-    @GetMapping("/score-table")//Example request GET http://localhost:8080/score-table?gameID=1
-    Map GetScoreTable(@RequestParam String gameID){
-        GameSave gameSave = gameSaveRepository.findByGameId(gameID);
-        //TODO: extract table
-        //And convert to type
+    //TODO: extract table
+    //And convert to type
 //        {
 //            "players": ["Avi", "Shimon", "Gaydamat"],
 //            "scores": [42, 69, 4206969]
 //        }
+    @GetMapping("/score-table")//Example request GET http://localhost:8080/score-table?gameID=1
+    Map GetScoreTable(@RequestParam String gameID){
+        GameSave gameSave = gameSaveRepository.findByGameId(gameID);
         Map res = new HashMap();
         List<String> players = new ArrayList();
         List<Integer> scores = new ArrayList();
+        for(String Player : gameSave.getScoreBoard().keySet()){
+            players.add(Player);
+            scores.add(gameSave.getScoreBoard().get(Player));
+        }
         res.put("players",players);
         res.put("scores",scores);
         return res;
