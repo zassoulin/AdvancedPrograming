@@ -34,3 +34,21 @@ Installation instructions for the main application (dictionary server + scrabble
 1.	Change the `ip` field inside `gameClient/host_server.ini` if necessary.
 2.	Double click on `gameClient/runGame.cmd`.
 3.	Press *Join Game* to join a hosted game.
+
+## System design
+
+The design document is available at `design/ADVANCED PROGRAMING DESIGN.pdf`
+
+### Dictionary Server
+
+![](./design/DictionaryServer_UML.jpg)
+
+### Game Client
+
+#### UML
+
+![](./design/GameClient_UML.jpg)
+
+#### Flow
+
+![](./design/GameClient_Flow.jpg)
