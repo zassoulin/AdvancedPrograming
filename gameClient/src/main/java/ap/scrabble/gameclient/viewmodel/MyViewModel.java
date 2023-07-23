@@ -13,6 +13,9 @@ import ap.scrabble.gameclient.model.board.GameData;
 import ap.scrabble.gameclient.model.board.Tile;
 import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.util.Message;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 
 public class MyViewModel extends ViewModel {
@@ -22,10 +25,36 @@ public class MyViewModel extends ViewModel {
 	private GameData gameData;
 	private Tile[] tileList;
 	private static List<String> playerNames;
+
+	private final StringProperty playerCount = new SimpleStringProperty();
+	public StringProperty playerCountProperty() {
+		return playerCount;
+	}
 	private Map<String,Integer> playersScores = new HashMap<>();
 	private ArrayList<Word> wordsOnBoard = new ArrayList<>(); // don't need this probably
 	private Word tempWord;
 	private String currentPlayer;
+	private boolean isHost = false;
+	private String remotePlayerName = null;
+
+
+
+	private List<String> localPlayers = new ArrayList<>();
+	public void setHost() {
+		this.isHost = true;
+	}
+
+	public String getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public List<String> getLocalPlayers() {
+		return localPlayers;
+	}
+
+	public void addLocalPlayer(String playerName) {
+		this.localPlayers.add(playerName);
+	}
 
     /*
     Retrieves the score of a player with the given name.
@@ -38,9 +67,15 @@ public class MyViewModel extends ViewModel {
 	}
 
 	public MyViewModel(Model model) {
+		playerCount.set("Connected players: 0");
 		this.model = model;
 		model.addObserver(this);
 		model.getGameState();
+	}
+
+	private void incPlayerCount() {
+		int count = Integer.parseInt(playerCount.get().split(" ")[2]);
+		playerCount.set(MessageFormat.format("Connected players: {0}", count + 1));
 	}
 
 	public void saveGame()  {
@@ -86,7 +121,10 @@ public class MyViewModel extends ViewModel {
 
 	public void createGameRt(String playerName) { model.CreateGame(playerName);}
 //	public void setPlayerNameRt(String playerName){model.addLocalPlayer(playerName);}
-	public void joinGameRt(String playerName){model.JoinGame(playerName);}
+	public void joinGameRt(String playerName){
+		System.out.println("VM sending to M JoinGame: " + playerName);
+		model.JoinGame(playerName);
+	}
 	public void startGameRt(){
 		model.StartGame();
 //		model.GetCurrentPlayerTiles(); // update
@@ -141,6 +179,13 @@ public class MyViewModel extends ViewModel {
 		return c;
 	}
 
+	public void setRemotePlayerName(String playerName) {
+		this.remotePlayerName = playerName;
+	}
+	public String getRemotePlayerName() {
+		return this.remotePlayerName;
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		Message message = (Message) arg;
@@ -170,6 +215,8 @@ public class MyViewModel extends ViewModel {
 			// initialize player scores
 			playersScores.put(playerNames.get(playerNames.size()-1),0);
 			setPlayersScores(playersScores);
+			Platform.runLater(this::incPlayerCount);
+			sendMessage("PLAYER_ADDED", playerNames);
 			//TODO: view needs to update the player count in lobby and if implemented show the player list
 			//TODO: When viewmodel calls the JoinGame request it may want to know if it has succeed if so the viewModel needs to check if Its PlayerName is included in the playerNames list
 		} else if (message.type == "PLAYER_ALREADY_EXISTS") {
@@ -181,10 +228,10 @@ public class MyViewModel extends ViewModel {
 //			model.GetCurrentPlayerTiles(); // inital call to get first player's tiles
 		} else if (message.type == "CURRENT_PLAYER") {
 			String CurrentPlayerName = (String) message.arg;
+			currentPlayer = CurrentPlayerName;
 			sendMessage("CURRENT_PLAYER", CurrentPlayerName);
 			model.GetCurrentPlayerTiles();
 			// Save game
-			currentPlayer = CurrentPlayerName;
 			//TODO: change View current playName to the player received
 		} else if (message.type == "MY_TURN") {
 			boolean isMyTurn = (boolean) message.arg;
@@ -208,4 +255,7 @@ public class MyViewModel extends ViewModel {
 	}
 
 
+	public boolean getIsHost() {
+		return isHost;
+	}
 }

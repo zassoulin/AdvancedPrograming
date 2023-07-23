@@ -1,8 +1,6 @@
 package ap.scrabble.gameclient.view;
 
 import ap.scrabble.gameclient.App;
-import ap.scrabble.gameclient.viewmodel.MyViewModel;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,11 +23,11 @@ public class initGameController {
         this.startingWindow = startingWindow;
     }
     @FXML
-    static int playerCount = 1;
+    static int playerCount = 0;
     @FXML
     private Label startingWindowFXML;
     @FXML
-    private Label hostPlayerCount;
+    Label hostPlayerCount;
     @FXML
     private Label hostLabelIP;
     @FXML
@@ -42,6 +40,8 @@ public class initGameController {
     private Label errorLabel;
     @FXML
     private TextField JoinGameTextBoxIP;
+    @FXML
+    private Label WaitForHostLabel;
     @FXML
     private Button JoinGameButtonConnect;
     @FXML
@@ -71,6 +71,8 @@ public class initGameController {
 
         /* sent a request to create game */
         myView.ViewCreateGameRt(playerName);
+        myView.addLocalPlayer(playerName);
+        myView.setHost();
 
         /* reveal relevant buttons */
         StartingWindowVisibleButtons(true, false);
@@ -109,7 +111,7 @@ public class initGameController {
 
         /* sent a request to join the game */
         myView.ViewJoinGameRt(playerName);
-
+        myView.setGuestName(playerName);
 
         StartingWindowVisibleButtons(false, true);
         hostGame.setDisable(true);
@@ -141,17 +143,28 @@ public class initGameController {
 //        myView.ViewJoinGameRt(playerName);
         myView.addPlayer(playerName);
 
-        if (playerCount < 4)
-        { /* 3 */
-            playerCount++;
-            hostPlayerCount.setText("Connected players: " + playerCount);
 
+//        if (playerCount <= 4)
+//        { /* 3 */
+////            playerCount++;
+////            hostPlayerCount.setText("Connected players: " + playerCount);
+////
+////            hostButtonStartGame.setDisable(false);
+//
+//            if(playerCount == 4)
+//                hostAddPlayerButton.setDisable(true);
+//        } /* 3 */
+    } /* 2 */
+
+    public void playerAdded() {
+        playerCount++;
+        if (playerCount > 1)
             hostButtonStartGame.setDisable(false);
 
-            if(playerCount == 4)
-                hostAddPlayerButton.setDisable(true);
-        } /* 3 */
-    } /* 2 */
+        if(playerCount == 4)
+            hostAddPlayerButton.setDisable(true);
+    }
+
 
     private void StartingWindowVisibleButtons(boolean hostButtonsStt, boolean joinGameButtonsStt)
     { /* 2 */
@@ -165,8 +178,10 @@ public class initGameController {
         hostAddPlayerButton.setVisible(hostButtonsStt);
         hostPlayerCount.setVisible(hostButtonsStt);
 
-        JoinGameTextBoxIP.setVisible(joinGameButtonsStt);
-        JoinGameButtonConnect.setVisible(joinGameButtonsStt);
+        //JoinGameTextBoxIP.setVisible(joinGameButtonsStt);
+        //JoinGameButtonConnect.setVisible(joinGameButtonsStt);
+        WaitForHostLabel.setVisible(joinGameButtonsStt);
+
 
         if(hostButtonsStt)
             hostGame.setTextFill(Color.DARKCYAN);
@@ -210,9 +225,14 @@ public class initGameController {
         //myView.ViewMoveToGameWindowRt();
     }
 
+    public void joinGame() {
+        myView.joinGame(InitGamePlayerText.getText());
+    }
+
     public void loadGame() {
         myView.loadGame();
         myView.ViewMoveToGameWindowRt();
     }
+
 
 } /* 1 */

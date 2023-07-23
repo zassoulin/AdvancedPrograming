@@ -1,9 +1,9 @@
 package ap.scrabble.gameclient.view;
 
-import ap.scrabble.gameclient.model.board.GameData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.*;
 
 public class BoardController implements Initializable, Serializable {
+
     MyView myView;
 
     public void setMyView(MyView v) {
@@ -25,6 +26,8 @@ public class BoardController implements Initializable, Serializable {
     // ------------------------ Game grid ------------------------
     @FXML
     GameGrid gameGrid;
+    @FXML
+    private Button submitButton;
     @FXML
     private Label p1name;
     @FXML
@@ -190,9 +193,11 @@ public class BoardController implements Initializable, Serializable {
     }
 
     public void updatePlayerTiles(char[] c) {
-        this.tiles = c;
-        clearTileStack();
-        drawTileStack(c);
+        if (myView.getIsHost() && (myView.getLocalPlayers().contains(myView.getCurrentPlayer())) || myView.getCurrentPlayer().equals(myView.getRemotePlayerName())) {
+            this.tiles = c;
+            clearTileStack();
+            drawTileStack(c);
+        }
     }
 
     // ------------------------ Button clicks ------------------------
@@ -389,7 +394,6 @@ public class BoardController implements Initializable, Serializable {
     public void setBoardWindowNames() {
         List<String> playerNames = this.myView.ViewGetPlayerNames();
         int numOfPlayers = playerNames.size();
-
         switch (numOfPlayers) {
             case 4:
                 p4name.setText(playerNames.get(3));
@@ -411,23 +415,6 @@ public class BoardController implements Initializable, Serializable {
                 p1name.setVisible(true);
                 p1scoreLabel.setVisible(true);
                 p1score.setText("0");
-            //     p4scoreTitle.setVisible(true);
-            //     p4score.setVisible(true);
-            // case 3:
-            //     p3name.setText(playerNames.get(2));
-            //     p3name.setVisible(true);
-            //     p3scoreTitle.setVisible(true);
-            //     p3score.setVisible(true);
-            // case 2:
-            //     p2name.setText(playerNames.get(1));
-            //     p2name.setVisible(true);
-            //     p2scoreTitle.setVisible(true);
-            //     p2score.setVisible(true);
-            // case 1:
-            //     p1name.setText(playerNames.get(0));
-            //     p1name.setVisible(true);
-            //     p1scoreTitle.setVisible(true);
-            //     p1score.setVisible(true);
                 break;
         }
     }
@@ -553,5 +540,12 @@ public class BoardController implements Initializable, Serializable {
 
     public void loadGame(ActionEvent actionEvent) {
         myView.loadGame();
+    }
+
+    public void toggleSubmitButton() {
+        if (myView.getIsHost() && (myView.getLocalPlayers().contains(myView.getCurrentPlayer())) || myView.getCurrentPlayer().equals(myView.getRemotePlayerName()))
+            submitButton.setDisable(false);
+        else
+            submitButton.setDisable(true);
     }
 }

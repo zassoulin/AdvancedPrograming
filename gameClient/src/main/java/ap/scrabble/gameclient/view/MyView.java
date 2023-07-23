@@ -8,6 +8,7 @@ import java.util.Observer;
 
 import ap.scrabble.gameclient.util.Message;
 import ap.scrabble.gameclient.viewmodel.MyViewModel;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,13 +31,12 @@ public class MyView implements View, Observer {
 		this.viewModel = viewModel;
 		viewModel.addObserver(this);
 		this.gameController = gc;
+		gc.hostPlayerCount.textProperty().bind(viewModel.playerCountProperty());
 		this.boardController = bc;
 		gc.setMyView(this);
 		bc.setMyView(this);
 		this.BoardRoot = BoardRoot;
 		this.stage = stage;
-
-
 	}
 
 
@@ -51,7 +51,8 @@ public class MyView implements View, Observer {
 
 	}
 
-	public void joinGame(ActionEvent actionEvent) {
+	public void joinGame(String playerName) {
+		this.viewModel.joinGameRt(playerName);
 	}
 
 	public void addPlayerCountRt()
@@ -76,7 +77,7 @@ public class MyView implements View, Observer {
 		scene = new Scene(this.BoardRoot);
 		stage.setScene(scene);
 		stage.setResizable(false);
-		this.boardController.setBoardWindowNames();
+//		this.boardController.setBoardWindowNames();
 	}
 
 	public List<String> ViewGetPlayerNames()
@@ -92,6 +93,7 @@ public class MyView implements View, Observer {
 
 	public void addPlayer(String playerName) {
 		viewModel.addPlayer(playerName);
+		addLocalPlayer(playerName);
 	}
 
 
@@ -108,21 +110,38 @@ public class MyView implements View, Observer {
 
 	private void HandleMessage(Message message) {
 		if (message.type == "GAME_STARTED") {
-			if (!gameStarted)
-				ViewMoveToGameWindowRt();
+			if (!gameStarted) {
+				boardController.setBoardWindowNames();
+				Platform.runLater(() -> {
+					ViewMoveToGameWindowRt();
+
+				});
+			}
 		}
 		else if (message.type == "PLAYER_TILES"){
 			char[] c = (char[])message.arg;
-			boardController.updatePlayerTiles(c);
+			Platform.runLater(() -> {
+				boardController.updatePlayerTiles(c);
+			});
 		}
 		else if (message.type == "PLAYER_SCORES"){
 			Map<String,Integer> playersScores = (Map<String,Integer>)message.arg;
-			updatePlayerScores(playersScores);
+			Platform.runLater(() -> {
+				updatePlayerScores(playersScores);
+			});
 		}
 		else if (message.type == "CURRENT_PLAYER"){
 			boardController.togglePlayerTurnHighlight((String)message.arg);
 			boardController.clearCache();
+			boardController.toggleSubmitButton();
 		}
+		else if (message.type == "PLAYER_ADDED"){
+			gameController.playerAdded();
+		}
+	}
+
+	public void setHost(){
+		viewModel.setHost();
 	}
 
 
@@ -133,11 +152,28 @@ public class MyView implements View, Observer {
 	public void loadGame() {
 		viewModel.loadGame();
 	}
-	// 	else if (message.type.equals("PLAYER_SCORE")) {
-	// 		String playerName = (String) message.arg;
-	// 		int score = ViewGetScore(playerName);
-	// 		boardController.updatePlayerScore(playerName, score);
-	// 	}
-	// }
 
+	public void setGuestName(String playerName) {
+		viewModel.setRemotePlayerName(playerName);
+	}
+
+	public boolean getIsHost() {
+		return viewModel.getIsHost();
+	}
+
+	public String getRemotePlayerName() {
+		return viewModel.getRemotePlayerName();
+	}
+
+	public String getCurrentPlayer() {
+		return viewModel.getCurrentPlayer();
+	}
+
+	public void addLocalPlayer(String playerName) {
+		viewModel.addLocalPlayer(playerName);
+	}
+
+	public List<String> getLocalPlayers() {
+		return viewModel.getLocalPlayers();
+	}
 }

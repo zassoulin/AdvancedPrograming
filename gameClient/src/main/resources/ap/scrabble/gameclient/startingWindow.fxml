@@ -36,7 +36,9 @@
                 <Button fx:id="hostAddPlayerButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#addPlayer" prefHeight="14.0" prefWidth="255.0" text="Add Player" textAlignment="CENTER" visible="false" GridPane.rowIndex="2" />
                 <Button fx:id="hostButtonStartGame" alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" onAction="#startGame" prefHeight="14.0" prefWidth="255.0" text="Start a game" textAlignment="CENTER" visible="false" GridPane.rowIndex="3" />
                 <TextField fx:id="JoinGameTextBoxIP" alignment="CENTER" prefHeight="17.0" prefWidth="255.0" promptText="Enter IP Address" text="IP" visible="false" />
-                <Button fx:id="JoinGameButtonConnect" alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" onAction="#HostButtonsFunction" prefHeight="25.0" prefWidth="261.0" text="connect to game" textAlignment="CENTER" visible="false" GridPane.rowIndex="1" />
+                <Button fx:id="JoinGameButtonConnect" alignment="BOTTOM_CENTER" disable="false" mnemonicParsing="false" onAction="#joinGame" prefHeight="25.0" prefWidth="261.0" text="connect to game" textAlignment="CENTER" visible="false" GridPane.rowIndex="1" />
+                <Label fx:id="WaitForHostLabel" contentDisplay="CENTER" prefHeight="17.0" prefWidth="255.0" text="Waiting for host" textAlignment="CENTER" visible="false" />
+
             </children>
         </GridPane>
         <Label fx:id="hostPlayerCount" prefHeight="17.0" prefWidth="255.0" text="Connected players: 1" visible="false" />

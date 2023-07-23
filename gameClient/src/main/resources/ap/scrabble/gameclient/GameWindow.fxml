@@ -32,11 +32,11 @@
 <right>
     <VBox maxHeight="-Infinity" prefHeight="311.0" prefWidth="80.0" spacing="10.0">
         <Button fx:id="submitButton" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
-        <Button fx:id="clearButton" onAction="#clear" prefHeight="25.0" prefWidth="80.0" text="Clear" textAlignment="CENTER">
+        <Button fx:id="clearButton" onAction="#clear" prefHeight="25.0" prefWidth="80.0" text="Clear" textAlignment="CENTER" visible="false">
             <VBox.margin>
                <Insets top="5.0" />
             </VBox.margin></Button>
-         <Button fx:id="skipButton" onAction="#skip" prefHeight="25.0" prefWidth="80.0" text="Skip" textAlignment="CENTER">
+         <Button fx:id="skipButton" onAction="#skip" prefHeight="25.0" prefWidth="80.0" text="Skip" textAlignment="CENTER" visible="false">
             <VBox.margin>
                <Insets top="200.0" />
             </VBox.margin>
@@ -107,7 +107,7 @@
     </HBox>
 </top>
 <left>
-    <VBox prefHeight="722.0" prefWidth="117.0" spacing="10.0">
+    <VBox prefHeight="722.0" prefWidth="117.0" spacing="10.0" visible="false">
         <Label text="Tiles left in bag:" wrapText="true">
             <font>
                <Font name="Century Gothic" size="23.0" />
