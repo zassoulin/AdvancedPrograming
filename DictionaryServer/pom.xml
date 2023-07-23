@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.advancedprograming</groupId>
     <artifactId>DictionaryServer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>DictionaryServer</name>
     <description>DictionaryServer</description>
     <properties>
@@ -77,6 +77,19 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.advancedprograming.dictionaryserver.DictionaryServerApplication</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
