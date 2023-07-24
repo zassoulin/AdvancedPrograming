@@ -1,9 +1,12 @@
 package ap.scrabble.gameclient.view;
 
 import ap.scrabble.gameclient.model.board.GameData;
+import ap.scrabble.gameclient.model.board.Tile;
+import ap.scrabble.gameclient.model.board.Word;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -11,14 +14,15 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.*;
 
-public class BoardController implements Initializable {
+public class BoardController implements Initializable, Serializable {
 
     MyView myView;
 
-    public void setMyView(MyView v){
+    public void setMyView(MyView v) {
         this.myView = v;
     }
 
@@ -26,36 +30,44 @@ public class BoardController implements Initializable {
     @FXML
     GameGrid gameGrid;
     @FXML
-    Label p1name;
+    private Button submitButton;
     @FXML
-    Label p2name;
+    private Label p1name;
     @FXML
-    Label p3name;
+    private Label p2name;
     @FXML
-    Label p4name;
+    private Label p3name;
     @FXML
-    Label p1score;
+    private Label p4name;
     @FXML
-    Label p2score;
+    private Label p1score;
     @FXML
-    Label p3score;
+    private Label p2score;
     @FXML
-    Label p4score;
+    private Label p3score;
     @FXML
-    Label p1scoreTitle;
+    private Label p4score;
     @FXML
-    Label p2scoreTitle;
+    private Label p1scoreLabel;
     @FXML
-    Label p3scoreTitle;
+    private Label p2scoreLabel;
     @FXML
-    Label p4scoreTitle;
-
+    private Label p3scoreLabel;
+    @FXML
+    private Label p4scoreLabel;
+    @FXML
+    private Rectangle p1Highlight;
+    @FXML
+    private Rectangle p2Highlight;
+    @FXML
+    private Rectangle p3Highlight;
+    @FXML
+    private Rectangle p4Highlight;
 
     final private byte dl = 1;    // double letter
     final private byte tl = 2;    // triple letter
     final private byte dw = 3;    // double word
     final private byte tw = 4;    // triple word
-
 
     private byte[][] boardLayout = {
             {tw, 0, 0, dl, 0, 0, 0, tw, 0, 0, 0, dl, 0, 0, tw},
@@ -75,8 +87,9 @@ public class BoardController implements Initializable {
             {tw, 0, 0, dl, 0, 0, 0, tw, 0, 0, 0, dl, 0, 0, tw}
     };
 
+
     public void handleBoardClick(MouseEvent event) {
-        // check if turn is valid, check if tile is not taken already
+        // TODO: check if turn is valid, check if tile is not taken already
         if (gameGrid.getClickedRect().getChildren().stream().noneMatch(child -> child instanceof TileImage)) {
             TileImage temp = null;
             if (selectedTile != null) {
@@ -95,7 +108,7 @@ public class BoardController implements Initializable {
 
     }
 
-    private void addTileToGrid(TileImage t){
+    private void addTileToGrid(TileImage t) {
         t.setOnMouseClicked(this::handleTileOnBoardClick);
         t.setFitHeight(gameGrid.getSquareSize());
         t.setFitWidth(gameGrid.getSquareSize());
@@ -104,6 +117,27 @@ public class BoardController implements Initializable {
         t.setYgrid(gameGrid.getClickedRectY());
 //        System.out.println("Letter: " + t.getLetter() + " @ " + gameGrid.getClickedRectX() + "," + gameGrid.getClickedRectY());
         tempPlacedTiles.add(t);
+    }
+
+    private void addTileToGrid(TileImage t, int x, int y) {
+        t.setFitHeight(gameGrid.getSquareSize());
+        t.setFitWidth(gameGrid.getSquareSize());
+        gameGrid.getBoardGrid()[y][x].getChildren().add(t); // need to do this but to selected stackPane
+        t.setXgrid(x);
+        t.setYgrid(y);
+    }
+
+    // Synchronizes the board with the remote player's board
+    public void updateBoard(GameData data) {
+        Tile[][] compMap = data.getBoard().getTiles();
+        for (int i = 0; i < compMap.length; i++) {
+            for (int j = 0; j < compMap[i].length; j++) {
+                if (compMap[i][j] != null) {
+                    TileImage tile = new TileImage(new Image("C:\\Users\\edent\\Documents\\GitHub\\advancedprograming\\gameClient\\src\\main\\resources\\Tiles\\" + compMap[i][j].letter + ".png"), compMap[i][j].letter, tileW, tileH, null);
+                    addTileToGrid(tile, i, j);
+                }
+            }
+        }
     }
 
     public void handleTileOnBoardClick(MouseEvent event) {
@@ -118,8 +152,8 @@ public class BoardController implements Initializable {
     @FXML
     HBox TileRack;
 
-//    char []tiles = new char[]{'t','s','b', 'u','k','a','l',};
-    char []tiles = new char[7];
+    //    char []tiles = new char[]{'t','s','b', 'u','k','a','l',};
+    char[] tiles = new char[7];
 
     final private int tileW = 80;
     final private int tileH = 90;
@@ -128,26 +162,27 @@ public class BoardController implements Initializable {
 
     ArrayList<TileImage> tempPlacedTiles = new ArrayList<>();
 
-    private void drawTileStack(char[] tiles){
+    private void drawTileStack(char[] tiles) {
         try {
 //            TileImage tileView;
 //            StackPane sp;
             for (int i = 0; i < tiles.length; i++) {
                 addTileToRack(tiles[i]);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    private void clearTileStack(){
+    private void clearTileStack() {
         TileRack.getChildren().clear();
     }
 
     private void addTileToRack(TileImage t) {
         addTileToRack(t.getLetter());
     }
-    private void addTileToRack(char c){
+
+    private void addTileToRack(char c) {
         TileImage tileView;
         StackPane sp;
         // define tile highlight
@@ -182,9 +217,11 @@ public class BoardController implements Initializable {
     }
 
     public void updatePlayerTiles(char[] c) {
-        this.tiles = c;
-        clearTileStack();
-        drawTileStack(c);
+        if (myView.getIsHost() && (myView.getLocalPlayers().contains(myView.getCurrentPlayer())) || myView.getCurrentPlayer().equals(myView.getRemotePlayerName())) {
+            this.tiles = c;
+            clearTileStack();
+            drawTileStack(c);
+        }
     }
 
     // ------------------------ Button clicks ------------------------
@@ -224,7 +261,7 @@ public class BoardController implements Initializable {
                 }
             }
 
-            if (i == 0){
+            if (i == 0) {
                 wi.setX(row);
                 wi.setY(col);
             }
@@ -237,7 +274,7 @@ public class BoardController implements Initializable {
     }
 
     private void printLettersInLine(char[] letters) {
-        System.out.print("Letters in line: ");
+        System.out.print("\tLetters in line: ");
         for (Character letter : letters) {
             if (letter == null) {
                 System.out.print("null ");
@@ -314,15 +351,16 @@ public class BoardController implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) { // send x, y, chars, bool vertical
-        System.out.println("Submit clicked");
+        System.out.println("BoardController prints: \n\tSubmit clicked");
         if (tempPlacedTiles.size() == 0)
             return;
+        System.out.print("\t");
         printDirection();
-        System.out.println("word length: " + getEntryLength());
+        System.out.println("\tword length: " + getEntryLength());
         char[] c = new char[getEntryLength()];
-        if (c.length == 1){
+        if (c.length == 1) {
             c[0] = tempPlacedTiles.get(0).getLetter();
-            this.myView.submitLetters(c, tempPlacedTiles.get(0).getXgrid(),  tempPlacedTiles.get(0).getYgrid(), true);
+            this.myView.submitLetters(c, tempPlacedTiles.get(0).getXgrid(), tempPlacedTiles.get(0).getYgrid(), true);
             return;
         }
         WordInfo wi = new WordInfo();
@@ -340,6 +378,7 @@ public class BoardController implements Initializable {
             this.myView.submitLetters(wi.getLetters(), wi.getX(), wi.getY(), wi.isVertical());
         }
     }
+
     public void clear(ActionEvent actionEvent) {
         gameGrid.getChildren().clear();
     }
@@ -366,7 +405,6 @@ public class BoardController implements Initializable {
     }
 
 
-
     // -------------------------------Init-----------------------------------
 
     /**
@@ -380,91 +418,160 @@ public class BoardController implements Initializable {
     public void setBoardWindowNames() {
         List<String> playerNames = this.myView.ViewGetPlayerNames();
         int numOfPlayers = playerNames.size();
-
         switch (numOfPlayers) {
             case 4:
                 p4name.setText(playerNames.get(3));
                 p4name.setVisible(true);
-                p4scoreTitle.setVisible(true);
-                p4score.setVisible(true);
+                p4scoreLabel.setVisible(true);
+                p4score.setText("0");
             case 3:
                 p3name.setText(playerNames.get(2));
                 p3name.setVisible(true);
-                p3scoreTitle.setVisible(true);
-                p3score.setVisible(true);
+                p3scoreLabel.setVisible(true);
+                p3score.setText("0");
             case 2:
                 p2name.setText(playerNames.get(1));
                 p2name.setVisible(true);
-                p2scoreTitle.setVisible(true);
-                p2score.setVisible(true);
+                p2scoreLabel.setVisible(true);
+                p2score.setText("0");
             case 1:
                 p1name.setText(playerNames.get(0));
                 p1name.setVisible(true);
-                p1scoreTitle.setVisible(true);
-                p1score.setVisible(true);
+                p1scoreLabel.setVisible(true);
+                p1score.setText("0");
                 break;
         }
     }
 
-    /**
-     * Retrieves the score for the specified player from the view.
-     * @param playerName The name of the player.
-     */
-    public void getScore(String playerName) {
-        // Call the view to get the score for the player
-        Integer playerScore = this.myView.ViewGetScore(playerName);
-    }
+    public void updatePlayerScores(Map<String, Integer> playersScores) {
+        for (Map.Entry<String, Integer> entry : playersScores.entrySet()) {
+            String playerName = entry.getKey();
+            int playerScore = entry.getValue();
+            int numOfPlayers = playersScores.size();
+    // /**
+    //  * Retrieves the score for the specified player from the view.
+    //  * @param playerName The name of the player.
+    //  */
+    // public void getScore(String playerName) {
+    //     // Call the view to get the score for the player
+    //     Integer playerScore = this.myView.ViewGetScore(playerName);
+    // }
 
-    /**
-     * Sets the scores on the board for all players.
-     * It retrieves the player names from the view and updates the score labels accordingly.
-     */
-    public void setScoreOnBoard() {
-        // Get the list of player names from the view
-        List<String> playerNames = this.myView.ViewGetPlayerNames();
+    // /**
+    //  * Sets the scores on the board for all players.
+    //  * It retrieves the player names from the view and updates the score labels accordingly.
+    //  */
+    // public void setScoreOnBoard() {
+    //     // Get the list of player names from the view
+    //     List<String> playerNames = this.myView.ViewGetPlayerNames();
 
-        // Iterate over the player names and update the score labels
-        for (String playerName : playerNames) {
+    //     // Iterate over the player names and update the score labels
+    //     for (String playerName : playerNames) {
 
-            // Get the score for the current player
-            int playerScore = this.myView.ViewGetScore(playerName);
+    //         // Get the score for the current player
+    //         int playerScore = this.myView.ViewGetScore(playerName);
 
-            // Update the score label based on the player index
-            switch (playerNames.indexOf(playerName)) {
-                case 0:
-                    p1score.setText(String.valueOf(playerScore));
-                    break;
-                case 1:
-                    p2score.setText(String.valueOf(playerScore));
-                    break;
-                case 2:
-                    p3score.setText(String.valueOf(playerScore));
-                    break;
+    //         // Update the score label based on the player index
+    //         switch (playerNames.indexOf(playerName)) {
+    //             case 0:
+    //                 p1score.setText(String.valueOf(playerScore));
+    //                 break;
+    //             case 1:
+    //                 p2score.setText(String.valueOf(playerScore));
+    //                 break;
+    //             case 2:
+    //                 p3score.setText(String.valueOf(playerScore));
+    //                 break;
+    //             case 3:
+    //                 p4score.setText(String.valueOf(playerScore));
+    //                 break;
+    //         }
+    //     }
+    // }
+
+
+    // /**
+    //  Updates the score of a player.
+    //  @param playerName The name of the player whose score needs to be updated.
+    //  @param score The new score to be assigned to the player.
+    //  */
+    // public void updatePlayerScore(String playerName, int score) {
+    //     if (playerName.equals(p1name.getText())) {
+    //         p1score.setText(Integer.toString(score));
+    //     } else if (playerName.equals(p2name.getText())) {
+    //         p2score.setText(Integer.toString(score));
+    //     } else if (playerName.equals(p3name.getText())) {
+    //         p3score.setText(Integer.toString(score));
+    //     } else if (playerName.equals(p4name.getText())) {
+    //         p4score.setText(Integer.toString(score));
+    //     }
+    // }
+
+
+
+            switch (numOfPlayers) {
+                case 4:
+                    if (playerName.equals(p4name.getText())) {
+                        p4score.setText(String.valueOf(playerScore));
+                    }
                 case 3:
-                    p4score.setText(String.valueOf(playerScore));
+                    if (playerName.equals(p3name.getText())) {
+                        p3score.setText(String.valueOf(playerScore));
+                    }
+                case 2:
+                    if (playerName.equals(p2name.getText())) {
+                        p2score.setText(String.valueOf(playerScore));
+                    }
+                case 1:
+                    if (playerName.equals(p1name.getText())) {
+                        p1score.setText(String.valueOf(playerScore));
+                    }
                     break;
             }
         }
     }
 
-
-    /**
-     Updates the score of a player.
-     @param playerName The name of the player whose score needs to be updated.
-     @param score The new score to be assigned to the player.
-     */
-    public void updatePlayerScore(String playerName, int score) {
-        if (playerName.equals(p1name.getText())) {
-            p1score.setText(Integer.toString(score));
-        } else if (playerName.equals(p2name.getText())) {
-            p2score.setText(Integer.toString(score));
-        } else if (playerName.equals(p3name.getText())) {
-            p3score.setText(Integer.toString(score));
-        } else if (playerName.equals(p4name.getText())) {
-            p4score.setText(Integer.toString(score));
+    public void togglePlayerTurnHighlight(String playerName){
+        p4Highlight.setVisible(false);
+        p3Highlight.setVisible(false);
+        p2Highlight.setVisible(false);
+        p1Highlight.setVisible(false);
+        if (playerName.equals(p4name.getText())) {
+            p4Highlight.setVisible(true);
         }
+        else if (playerName.equals(p3name.getText())) {
+            p3Highlight.setVisible(true);
+        }
+        else if (playerName.equals(p2name.getText())) {
+            p2Highlight.setVisible(true);
+        }
+        else if (playerName.equals(p1name.getText())) {
+            p1Highlight.setVisible(true);
+        }
+
     }
 
+    public void clearCache(){
+        for (TileImage tile : tempPlacedTiles) {
+            tile.setOnMouseClicked(null);
+        }
+        this.tempPlacedTiles.clear();
+    }
+
+    public void saveGame(ActionEvent actionEvent) {
+        myView.saveGame();
+    }
+
+    public void loadGame(ActionEvent actionEvent) {
+        myView.loadGame();
+    }
+
+    public void toggleSubmitButton() {
+        if (myView.getIsHost() && (myView.getLocalPlayers().contains(myView.getCurrentPlayer())) || myView.getCurrentPlayer().equals(myView.getRemotePlayerName()))
+            submitButton.setDisable(false);
+        else
+            submitButton.setDisable(true);
+    }
 
 
 }
