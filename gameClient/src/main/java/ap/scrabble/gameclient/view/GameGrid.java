@@ -16,6 +16,12 @@ public class GameGrid extends GridPane implements Serializable {
 
 
     private byte[][] boardLayout;
+
+    public StackPane[][] getBoardGrid() {
+        return boardGrid;
+    }
+
+    private StackPane[][] boardGrid = new StackPane[15][15];
     private StackPane clickedRect;
 
     private int clickedRectX;
@@ -81,6 +87,7 @@ public class GameGrid extends GridPane implements Serializable {
 
                 rectangle.setStroke(Color.BLACK);
                 stackPane.getChildren().addAll(rectangle);
+                boardGrid[i][j] = stackPane;
                 add(stackPane, i, j);
                 int finalI = i;
                 int finalJ = j;

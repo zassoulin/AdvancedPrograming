@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import ap.scrabble.gameclient.model.board.GameData;
+import ap.scrabble.gameclient.model.board.Word;
 import ap.scrabble.gameclient.util.Message;
 import ap.scrabble.gameclient.viewmodel.MyViewModel;
 import javafx.application.Platform;
@@ -137,6 +139,12 @@ public class MyView implements View, Observer {
 		}
 		else if (message.type == "PLAYER_ADDED"){
 			gameController.playerAdded();
+		}
+		else if(message.type == "UPDATE_BOARD"){
+			GameData compMap = (GameData) message.arg;
+			Platform.runLater(() -> {
+				boardController.updateBoard(compMap);
+			});
 		}
 	}
 

@@ -27,6 +27,8 @@ public class MyViewModel extends ViewModel {
 	private static List<String> playerNames;
 
 	private final StringProperty playerCount = new SimpleStringProperty();
+	private GameData tempData;
+
 	public StringProperty playerCountProperty() {
 		return playerCount;
 	}
@@ -162,6 +164,7 @@ public class MyViewModel extends ViewModel {
 	private void printBoard(){
 		Board b = gameData.getBoard();
 		b.print();
+
 	}
 
 	private void sendMessage(String type, Object arg) {
@@ -192,10 +195,29 @@ public class MyViewModel extends ViewModel {
 		System.out.println(MessageFormat.format("ViewModel Received message of type {0} with Value: {1}", message.type , message.arg));
 		HandleMessage(message);
 	}
+
+	/**
+	 * Handles messages received from the model
+	 * @param message
+	 */
 	public void HandleMessage(Message message){
 		if(message.type == "UPDATE_GAME_DATA"){ // When word returned from server is valid
+//			Map<int[], Character> compMap;
+//			if (isHost && tempData != null) {
+//				compMap = tempData.compareBoard(   ( (GameData) message.arg).getBoard()    );
+//			}
+//			else {
+//				compMap = gameData.compareBoard(((GameData) message.arg).getBoard());
+//			}
 			gameData = (GameData) message.arg;
+
+//			tempData = gameData;
+
+			// Update board
+			sendMessage("UPDATE_BOARD", gameData);
+			System.out.println("printing board:");
 			printBoard();
+
 			setPlayersScores(gameData.getPlayersScores());
 			// Save State
 			wordsOnBoard.add(tempWord); // save word for save/load

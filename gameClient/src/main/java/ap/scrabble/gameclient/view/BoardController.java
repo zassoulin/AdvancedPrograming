@@ -1,5 +1,8 @@
 package ap.scrabble.gameclient.view;
 
+import ap.scrabble.gameclient.model.board.GameData;
+import ap.scrabble.gameclient.model.board.Tile;
+import ap.scrabble.gameclient.model.board.Word;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -114,6 +117,27 @@ public class BoardController implements Initializable, Serializable {
         t.setYgrid(gameGrid.getClickedRectY());
 //        System.out.println("Letter: " + t.getLetter() + " @ " + gameGrid.getClickedRectX() + "," + gameGrid.getClickedRectY());
         tempPlacedTiles.add(t);
+    }
+
+    private void addTileToGrid(TileImage t, int x, int y) {
+        t.setFitHeight(gameGrid.getSquareSize());
+        t.setFitWidth(gameGrid.getSquareSize());
+        gameGrid.getBoardGrid()[y][x].getChildren().add(t); // need to do this but to selected stackPane
+        t.setXgrid(x);
+        t.setYgrid(y);
+    }
+
+    // Synchronizes the board with the remote player's board
+    public void updateBoard(GameData data) {
+        Tile[][] compMap = data.getBoard().getTiles();
+        for (int i = 0; i < compMap.length; i++) {
+            for (int j = 0; j < compMap[i].length; j++) {
+                if (compMap[i][j] != null) {
+                    TileImage tile = new TileImage(new Image("C:\\Users\\edent\\Documents\\GitHub\\advancedprograming\\gameClient\\src\\main\\resources\\Tiles\\" + compMap[i][j].letter + ".png"), compMap[i][j].letter, tileW, tileH, null);
+                    addTileToGrid(tile, i, j);
+                }
+            }
+        }
     }
 
     public void handleTileOnBoardClick(MouseEvent event) {
@@ -548,4 +572,6 @@ public class BoardController implements Initializable, Serializable {
         else
             submitButton.setDisable(true);
     }
+
+
 }
